@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
-const baseURL ='http://alo24.uz'
-// const baseURL = process.env.REACT_APP_API_SOCKET_ENDPOINT || 'http://alo24.uz'
+
+const baseURL = process.env.REACT_APP_API_SOCKET_ENDPOINT
 
 const socket = io(baseURL)
 const userData = JSON.parse(localStorage.getItem('userData'))
