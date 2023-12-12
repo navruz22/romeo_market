@@ -1,8 +1,8 @@
 import axios from 'axios'
 import Store from '../App/store'
 import {logOut} from '../Pages/Login/loginSlice'
-// const baseURL = process.env.REACT_APP_API_ENDPOINT || 'http://alo24.uz/api'
-const baseURL =  'http://localhost:8801/api'
+const baseURL = process.env.REACT_APP_API_ENDPOINT || 'http://alo24.uz/api'
+// const baseURL =  'http://localhost:8801/api'
 
 const instance = axios.create({
     baseURL,
