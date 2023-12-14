@@ -45,7 +45,7 @@ export const SavedIncomingsCheck = forwardRef((props, ref) => {
     }, [onBeforeGetContentResolve.current, loadContent])
     return (
         <>
-            <div ref={saleCheckRef} className={'lg:flex flex-col hidden bg-white-900 p-4 rounded-md'}>
+            <div ref={saleCheckRef} className={'bg-white-900 p-4 rounded-md'}>
                 <div className='flex pb-2 justify-between border-b-[0.8px] border-black-700'>
                     <ul className='w-[35%]'>
                         <li className='check-ul-li'>

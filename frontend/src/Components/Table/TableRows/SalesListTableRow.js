@@ -88,7 +88,7 @@ export const SalesListTableRow = ({
                                 </div>
                             )}
                         </td>
-                        <td className='text-success-500 text-right td'>
+                        <td className='text-success-500 text-left td'>
                             {reduceEl(
                                 saleconnector.products,
                                 'totalprice',
@@ -96,7 +96,7 @@ export const SalesListTableRow = ({
                             ).toLocaleString('ru-Ru')}{' '}
                             {currency}
                         </td>
-                        <td className='text-warning-500 text-right td'>
+                        <td className='text-warning-500 text-left td'>
                             {(
                                 reduceEl(
                                     saleconnector.payments,
@@ -116,7 +116,7 @@ export const SalesListTableRow = ({
                             ).toLocaleString('ru-Ru')}{' '}
                             {currency}
                         </td>
-                        <td className='text-error-500 text-right td'>
+                        <td className='text-error-500 text-left td'>
                             {(
                                 reduceEl(
                                     saleconnector.products,
@@ -232,7 +232,7 @@ export const SalesListTableRow = ({
                             </div>
                         )}
                     </td>
-                    <td className='text-success-500 text-right td'>
+                    <td className='text-success-500 text-left td'>
                         {reduceEl(
                             saleconnector.products,
                             'totalprice',
@@ -240,7 +240,7 @@ export const SalesListTableRow = ({
                         ).toLocaleString('ru-Ru')}{' '}
                         {currency}
                     </td>
-                    <td className='text-warning-500 text-right td'>
+                    <td className='text-warning-500 text-left td'>
                         {reduceEl(
                             saleconnector.discounts,
                             'discount',
@@ -248,7 +248,7 @@ export const SalesListTableRow = ({
                         ).toLocaleString('ru-Ru')}{' '}
                         {currency}
                     </td>
-                    <td className='text-error-500 text-right td'>
+                    <td className='text-error-500 text-left td'>
                         {(
                             reduceEl(
                                 saleconnector.products,

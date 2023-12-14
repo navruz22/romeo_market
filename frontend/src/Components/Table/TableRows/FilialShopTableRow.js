@@ -15,13 +15,13 @@ export const FilialShopTableRow = ({
                     <td className='text-left td'>
                         {currentPage * countPage + 1 + index}
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {new Date(item?.createdAt).toLocaleDateString()}
                     </td>
                     <td className='text-left td'>{item?.id}</td>
                     <td className='text-left td'>{item?.products.length}</td>
                     <td className='text-left td'>{item?.pieces}</td>
-                    <td className='text-right td font-medium'>
+                    <td className='text-left td font-medium'>
                         {currency === 'UZS'
                             ? (
                                   Math.round(item.totalincomingpriceuzs * 1) / 1
@@ -32,7 +32,7 @@ export const FilialShopTableRow = ({
                               ).toLocaleString('ru-RU')}{' '}
                         <span className='text-warning-500'>{currency}</span>
                     </td>
-                    <td className='text-right td font-medium'>
+                    <td className='text-left td font-medium'>
                         {currency === 'UZS'
                             ? (
                                   Math.round(item?.totalsellingpriceuzs * 1) / 1

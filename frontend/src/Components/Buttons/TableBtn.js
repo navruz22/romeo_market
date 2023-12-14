@@ -42,7 +42,7 @@ const TableBtn = ({type, onClick, bgcolor, isDisabled}) => {
 
     return (
         <button
-            className={`lg:w-[24px] w-[50px] lg:h-[24px] h-[35px] flex justify-center items-center lg:rounded-full rounded-md ${bgcolor}`}
+            className={`lg:w-[24px] w-[50px] z- lg:h-[24px] h-[35px] flex justify-center items-center lg:rounded-full rounded-md ${bgcolor}`}
             onClick={onClick}
             disabled={isDisabled}
         >

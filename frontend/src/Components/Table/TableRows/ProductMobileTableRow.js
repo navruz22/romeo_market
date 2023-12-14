@@ -76,7 +76,7 @@ export const ProductMobileTableRow = ({
                 <li className='flex gap-3 justify-center justify-end p-2'>
                 <TableBtn
                type={'edit'}
-               bgcolor='bg-warning-500 w-[35vw]'
+               bgcolor='bg-warning-500 w-[50vw]'
                onClick={() =>{
                    Edit('producttablerow' + index, product)
                    modalOpen(true)
@@ -85,7 +85,7 @@ export const ProductMobileTableRow = ({
            />
            <TableBtn
                type={'delete'}
-               bgcolor='bg-error-500 w-[35vw]'
+               bgcolor='bg-error-500 w-[50vw]'
                onClick={() => Delete(product)}
            />                     
                 </li>

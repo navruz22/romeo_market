@@ -20,7 +20,7 @@ export const CashierSaleTableRow = ({
                     <td className='text-left td'>
                         {currentPage * countPage + 1 + index}
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {new Date(saleconnector.createdAt).toLocaleDateString()}
                     </td>
                     <td className='text-left td'>
@@ -29,7 +29,7 @@ export const CashierSaleTableRow = ({
                     <td className='text-left td'>
                         {saleconnector?.client?.name}
                     </td>
-                    <td className='text-right td py-[0.625rem] font-medium'>
+                    <td className='text-left td py-[0.625rem] font-medium'>
                         {(currency === 'USD'
                             ? calculateTotalPrice(
                                   saleconnector.products,
@@ -42,21 +42,21 @@ export const CashierSaleTableRow = ({
                         ).toLocaleString('ru-Ru')}{' '}
                         {currency}
                     </td>
-                    <td className='text-right td font-medium'>
+                    <td className='text-left td font-medium'>
                         {(currency === 'USD'
                             ? Number(saleconnector?.payment?.cash || 0)
                             : Number(saleconnector?.payment?.cashuzs || 0)
                         ).toLocaleString('ru-Ru')}{' '}
                         <span className='text-primary-800'>{currency}</span>
                     </td>
-                    <td className='text-right td font-medium'>
+                    <td className='text-left td font-medium'>
                         {(currency === 'USD'
                             ? Number(saleconnector?.payment?.card || 0)
                             : Number(saleconnector?.payment?.carduzs || 0)
                         ).toLocaleString('ru-Ru')}{' '}
                         <span className='text-success-500'>{currency}</span>
                     </td>
-                    <td className='text-right td font-medium'>
+                    <td className='text-left td font-medium'>
                         {(currency === 'USD'
                             ? Number(saleconnector?.payment?.transfer || 0)
                             : Number(saleconnector?.payment?.transferuzs || 0)

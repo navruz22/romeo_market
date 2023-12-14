@@ -23,32 +23,32 @@ export const IncomeTableRow = ({ data, currentPage, countPage, currency, Print }
                 <td className='text-left td'>
                     {currentPage * countPage + 1 + index}
                 </td>
-                <td className='text-right td'>
+                <td className='text-left td'>
                     {new Date(income.createdAt).toLocaleDateString()}
                 </td>
                 <td className='text-left td'>{income.saleconnector.id}</td>
-                <td className='text-right td font-bold text-error-500'>
+                <td className='text-left td font-bold text-error-500'>
                     {(currency === 'USD'
                         ? income.totalincomingprice
                         : income.totalincomingpriceuzs
                     ).toLocaleString('ru-RU')}{' '}
                     <span>{currency}</span>
                 </td>
-                <td className='text-right td font-bold text-primary-800'>
+                <td className='text-left td font-bold text-primary-800'>
                     {(currency === 'USD'
                         ? income.totalprice
                         : income.totalpriceuzs
                     ).toLocaleString('ru-RU')}{' '}
                     <span>{currency}</span>
                 </td>
-                <td className='text-right td py-[0.625rem] font-bold text-warning-500'>
+                <td className='text-left td py-[0.625rem] font-bold text-warning-500'>
                     {(currency === 'USD'
                         ? income.discount
                         : income.discountuzs
                     ).toLocaleString('ru-RU')}{' '}
                     <span>{currency}</span>
                 </td>
-                <td className='text-right td font-bold text-success-500'>
+                <td className='text-left td font-bold text-success-500'>
                     {(currency === 'USD'
                         ? income.profit
                         : income.profituzs

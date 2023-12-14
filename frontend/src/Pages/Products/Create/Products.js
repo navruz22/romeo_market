@@ -1109,12 +1109,19 @@ function Products() {
                 />
                 </section>:null
             }
+
             <div className={'flex lg:mt-[-113px] pl-[20px] mt-0 flex-wrap lg:justify-start justify-center lg:ms-[200px] items-center mainPadding'}>
+                
                 <div className={'flex gap-[1rem] ms-[1rem]  mb-[15px] '}>
+                    
                     <ExportBtn onClick={exportData} />
                     <ImportBtn readExcel={readExcel} />
-                    <button onClick={()=>setFilterModal(true)} className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[90px] h-[33px]  createElement'><FaFilter   /> {t('izlash')}</button>
+                    {
+                        isMobile?<button onClick={()=>setFilterModal(true)} className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[90px] h-[33px]  createElement'><FaFilter   /> {t('izlash')}</button>:null
+                    }
+                    
                 </div>
+                
             
                 
 
@@ -1153,9 +1160,37 @@ function Products() {
             }}  className='d-block  hover:bg-green-200  bg-green-400 mt-[-200px] lg:mt-[25px] focus-visible:outline-none w-[150px] h-[40px] createElement '><FaFilter /> {t('izlash')}</button>
         </div>:null
             }
-            <span className='flex justify-start mb-3 ml-2 '>
+            <span className='flex items-center  mb-3 ml-2 '>
+            <div className='lg:mt-[30px]'>
             <SelectForm  label={'mas'}  key={'total_1'}  onSelect={filterByTotal}/>
+            </div>
+            {
+                !isMobile?<SearchForm
+                filterBy={[
+                    'total',
+                    'barcode',
+                    'category',
+                    'code',
+                    'name',
+                    'doubleDate',
+                ]}
+                filterByCode={filterByCode}
+                filterByCodeAndNameAndCategoryWhenPressEnter={
+                    filterByCodeAndNameAndCategoryWhenPressEnter
+                }
+                filterByName={filterByName}
+                filterByTotal={filterByTotal}
+                searchByCode={searchByCode}
+                searchByName={searchByName}
+                searchByCategory={searchByCategory}
+                filterByCategory={filterByCategory}
+                barCode={barCode}
+                filterByBarcode={filterByBarcode}
+                filterByBarcodeWhenPressEnter={filterByBarcodeWhenPressEnter}
+                />:null
+            }
             </span>
+            
             <div className='lg:p-[20px] p-0'>
                 {loading ? (
                     <Spinner />

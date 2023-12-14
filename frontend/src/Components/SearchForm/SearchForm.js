@@ -293,7 +293,7 @@ function SearchForm({
         }
     }
     return (
-        <div className='pl-[20px] flex justify-center items-end gap-[1.5rem] mainPadding grow flex-wrap'>
+        <div className='pl-[20px] flex justify-center items-end gap-[1.5rem] mainPadding lg:flex-nowrap grow flex-wrap'>
             {map(filterBy, (key) => chooseComponent(key))}
         </div>
     )

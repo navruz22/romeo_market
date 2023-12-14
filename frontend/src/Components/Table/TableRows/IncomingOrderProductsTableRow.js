@@ -62,7 +62,7 @@ export const IncomingOrderProductsTableRow = ({
                             </button>
                         </span>
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         <TableInput
                             value={
                                 currency === 'UZS'

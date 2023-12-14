@@ -23,7 +23,7 @@ const InventoriesCheck = forwardRef((props, ref) => {
     }
 
     return (
-        <div ref={ref} className={'lg:flex flex-col hidden bg-white-900 p-4 rounded-md'}>
+        <div ref={ref} className={'bg-white-900 p-4 rounded-md'}>
             <div className='check-inventory-head'>
                 <div className='flex text-[0.875rem] font-bold'>
                 {t('Sana')}:

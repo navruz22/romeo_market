@@ -27,23 +27,23 @@ export const SaleReturnTableRow = ({
             {map(data,(salereturn, index) => (
                 !isMobile?<tr className='tr' key={salereturn._id}>
                     <td className='text-left td'>{index + 1}</td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {salereturn.productdata.code}
                     </td>
                     <td className='text-left td'>
                         {salereturn.productdata.name}
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {salereturn.product.pieces}
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {(currency === 'UZS'
                                 ? salereturn.product.totalpriceuzs
                                 : salereturn.product.totalprice
                         ).toLocaleString('ru-RU')}{' '}
                         {currency}
                     </td>
-                    <td className='text-right td py-[5px]'>
+                    <td className='text-left td py-[5px]'>
                         <TableInput
                             onKeyUp={onKeyUp}
                             onChange={(e) =>
@@ -57,7 +57,7 @@ export const SaleReturnTableRow = ({
                             type={'number'}
                         />
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {currency === 'UZS'
                             ? salereturn.totalpriceuzs
                             : salereturn.totalprice}{' '}

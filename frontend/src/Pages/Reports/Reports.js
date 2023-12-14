@@ -23,6 +23,18 @@ import PrintBtn from '../../Components/Buttons/PrintBtn.js'
 import { FaFilter } from 'react-icons/fa'
 
 const Reports = () => {
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
     const [modalOpen,setModalOpen]=useState(false)
     const { t } = useTranslation(['common'])
 
@@ -130,8 +142,20 @@ const Reports = () => {
             }}
             transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
         >
-            <div className='mt-[60px]  flex ps-[20px] pe-[20px]'>
-                <button onClick={()=>setModalOpen(true)} className='  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[116px] h-[34px] createElement '><FaFilter   /> {t('izlash')}</button>
+            <div className='mt-[60px]  flex items-center ps-[20px] pe-[20px]'>
+                {
+                    isMobile?
+                    <button onClick={()=>setModalOpen(true)} className='  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[116px] h-[34px] createElement '><FaFilter   /> {t('izlash')}</button>:
+                    <div className=''>
+                        <SearchForm
+                filterBy={['startDate', 'endDate']}
+                startDate={new Date(startDate)}
+                endDate={new Date(endDate)}
+                setStartDate={handleStartDate}
+                setEndDate={handleEndDate}
+                />
+                </div>
+                }
                 <PrintBtn key={'print_btn_1'}  onClick={handleClickPrint} />
             </div>
 

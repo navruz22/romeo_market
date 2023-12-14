@@ -203,9 +203,9 @@ const Currency = () => {
             />
             <form
                 className={`unitFormStyle mt-[50px] ${stickyForm && 'stickyForm'
-                    } flex gap-[1.25rem] bg-background flex-col mainPadding transition ease-linear duration-200`}
+                    } flex gap-[1.25rem] bg-background flex-col mainPadding transition ps-[20px] ease-linear duration-200`}
             >
-                <div className='exchangerate-style flex flex-wrap'>
+                <div className='exchangerate-style flex lg:flex-nowrap flex-wrap'>
                     <FieldContainer
                         value={exchangeName}
                         onChange={handleChangeExchangeName}

@@ -269,6 +269,7 @@ function Sellers() {
                 } flex gap-[1.25rem] bg-background flex-col mainPadding transition ease-linear duration-200`}
             >
                 <div className='exchangerate-style w-full'>
+                    
                     <FieldContainer
                         value={sellerName}
                         onChange={(e) => {
@@ -364,7 +365,8 @@ function Sellers() {
                     {t('Yangi sotuvchi qo\'shish')}
                 </button>
             </div>:null}
-            <div className='mt-[-10px] flex w-full lg:ms-[-300px]'>
+            <div className='flex lg:justify-start justify-center lg:ms-[20px]'>
+            <div className='mt-[-10px] flex justify-start '>
                 <SearchForm
                     filterBy={['startDate', 'endDate']}
                     startDate={startDate}
@@ -372,6 +374,7 @@ function Sellers() {
                     endDate={endDate}
                     setEndDate={setEndDate}
                 />
+            </div>
             </div>
 
             {

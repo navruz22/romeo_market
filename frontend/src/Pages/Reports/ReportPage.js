@@ -759,8 +759,40 @@ const ReportPage = () => {
 
     return (
         <div className='relative overflow-auto '>
-                <div className='flex lg:justify-start mb-3 justify-between items-center pe-4' ><LinkToBack link={'/kassa'} />
-                <button onClick={()=>setModalOpen(true)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] h-[33px] lg:mt-2 lg:ms-2 mt-[50px]  createElement '><FaFilter   /> {t('izlash')}</button></div>
+                <div className='flex lg:justify-start mb-3 justify-between items-center pe-4' >
+                    <span className='lg:mt-[20px]'>
+                    <LinkToBack link={'/kassa'} />
+                    </span>
+                {
+                    isMobile?
+                    <button onClick={()=>setModalOpen(true)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] h-[33px] lg:mt-2 lg:ms-2 mt-[50px]  createElement '><FaFilter   /> {t('izlash')}</button>:
+                    <SearchForm
+                        filterBy={
+                        id === 'debts'
+                            ? ['startDate', 'endDate', 'id', 'clientName']
+                            : id === 'income'
+                                ? ['id','clientName','startDate','endDate']
+                                : id==='expenses'
+                                ?['startDate', 'endDate']
+                                : id==='payments'
+                                ?['id','clientName','startDate', 'endDate']
+                                : id==='backproducts'
+                                ?['id','clientName','startDate', 'endDate']
+                                :['id','clientName','startDate', 'endDate']
+                    }
+                    filterByTotal={(e) => setCountPage(e.value)}
+                    filterById={searchId}
+                    filterByClientName={searchClientName}
+                    filterByIdWhenPressEnter={onKeySearch}
+                    filterByClientNameWhenPressEnter={onKeySearch}
+                    startDate={beginDay}
+                    endDate={endDay}
+                    setStartDate={handleBeginDay}
+                    setEndDate={handleEndDay}
+                    />
+                }
+                
+                </div>
             <div className='flex items-center justify-between'>
                 {
                     modalOpen?<div className='fixed w-[100%] h-[100vh] top-0 start-0 bg-[white] z-50 '>

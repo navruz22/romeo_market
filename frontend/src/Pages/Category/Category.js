@@ -496,13 +496,15 @@ const Category = () => {
                 }`}
             >
                 <div className='supplier-style'>
+                    <span className='lg:w-[400px] w-[90vw]'>
                     <FieldContainer
                         value={codeOfCategory}
                         onChange={handleChangeCodeOfCategory}
                         label={t('Kategoriya kodi')}
                         placeholder={`${t('misol')}: 000000`}
-                        className='input-category'
+                        className='input-category '
                     />
+                    </span>
                     <FieldContainer
                         value={nameOfCategory}
                         label={t('Kategoriya nomi')}
@@ -512,17 +514,22 @@ const Category = () => {
                         onChange={handleChangeNameOfCategory}
                     />
                     <div className={'flex gap-[1.25rem] grow'}>
+                        <span className='lg:w-[300px]'>
                         <Button
                             onClick={stickyForm ? handleEdit : addNewcategory}
                             add={!stickyForm}
-                            edit={stickyForm}
+                            edit={stickyForm }
                             text={
                                 stickyForm
                                     ? t('Saqlash')
                                     : t('Yangi kategoriya qo\'shish')
                             }
                         />
+                        </span>
+                        <span className='w-[200px] me-[-100px]'>
+
                         <Button onClick={clearForm} text={t('Tozalash')} />
+                        </span>
                     </div>
                 </div>
             </form>
@@ -556,11 +563,27 @@ const Category = () => {
                 
                 <div className='  flex flex-nowrap justify-evenly mb-2 gap-2 items-center lg:justify-start'>
                 <SelectForm  key={'total_1'}  onSelect={filterByTotal}/>
-                <SearchButton data={setModalOpen}/>
+                {isMobile?<SearchButton data={setModalOpen}/>:null}
                 <ExportBtn
                     onClick={excelData}
                 />
+                
                 </div>
+                {!isMobile?
+                <SearchForm
+                                filterBy={['total', 'category', 'name', 'startDate', 'endDate']}
+                                filterByTotal={filterByTotal}
+                                filterByCategory={filterByCode}
+                                filterByName={filterByName}
+                                
+                                filterByCodeAndNameAndCategoryWhenPressEnter={
+                                    filterByCodeAndNameWhenPressEnter
+                                }
+                                startDate={startDate}
+                                setStartDate={setStartDate}
+                                endDate={endDate}
+                                setEndDate={setEndDate}
+                            />:null}
             
 
             

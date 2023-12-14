@@ -28,7 +28,7 @@ export const OrderProductsTableRow = ({
                             : item?.unitprice?.toLocaleString('ru-Ru')}{' '}
                         {currency}
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         <span className={'flex gap-[0.6rem] items-center'}>
                             <button
                                 onClick={() => decrement(item?.product?._id)}

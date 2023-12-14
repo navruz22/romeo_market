@@ -51,21 +51,21 @@ function DailyReport({data}) {
                         </td>
                         <td className='td text-right'>{code}</td>
                         <td className='td'>{name}</td>
-                        <td className='text-right td'>
+                        <td className='text-left td'>
                             {dailyReport?.previous || ''}
                         </td>
-                        <td className='text-right td'>
+                        <td className='text-left td'>
                             {pieces + ' ' + unit.name || ''}
                         </td>
-                        <td className='text-right td'>
+                        <td className='text-left td'>
                             {dailyReport?.next ? dailyReport.next : ''}
                         </td>
-                        <td className='text-right td font-medium'>
+                        <td className='text-left td font-medium'>
                             {currencyType === 'UZS'
                                 ? unitpriceuzs.toLocaleString('ru-RU')
                                 : unitprice.toLocaleString('ru-RU')}
                         </td>
-                        <td className='text-right td font-medium'>
+                        <td className='text-left td font-medium'>
                             {currencyType === 'UZS'
                                 ? totalpriceuzs.toLocaleString('ru-RU')
                                 : totalprice.toLocaleString('ru-RU')}

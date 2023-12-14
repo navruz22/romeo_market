@@ -29,7 +29,7 @@ export const ReturnProductsTableRow = ({
                     <td className='text-left td'>
                         {currentPage * countPage + 1 + index}
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {new Date(connector.createdAt).toLocaleDateString()}
                     </td>
                     <td className='text-left td'>
@@ -39,16 +39,16 @@ export const ReturnProductsTableRow = ({
                         {connector.saleconnector?.client &&
                             connector.saleconnector?.client?.name}
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {Number(connector.count).toLocaleString()}
                     </td>
-                    <td className='text-right td font-medium'>
+                    <td className='text-left td font-medium'>
                         {currency === 'UZS'
                             ? connector.totalpriceuzs.toLocaleString('ru-RU')
                             : connector.totalprice.toLocaleString('ru-RU')}{' '}
                         <span className='text-warning-500'>{currency}</span>
                     </td>
-                    <td className='text-right td py-[0.625rem] font-medium'>
+                    <td className='text-left td py-[0.625rem] font-medium'>
                         {currency === 'UZS'
                             ? connector.backuzs.toLocaleString('ru-RU')
                             : connector.back.toLocaleString('ru-RU')}{' '}

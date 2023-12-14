@@ -59,7 +59,7 @@ export const SaleCheckAll = forwardRef((props, ref) => {
     }
 
     return (
-        <div ref={ref} className={'lg:flex flex-col hidden bg-white-900 p-4 rounded-md'}>
+        <div ref={ref} className={'bg-white-900 p-4 rounded-md'}>
             <div className='flex pb-2 justify-between border-b-[0.8px] border-black-700'>
                 <ul className='w-[35%]'>
                     <li className='check-ul-li'>

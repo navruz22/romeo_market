@@ -32,11 +32,11 @@ export const SellerTableRow = ({
                     <td className='text-left td'>
                         {currentPage * countPage + index + 1}
                     </td>
-                    <td className='text-right td'>{seller.firstname}</td>
+                    <td className='text-left td'>{seller.firstname}</td>
                     <td className='text-left td'>{seller.lastname}</td>
-                    <td className='text-right td'>{seller.phone}</td>
-                    <td className='text-right td'>{seller?.sales || 0}</td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>{seller.phone}</td>
+                    <td className='text-left td'>{seller?.sales || 0}</td>
+                    <td className='text-left td'>
                         {currency === 'USD'
                             ? seller?.totalsales?.toLocaleString('ru-RU')
                             : seller?.totalsalesuzs?.toLocaleString(
@@ -44,7 +44,7 @@ export const SellerTableRow = ({
                               )}{' '}
                         {currency}
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {currency === 'USD'
                             ? roundUsd(seller?.profit).toLocaleString('ru-RU')
                             : roundUzs(seller?.profituzs).toLocaleString(
@@ -106,7 +106,7 @@ export const SellerTableRow = ({
                     <div className='flex items-center justify-center gap-[0.625rem]'>
                             <TableBtn
                                 type={'edit'}
-                                bgcolor={'bg-warning-500 w-[35vw]'}
+                                bgcolor={'bg-warning-500 w-[41vw]'}
                                 onClick={() => {
                                     Edit(seller)
                                     modalOpen1(true)
@@ -114,7 +114,7 @@ export const SellerTableRow = ({
                             />
                             <TableBtn
                                 type={'info'}
-                                bgcolor={'bg-primary-800 w-[35vw]'}
+                                bgcolor={'bg-primary-800 w-[41vw]'}
                                 onClick={() => linkToSellerReports(seller._id)}
                             />
                         </div>

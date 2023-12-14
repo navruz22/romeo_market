@@ -13,13 +13,13 @@ export const FilialShopDataIdTableRow = ({
                     <td className='text-left td'>
                         {currentPage * countPage + 1 + index}
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {item?.category?.code}
                     </td>
                     <td className='text-left td py-[0.75rem]'>{item?.productdata?.code}</td>
                     <td className='text-left td'>{item?.productdata?.name}</td>
                     <td className='text-left td'>{item?.pieces}</td>
-                    <td className='text-right td font-medium'>
+                    <td className='text-left td font-medium'>
                         {currency === 'UZS'
                             ? (
                                   Math.round(item?.price?.incomingpriceuzs * 1) / 1
@@ -30,7 +30,7 @@ export const FilialShopDataIdTableRow = ({
                               ).toLocaleString('ru-RU')}{' '}
                         <span className='text-warning-500'>{currency}</span>
                     </td>
-                    <td className='text-right td font-medium'>
+                    <td className='text-left td font-medium'>
                         {currency === 'UZS'
                              ? (
                                 Math.round(item?.price?.incomingpriceuzs + item?.price?.sellingpriceuzs)

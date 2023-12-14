@@ -574,7 +574,7 @@ function Table({
         }
     }
     return (
-        <table className='overflow-x-auto  ms-3 me-3 mt-2  pb-[1.25rem]  max-h-[35rem] mb-[1rem]'>
+        <table className='overflow-x-auto lg:w-full  ms-3 me-3 mt-2  pb-[1.25rem]  max-h-[35rem] mb-[1rem]'>
             <thead className='rounded-t-lg sticky top-0'>
                 <Thead headers={headers} Sort={Sort} sortItem={sortItem} />
             </thead>

@@ -23,10 +23,10 @@ export const DebtsTableRow = ({data, currency, Pay, Print, Edit}) => {
             {map(data, (debt, index) => (
                 !isMobile?<tr className='tr' key={uniqueId('debt')}>
                     <td className='text-left td'>{1 + index}</td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {new Date(debt.createdAt).toLocaleDateString()}
                     </td>
-                    <td className='text-right td'>{debt.id}</td>
+                    <td className='text-left td'>{debt.id}</td>
                     <td className='text-left td'>
                         {debt.client && debt.client.name}
                     </td>
@@ -48,14 +48,14 @@ export const DebtsTableRow = ({data, currency, Pay, Print, Edit}) => {
                             </span>
                         )}
                     </td>
-                    <td className='text-right td font-medium'>
+                    <td className='text-left td font-medium'>
                         {(currency === 'USD'
                             ? debt.totalprice
                             : debt.totalpriceuzs
                         ).toLocaleString('ru-RU')}{' '}
                         <span className='text-warning-500'>{currency}</span>
                     </td>
-                    <td className='text-right td py-[0.625rem] font-medium'>
+                    <td className='text-left td py-[0.625rem] font-medium'>
                         {currency === 'UZS'
                             ? (Math.round(debt.debtuzs * 1) / 1).toLocaleString(
                                   'ru-RU'

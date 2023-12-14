@@ -44,10 +44,10 @@ export const ExpensesTableRow = ({
                     <td className='text-left td'>
                         {currentPage * countPage + 1 + index}
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {new Date(expense.createdAt).toLocaleDateString()}
                     </td>
-                    <td className='text-right td font-medium'>
+                    <td className='text-left td font-medium'>
                         {currency === 'USD' ? expense.sum: expense.sumuzs.toLocaleString('ru-Ru')}{' '}
                         <span>{currency}</span>
                     </td>

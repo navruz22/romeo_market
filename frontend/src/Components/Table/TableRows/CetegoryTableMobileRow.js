@@ -22,19 +22,33 @@ export const CategoryTableMobileRow = ({
         <>
             {map(data, (category, index) => (
                
-                <li  onClick={() => navigate(category.code, {
+                <li   className='text-sm w-[90vw]  bg-[white] rounded-lg m-1 list-none'>
+                    <li onClick={() => navigate(category.code, {
                     state: {
                         id: category._id,
                         name: category.name,
                         startDate,
                         endDate
                     }
-                })}  className='text-sm w-[90vw]  bg-[white] rounded-lg m-1 list-none'>
-                    <li className='flex justify-between p-[10px] border border-b-1 border-s-0 border-t-0 border-e-0'><p>{category.code}-{category.name}</p> <p className='text-[blue]'>{t("Sotilganlar soni")}: {category?.totalproducts}</p></li>
-                    <li className='text-[#19737A] flex justify-between p-[10px] border border-b-1 border-s-0 border-t-0 border-e-0'>
+                })}  className='flex justify-between p-[10px] border border-b-1 border-s-0 border-t-0 border-e-0'><p>{category.code}-{category.name}</p> <p className='text-[blue]'>{t("Sotilganlar soni")}: {category?.totalproducts}</p></li>
+                    <li onClick={() => navigate(category.code, {
+                    state: {
+                        id: category._id,
+                        name: category.name,
+                        startDate,
+                        endDate
+                    }
+                })}  className='text-[#19737A] flex justify-between p-[10px] border border-b-1 border-s-0 border-t-0 border-e-0'>
                     <p className=' '>{t('Sotilganlar Jami')}: {currencyType === 'USD' ? roundUsd(category?.totalsales).toLocaleString('ru-RU') : roundUzs(category?.totalsalesuzs).toLocaleString('ru-RU')} {currencyType} </p>
                     </li>
-                    <li className='text-[green] flex justify-between p-[10px] border border-b-1 border-s-0 border-t-0 border-e-0'>
+                    <li onClick={() => navigate(category.code, {
+                    state: {
+                        id: category._id,
+                        name: category.name,
+                        startDate,
+                        endDate
+                    }
+                })}  className='text-[green] flex justify-between p-[10px] border border-b-1 border-s-0 border-t-0 border-e-0'>
                     <p className='  '>{t('Sof foyda')}: {currencyType === 'USD' ? roundUsd(category?.profit).toLocaleString('ru-RU') : roundUzs(category?.profituzs).toLocaleString('ru-RU')} {currencyType}</p>
                     </li>
                     

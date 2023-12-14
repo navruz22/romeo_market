@@ -14,7 +14,7 @@ export const SaleCheckPos = forwardRef((props, ref) => {
         <div
             ref={ref}
             className={
-                'lg:flex flex-col hidden bg-white-900 p-4 rounded-md reciept w-full uppercase text-[7pt]'
+                'bg-white-900 p-4 rounded-md reciept w-full uppercase text-[7pt]'
             }
         >
             <div className='flex justify-between'>

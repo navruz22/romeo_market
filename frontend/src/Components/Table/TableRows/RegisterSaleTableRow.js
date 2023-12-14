@@ -66,9 +66,9 @@ export const RegisterSaleTableRow = (
                             )}
                         </select>
                     </td>}
-                    <td className='text-right td font-bold'><span style={{ color: product?.filialProductsTotal > 0 ? "green" : 'red' }} >{product?.filialProductsTotal}</span></td>
+                    <td className='text-left td font-bold'><span style={{ color: product?.filialProductsTotal > 0 ? "green" : 'red' }} >{product?.filialProductsTotal}</span></td>
                     <td className='text-left td'>{product.product.name}</td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         <span className={'flex gap-[0.6rem] items-center'}>
                             <button
                                 className={'rounded-[4px] duration-100 bg-error-500 hover:bg-error-600 p-[0.2rem] text-base text-white-900 active:scale-95'}
@@ -91,7 +91,7 @@ export const RegisterSaleTableRow = (
                                     size={'0.875rem'} /></button>
                         </span>
                     </td>
-                    {filials.length > 1 && <td className='text-right td'>
+                    {filials.length > 1 && <td className='text-left td'>
                         <TableInput
                             value={product.fromFilial}
                             onChange={(e) =>
@@ -105,7 +105,7 @@ export const RegisterSaleTableRow = (
                             disabled={product.filial === market._id && true}
                         />
                     </td>}
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         <TableInput
                             value={
                                 currency !== 'UZS'
@@ -122,7 +122,7 @@ export const RegisterSaleTableRow = (
                             type={'number'}
                         />
                     </td>
-                    <td className='text-right td'>
+                    <td className='text-left td'>
                         {currency !== 'UZS'
                             ? product.totalprice.toLocaleString('ru-Ru')
                             : product.totalpriceuzs.toLocaleString(

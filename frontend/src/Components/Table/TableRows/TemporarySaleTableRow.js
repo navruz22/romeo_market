@@ -131,7 +131,7 @@ export const TemporarySaleTableRow = ({ data, Delete, currency, Print }) => {
                         </p>
                         
                     </li>
-                    <li className='flex p-3 justify-end  text-[green]'>
+                    <li className='flex p-3 justify-end  text-[green]'>.
                     <div className='flex items-center justify-center gap-[0.625rem]'>
                             <TableBtn
                                 type={'print'}

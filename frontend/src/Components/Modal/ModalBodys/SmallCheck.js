@@ -59,7 +59,7 @@ export const SmallCheck = forwardRef((props, ref) => {
             : 0
     }
     return (
-        <div ref={ref} className={'lg:flex flex-col hidden bg-white-900 p-4 rounded-md w-[7.5cm]'}>
+        <div ref={ref} className={']'}>
             <div className='flex pb-2 flex-col text-center justify-center border-b-[0.8px] border-black-700'>
                 <div>
                     <img src={market?.image} alt="logo" />
