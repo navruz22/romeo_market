@@ -4,7 +4,7 @@ import TableBtn from '../../Buttons/TableBtn'
 import { useEffect } from 'react'
 import { t } from 'i18next'
 
-export const DebtsTableRow = ({data, currency, Pay, Print, Edit}) => {
+export const DebtsTableRow = ({data, currency, Pay, Print, Edit, totalDebt}) => {
     const [isEditComment, setIsEditComment] = useState(null)
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
         useEffect(() => {
@@ -143,6 +143,32 @@ export const DebtsTableRow = ({data, currency, Pay, Print, Edit}) => {
                     </li>
                 </li>
             ))}
+            <tr className='tr'>
+                    <td className='text-left td'></td>
+                    <td className='text-left td'>
+                    </td>
+                    <td className='text-left td'></td>
+                    <td className='text-left td'>
+                    </td>
+                    <td
+                        className={`text-left td relative hover:bg-black-200 transition duration-300 ease-in-out`}
+                    >
+                    </td>
+                    <td className='text-left td font-medium'>
+                    </td>
+                    <td className='text-left td py-[0.625rem] font-medium'>
+                        {currency === 'UZS'
+                            ? (Math.round(totalDebt.uzs * 1) / 1).toLocaleString(
+                                  'ru-RU'
+                              )
+                            : (
+                                  Math.round(totalDebt.usd * 1000) / 1000
+                              ).toLocaleString('ru-RU')}{' '}
+                        <span className='text-error-500'>{currency}</span>
+                    </td>
+                    <td className='td border-r-0 py-[6px]'>
+                    </td>
+                </tr>
         </>
     )
 }

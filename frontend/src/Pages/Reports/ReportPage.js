@@ -33,6 +33,9 @@ import { getSellings } from '../Sale/Slices/sellingsSlice'
 import { VscClose } from 'react-icons/vsc'
 import { FaFilter } from 'react-icons/fa'
 import { t } from 'i18next'
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import Excel from '../../Images/Excel.svg'
+
 const ReportPage = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     useEffect(() => {
@@ -88,7 +91,7 @@ const ReportPage = () => {
     const [hasDiscount, setHasDiscount] = useState(false)
     const [saleConnectorId, setSaleConnectorId] = useState(null)
     const [userValue, setUserValue] = useState('')
-    const [modalOpen,setModalOpen]=useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
     const [discountSelectOption, setDiscountSelectOption] = useState({
         label: '%',
         value: '%',
@@ -125,6 +128,35 @@ const ReportPage = () => {
         { title: 'Jami', styles: 'w-[10rem]' },
         { title: '' },
     ]
+
+
+    const exportData = () => {
+        let fileName = 'Maxsulotlar'
+
+        const newData = map(datas, (item, index) => {
+            if (id === 'income') {
+                return {
+                    nth: index + 1,
+                    barcode: item?.productdata?.barcode || '',
+                    category: item?.category?.code || '',
+                    code: item?.productdata?.code || '',
+                    name: item?.productdata?.name || '',
+                    total: item?.total || '',
+                    unit: item?.unit?.name || '',
+                    incomingprice: item?.price?.incomingprice || '',
+                    incomingpriceuzs: item?.price?.incomingpriceuzs || '',
+                    sellingprice: item?.price?.sellingprice || '',
+                    sellingpriceuzs: item?.price?.sellingpriceuzs || '',
+                    tradeprice: item?.price?.tradeprice || '',
+                    tradepriceuzs: item?.price?.tradepriceuzs || '',
+                    minimumcount: item?.minimumcount || '',
+                    id: item?._id || '',
+                }
+            }
+        })
+        exportExcel(newData, fileName, ReportsTableHeaders(id))
+
+    }
 
     // payment
     const togglePaymentModal = (bool) => {
@@ -759,125 +791,138 @@ const ReportPage = () => {
 
     return (
         <div className='relative overflow-auto '>
-                <div className='flex lg:justify-start mb-3 justify-between items-center pe-4' >
-                    <span className='lg:mt-[20px]'>
+            <div className='flex lg:justify-start mb-3 justify-between items-center pe-4' >
+                <span className='lg:mt-[20px]'>
                     <LinkToBack link={'/kassa'} />
-                    </span>
+                </span>
                 {
-                    isMobile?
-                    <button onClick={()=>setModalOpen(true)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] h-[33px] lg:mt-2 lg:ms-2 mt-[50px]  createElement '><FaFilter   /> {t('izlash')}</button>:
-                    <SearchForm
-                        filterBy={
-                        id === 'debts'
-                            ? ['startDate', 'endDate', 'id', 'clientName']
-                            : id === 'income'
-                                ? ['id','clientName','startDate','endDate']
-                                : id==='expenses'
-                                ?['startDate', 'endDate']
-                                : id==='payments'
-                                ?['id','clientName','startDate', 'endDate']
-                                : id==='backproducts'
-                                ?['id','clientName','startDate', 'endDate']
-                                :['id','clientName','startDate', 'endDate']
-                    }
-                    filterByTotal={(e) => setCountPage(e.value)}
-                    filterById={searchId}
-                    filterByClientName={searchClientName}
-                    filterByIdWhenPressEnter={onKeySearch}
-                    filterByClientNameWhenPressEnter={onKeySearch}
-                    startDate={beginDay}
-                    endDate={endDay}
-                    setStartDate={handleBeginDay}
-                    setEndDate={handleEndDay}
-                    />
+                    isMobile ?
+                        <button onClick={() => setModalOpen(true)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] h-[33px] lg:mt-2 lg:ms-2 mt-[50px]  createElement '><FaFilter /> {t('izlash')}</button> :
+                        <>
+                            <SearchForm
+                                filterBy={
+                                    id === 'debts'
+                                        ? ['startDate', 'endDate', 'id', 'clientName']
+                                        : id === 'income'
+                                            ? ['id', 'clientName', 'startDate', 'endDate']
+                                            : id === 'expenses'
+                                                ? ['startDate', 'endDate']
+                                                : id === 'payments'
+                                                    ? ['id', 'clientName', 'startDate', 'endDate']
+                                                    : id === 'backproducts'
+                                                        ? ['id', 'clientName', 'startDate', 'endDate']
+                                                        : ['id', 'clientName', 'startDate', 'endDate']
+                                }
+                                filterByTotal={(e) => setCountPage(e.value)}
+                                filterById={searchId}
+                                filterByClientName={searchClientName}
+                                filterByIdWhenPressEnter={onKeySearch}
+                                filterByClientNameWhenPressEnter={onKeySearch}
+                                startDate={beginDay}
+                                endDate={endDay}
+                                setStartDate={handleBeginDay}
+                                setEndDate={handleEndDay}
+                            />
+                            <button className={'mt-6 exportButton'}>
+                                <ReactHTMLTableToExcel
+                                    id="reacthtmltoexcel"
+                                    table="excel-tabel"
+                                    sheet="Sheet"
+                                    buttonText="Excel"
+                                    filename={id === 'income' ? "Sof foyda" : id === 'expenses' ? "Xarajatlar" : id === 'payments' ? "Tushumlar" : id === 'backproducts' ? "Qaytarilganlar" : id === 'discounts' ? 'Chegirmalar' : "Qarzlar"}
+                                />
+                                <span className={'btn-icon bg-white-900 p-[8px]'}>
+                                    <img src={Excel} alt='excel icon' />
+                                </span>
+                            </button>
+                        </>
                 }
-                
-                </div>
+
+            </div>
             <div className='flex items-center justify-between'>
                 {
-                    modalOpen?<div className='fixed w-[100%] h-[100vh] top-0 start-0 bg-[white] z-50 '>
-                    <VscClose onClick={()=>setModalOpen(false)} className='absolute text-3xl end-[25px] top-[25px] cursor-pointer'/>
-                    <div className='pl-[0px] flex items-center justify-between mainPadding mt-[30px]'>
-                    <SearchForm
-                        filterBy={
-                        id === 'debts'
-                            ? ['startDate', 'endDate', 'id', 'clientName']
-                            : id === 'income'
-                                ? ['id','clientName','startDate','endDate']
-                                : id==='expenses'
-                                ?['startDate', 'endDate']
-                                : id==='payments'
-                                ?['id','clientName','startDate', 'endDate']
-                                : id==='backproducts'
-                                ?['id','clientName','startDate', 'endDate']
-                                :['id','clientName','startDate', 'endDate']
-                    }
-                    filterByTotal={(e) => setCountPage(e.value)}
-                    filterById={searchId}
-                    filterByClientName={searchClientName}
-                    filterByIdWhenPressEnter={onKeySearch}
-                    filterByClientNameWhenPressEnter={onKeySearch}
-                    startDate={beginDay}
-                    endDate={endDay}
-                    setStartDate={handleBeginDay}
-                    setEndDate={handleEndDay}
-                    />
-                
-                    
-            </div>
-            <div className='flex justify-center'>
-            <button onClick={()=>setModalOpen(false)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '><FaFilter   /> {t('izlash')}</button>
-            </div>
-                    </div>:null
+                    modalOpen ? <div className='fixed w-[100%] h-[100vh] top-0 start-0 bg-[white] z-50 '>
+                        <VscClose onClick={() => setModalOpen(false)} className='absolute text-3xl end-[25px] top-[25px] cursor-pointer' />
+                        <div className='pl-[0px] flex items-center justify-between mainPadding mt-[30px]'>
+                            <SearchForm
+                                filterBy={
+                                    id === 'debts'
+                                        ? ['startDate', 'endDate', 'id', 'clientName']
+                                        : id === 'income'
+                                            ? ['id', 'clientName', 'startDate', 'endDate']
+                                            : id === 'expenses'
+                                                ? ['startDate', 'endDate']
+                                                : id === 'payments'
+                                                    ? ['id', 'clientName', 'startDate', 'endDate']
+                                                    : id === 'backproducts'
+                                                        ? ['id', 'clientName', 'startDate', 'endDate']
+                                                        : ['id', 'clientName', 'startDate', 'endDate']
+                                }
+                                filterByTotal={(e) => setCountPage(e.value)}
+                                filterById={searchId}
+                                filterByClientName={searchClientName}
+                                filterByIdWhenPressEnter={onKeySearch}
+                                filterByClientNameWhenPressEnter={onKeySearch}
+                                startDate={beginDay}
+                                endDate={endDay}
+                                setStartDate={handleBeginDay}
+                                setEndDate={handleEndDay}
+                            />
+
+
+                        </div>
+                        <div className='flex justify-center'>
+                            <button onClick={() => setModalOpen(false)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '><FaFilter /> {t('izlash')}</button>
+                        </div>
+                    </div> : null
                 }
-                
             </div>
-            
             <div className='lg:ps-[20px] lg:tableContainerPadding '>
                 {currentData.length > 0 && (
-                    !isMobile?<Table
-                    page={id === 'sale' ? "saleslist" : id}
-                    headers={ReportsTableHeaders(id)}
-                    data={currentData}
-                    currentPage={currentPage}
-                    countPage={countPage}
-                    currency={currencyType}
-                    type={id}
-                    Pay={handleClickPayment}
-                    reports={true}
-                    Print={handleClickPrint}
-                    Sort={filterData}
-                    sortItem={sorItem}
-                    Edit={handleModalDebtComment}
-                />:<TableMobile
-                page={id === 'sale' ? "saleslist" : id}
-                headers={ReportsTableHeaders(id)}
-                data={currentData}
-                currentPage={currentPage}
-                countPage={countPage}
-                currency={currencyType}
-                type={id}
-                Pay={handleClickPayment}
-                reports={true}
-                Print={handleClickPrint}
-                Sort={filterData}
-                sortItem={sorItem}
-                Edit={handleModalDebtComment}
-            />
-            
+                    !isMobile ? <Table
+                        page={id === 'sale' ? "saleslist" : id}
+                        headers={ReportsTableHeaders(id)}
+                        data={currentData}
+                        currentPage={currentPage}
+                        countPage={countPage}
+                        currency={currencyType}
+                        type={id}
+                        Pay={handleClickPayment}
+                        reports={true}
+                        Print={handleClickPrint}
+                        Sort={filterData}
+                        sortItem={sorItem}
+                        Edit={handleModalDebtComment}
+                        totalDebt={totalDebt}
+                    /> : <TableMobile
+                        page={id === 'sale' ? "saleslist" : id}
+                        headers={ReportsTableHeaders(id)}
+                        data={currentData}
+                        currentPage={currentPage}
+                        countPage={countPage}
+                        currency={currencyType}
+                        type={id}
+                        Pay={handleClickPayment}
+                        reports={true}
+                        Print={handleClickPrint}
+                        Sort={filterData}
+                        sortItem={sorItem}
+                        Edit={handleModalDebtComment}
+                    />
+
                 )}
                 <div className='flex justify-center mt-3'>
-                
-                {id !== 'debts' && (
-                        <Pagination   
-                        countPage={countPage}
-                        currentPage={currentPage}
-                        totalDatas={totalPage}
-                        setCurrentPage={setCurrentPage}
-                    />
-                )}
-                    </div>
-                {id === 'debts' && (
+
+                    {id !== 'debts' && (
+                        <Pagination
+                            countPage={countPage}
+                            currentPage={currentPage}
+                            totalDatas={totalPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+                    )}
+                </div>
+                {/* {id === 'debts' && (
                     <ul className='w-full grid grid-cols-12 tr'>
                         <li
                             className={`col-span-8 ${currentData.length === 0 && 'border-t-2'
@@ -895,7 +940,7 @@ const ReportPage = () => {
                             {currencyType}
                         </li>
                     </ul>
-                )}
+                )} */}
                 {id === 'payments' && totalpayment?.payment?.cash && <div className='flex items-center flex-wrap justify-evenly mt-6 bg-white p-2'>
                     <div className='flex flex-col items-start gap-2'>
                         <div className='text-[18px] font-bold mb-2'>Tushumlar</div>
