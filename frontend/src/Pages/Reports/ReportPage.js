@@ -130,34 +130,6 @@ const ReportPage = () => {
     ]
 
 
-    const exportData = () => {
-        let fileName = 'Maxsulotlar'
-
-        const newData = map(datas, (item, index) => {
-            if (id === 'income') {
-                return {
-                    nth: index + 1,
-                    barcode: item?.productdata?.barcode || '',
-                    category: item?.category?.code || '',
-                    code: item?.productdata?.code || '',
-                    name: item?.productdata?.name || '',
-                    total: item?.total || '',
-                    unit: item?.unit?.name || '',
-                    incomingprice: item?.price?.incomingprice || '',
-                    incomingpriceuzs: item?.price?.incomingpriceuzs || '',
-                    sellingprice: item?.price?.sellingprice || '',
-                    sellingpriceuzs: item?.price?.sellingpriceuzs || '',
-                    tradeprice: item?.price?.tradeprice || '',
-                    tradepriceuzs: item?.price?.tradepriceuzs || '',
-                    minimumcount: item?.minimumcount || '',
-                    id: item?._id || '',
-                }
-            }
-        })
-        exportExcel(newData, fileName, ReportsTableHeaders(id))
-
-    }
-
     // payment
     const togglePaymentModal = (bool) => {
         bool
