@@ -1,7 +1,7 @@
-import React, { forwardRef } from 'react'
-import { uniqueId, map } from 'lodash'
-import { useSelector } from 'react-redux'
-import { t } from 'i18next'
+import React, {forwardRef} from 'react'
+import {map, uniqueId} from 'lodash'
+import {useSelector} from 'react-redux'
+import {t} from 'i18next'
 
 export const SaleCheckAll = forwardRef((props, ref) => {
     const {
@@ -12,20 +12,20 @@ export const SaleCheckAll = forwardRef((props, ref) => {
         selledPayments,
         returnedPayments,
         product,
-        userInfo,
+        userInfo
     } = props
-    const { market } = useSelector((state) => state.login)
-    const { currencyType } = useSelector((state) => state.currency)
+    const {market} = useSelector((state) => state.login)
+    const {currencyType} = useSelector((state) => state.currency)
     const calculateAllSum = (data) => {
         return data
             ? data.reduce((acc, pr) => {
                 return (
                     acc +
                     pr[
-                    currencyType === 'USD'
-                        ? 'totalprice'
-                        : 'totalpriceuzs'
-                    ]
+                        currencyType === 'USD'
+                            ? 'totalprice'
+                            : 'totalpriceuzs'
+                        ]
                 )
             }, 0)
             : 0
@@ -63,7 +63,7 @@ export const SaleCheckAll = forwardRef((props, ref) => {
             <div className='flex pb-2 justify-between border-b-[0.8px] border-black-700'>
                 <ul className='w-[35%]'>
                     <li className='check-ul-li'>
-                        {t("Do'kon")}:
+                        {t('Do\'kon')}:
                         <span className='check-ul-li-span font-bold'>{market.name}</span>
                     </li>
                     <li className='check-ul-li'>
@@ -74,12 +74,12 @@ export const SaleCheckAll = forwardRef((props, ref) => {
                     </li>
                     <li className='check-ul-li'>
                         {t('Manzil')}:
-                        <span className='check-ul-li-span font-bold' >
+                        <span className='check-ul-li-span font-bold'>
                             {market?.address}
                         </span>
                     </li>
                     <li className='check-ul-li'>
-                    {t('Sana')}:
+                        {t('Sana')}:
                         <span className='check-ul-li-span'>
                             {new Date(product?.createdAt).toLocaleDateString()}{' '}
                             <span className='ml-3 font-bold'>
@@ -98,14 +98,14 @@ export const SaleCheckAll = forwardRef((props, ref) => {
                         </span>
                     </li>
                     <li className='check-ul-li font-bold'>
-                        {t("Izoh")}:{' '}
+                        {t('Izoh')}:{' '}
                         {/* <span className='check-ul-li-span font-bold'>
                             {product?.dailyconnectors[product?.dailyconnectors.length - 1] && product?.dailyconnectors[product?.dailyconnectors.length - 1].comment}
                         </span> */}
                     </li>
                 </ul>
                 <div>
-                    <img className='w-[200px]' src={market?.image} alt="logo" />
+                    <img className='w-[200px]' src={market?.image} alt='logo' />
                 </div>
                 <div className='check-ul-li flex-col'>
                     <div className={'grow text-center'}>
@@ -126,24 +126,124 @@ export const SaleCheckAll = forwardRef((props, ref) => {
             {selled?.length > 0 && (
                 <div className='mt-5'>
                     <h3 className='text-[1.3rem] text-black-900 mb-5 font-bold'>
-                        {t("Sotilganlar")} :
+                        {t('Sotilganlar')} :
                     </h3>
                     <table className='border-collapse border border-slate-400 w-full'>
                         <thead>
+                        <tr>
+                            <td className='check-table-rtr'>№</td>
+                            <td className='check-table-rtr'>{t('Sana')}</td>
+                            <td className='check-table-rtr'>{t('Kodi')}</td>
+                            <td className='check-table-rtr'>{t('Maxsulot')}</td>
+                            <td className='check-table-rtr'>{t('Soni')}</td>
+                            {selled.some(el => el.fromFilial > 0) &&
+                                <td style={{backgroundColor: 'grey'}} className='check-table-rtr'>{t('Ombordan')}</td>}
+                            <td className='check-table-rtr'>{t('Narxi')}({t('Dona')})</td>
+                            <td className='check-table-rtr'>{t('Jami')}</td>
+                            <td className='check-table-rtr'>{t('Sotuvchi')}</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {map([...selled].sort((a, b) => Number(a?.product?.category?.code) - Number(b?.product?.category?.code)), (item, index) => {
+                            return (
+                                <tr key={uniqueId('selled-row')}>
+                                    <td className='p-1 border text-center text-[0.875rem] font-bold'>
+                                        {index + 1}
+                                    </td>
+                                    <td className='check-table-body'>
+                                        {new Date(
+                                            item?.createdAt
+                                        ).toLocaleDateString()}
+                                    </td>
+                                    <td className='check-table-body text-center'>
+                                        {item?.product?.category?.code} {item?.product?.productdata?.code}
+                                    </td>
+                                    <td className='check-table-body text-start'>
+                                        {item?.product?.productdata?.name}
+                                    </td>
+                                    <td className='check-table-body'>
+                                        {item?.pieces}
+                                    </td>
+                                    {selled.some(el => el.fromFilial > 0) &&
+                                        <td style={{backgroundColor: item?.fromFilial ? 'grey' : 'white'}}
+                                            className='check-table-body'>
+                                            {item?.fromFilial}
+                                        </td>}
+                                    <td className='check-table-body'>
+                                        {currencyType === 'USD'
+                                            ? item?.unitprice.toLocaleString(
+                                                'ru-Ru'
+                                            )
+                                            : item?.unitpriceuzs.toLocaleString(
+                                                'ru-Ru'
+                                            )}{' '}
+                                        {currencyType}
+                                    </td>
+                                    <td className='check-table-body'>
+                                        {currencyType === 'USD'
+                                            ? item?.totalprice.toLocaleString(
+                                                'ru-Ru'
+                                            )
+                                            : item?.totalpriceuzs.toLocaleString(
+                                                'ru-Ru'
+                                            )}{' '}
+                                        {currencyType}
+                                    </td>
+                                    <td className='check-table-body'>
+                                        {item?.user
+                                            ? item.user.firstname +
+                                            ' ' +
+                                            item.user.lastname[0]
+                                            : ''}
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+            <div className='border-t-[0.8px] border-black-700 w-full mt-4 mb-4 text-end'>
+                <h3 className='text-black-900 text-[1.1rem] text-black-700 font-bold pt-4'>
+                    {t('Sotilganlar jami')} :{' '}
+                    <span className='text-black-900 font-bold'>
+                        {calculateAllSum(selled).toLocaleString('ru-Ru')}{' '}
+                        {currencyType}
+                    </span>
+                </h3>
+                {selled.some(el => el.fromFilial > 0) &&
+                    <h3 className='text-black-900 text-[14px] text-black-700 font-bold pt-4'>
+                        {t('Ombordagi jami')} :{' '}
+                        <span className=' text-black-900 font-bold'>
+                        {calculateAllFilialSum(selled).toLocaleString('ru-Ru')}{' '}
+                            {currencyType}
+                    </span>
+                    </h3>}
+            </div>
+            {returned?.length > 0 && (
+                <>
+                    <div className='mt-5'>
+                        <h3 className='text-[1.3rem] text-black-700 mb-5 font-bold'>
+                            {t('Qaytarilganlar')} :
+                        </h3>
+                        <table className='border-collapse border border-slate-400 w-full'>
+                            <thead>
                             <tr>
                                 <td className='check-table-rtr'>№</td>
                                 <td className='check-table-rtr'>{t('Sana')}</td>
                                 <td className='check-table-rtr'>{t('Kodi')}</td>
-                                <td className='check-table-rtr'>{t('Maxsulot')}</td>
+                                <td className='check-table-rtr'>
+                                    {t('Maxsulot')}
+                                </td>
                                 <td className='check-table-rtr'>{t('Soni')}</td>
-                                {selled.some(el => el.fromFilial > 0) && <td style={{ backgroundColor: "grey" }} className='check-table-rtr'>{t('Ombordan')}</td>}
-                                <td className='check-table-rtr'>{t('Narxi')}({t('Dona')})</td>
+                                <td className='check-table-rtr'>
+                                    {t('Narxi')}({t('Dona')})
+                                </td>
                                 <td className='check-table-rtr'>{t('Jami')}</td>
-                                <td className='check-table-rtr'>{t('Sotuvchi')}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {map([...selled].sort((a, b) => Number(a?.product?.category?.code) - Number(b?.product?.category?.code)), (item, index) => {
+                            </thead>
+                            <tbody>
+                            {map(returned, (item, index) => {
                                 return (
                                     <tr key={uniqueId('selled-row')}>
                                         <td className='p-1 border text-center text-[0.875rem] font-bold'>
@@ -154,18 +254,21 @@ export const SaleCheckAll = forwardRef((props, ref) => {
                                                 item?.createdAt
                                             ).toLocaleDateString()}
                                         </td>
-                                        <td className='check-table-body text-center'>
-                                        {item?.product?.category?.code} {item?.product?.productdata?.code}
+                                        <td className='check-table-body'>
+                                            {
+                                                item?.product?.productdata
+                                                    ?.code
+                                            }
                                         </td>
-                                        <td className='check-table-body text-start'>
-                                            {item?.product?.productdata?.name}
+                                        <td className='check-table-body'>
+                                            {
+                                                item?.product?.productdata
+                                                    ?.name
+                                            }
                                         </td>
                                         <td className='check-table-body'>
                                             {item?.pieces}
                                         </td>
-                                        {selled.some(el => el.fromFilial > 0) && <td style={{ backgroundColor: item?.fromFilial ? "grey" : 'white' }} className='check-table-body'>
-                                            {item?.fromFilial}
-                                        </td>}
                                         <td className='check-table-body'>
                                             {currencyType === 'USD'
                                                 ? item?.unitprice.toLocaleString(
@@ -186,114 +289,15 @@ export const SaleCheckAll = forwardRef((props, ref) => {
                                                 )}{' '}
                                             {currencyType}
                                         </td>
-                                        <td className='check-table-body'>
-                                            {item?.user
-                                                ? item.user.firstname +
-                                                ' ' +
-                                                item.user.lastname[0]
-                                                : ''}
-                                        </td>
                                     </tr>
                                 )
                             })}
-                        </tbody>
-                    </table>
-                </div>
-            )}
-            <div className='border-t-[0.8px] border-black-700 w-full mt-4 mb-4 text-end'>
-                <h3 className='text-black-900 text-[1.1rem] text-black-700 font-bold pt-4'>
-                    {t("Sotilganlar jami")} :{' '}
-                    <span className='text-black-900 font-bold'>
-                        {calculateAllSum(selled).toLocaleString('ru-Ru')}{' '}
-                        {currencyType}
-                    </span>
-                </h3>
-                {selled.some(el => el.fromFilial > 0) && <h3 className='text-black-900 text-[14px] text-black-700 font-bold pt-4'>
-                    {t("Ombordagi jami")} :{' '}
-                    <span className=' text-black-900 font-bold'>
-                        {calculateAllFilialSum(selled).toLocaleString('ru-Ru')}{' '}
-                        {currencyType}
-                    </span>
-                </h3>}
-            </div>
-            {returned?.length > 0 && (
-                <>
-                    <div className='mt-5'>
-                        <h3 className='text-[1.3rem] text-black-700 mb-5 font-bold'>
-                            {t("Qaytarilganlar")} :
-                        </h3>
-                        <table className='border-collapse border border-slate-400 w-full'>
-                            <thead>
-                                <tr>
-                                    <td className='check-table-rtr'>№</td>
-                                    <td className='check-table-rtr'>{t('Sana')}</td>
-                                    <td className='check-table-rtr'>{t('Kodi')}</td>
-                                    <td className='check-table-rtr'>
-                                    {t('Maxsulot')}
-                                    </td>
-                                    <td className='check-table-rtr'>{t('Soni')}</td>
-                                    <td className='check-table-rtr'>
-                                    {t('Narxi')}({t('Dona')})
-                                    </td>
-                                    <td className='check-table-rtr'>{t('Jami')}</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {map(returned, (item, index) => {
-                                    return (
-                                        <tr key={uniqueId('selled-row')}>
-                                            <td className='p-1 border text-center text-[0.875rem] font-bold'>
-                                                {index + 1}
-                                            </td>
-                                            <td className='check-table-body'>
-                                                {new Date(
-                                                    item?.createdAt
-                                                ).toLocaleDateString()}
-                                            </td>
-                                            <td className='check-table-body'>
-                                                {
-                                                    item?.product?.productdata
-                                                        ?.code
-                                                }
-                                            </td>
-                                            <td className='check-table-body'>
-                                                {
-                                                    item?.product?.productdata
-                                                        ?.name
-                                                }
-                                            </td>
-                                            <td className='check-table-body'>
-                                                {item?.pieces}
-                                            </td>
-                                            <td className='check-table-body'>
-                                                {currencyType === 'USD'
-                                                    ? item?.unitprice.toLocaleString(
-                                                        'ru-Ru'
-                                                    )
-                                                    : item?.unitpriceuzs.toLocaleString(
-                                                        'ru-Ru'
-                                                    )}{' '}
-                                                {currencyType}
-                                            </td>
-                                            <td className='check-table-body'>
-                                                {currencyType === 'USD'
-                                                    ? item?.totalprice.toLocaleString(
-                                                        'ru-Ru'
-                                                    )
-                                                    : item?.totalpriceuzs.toLocaleString(
-                                                        'ru-Ru'
-                                                    )}{' '}
-                                                {currencyType}
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
                             </tbody>
                         </table>
                     </div>
                     <div className='border-t-[0.8px] border-black-700 w-full mt-4 mb-4 text-end'>
                         <h3 className='text-black-900 text-[1.1rem] text-black-700 font-bold pt-4'>
-                            {t("Qaytarilganlar jami")} :{' '}
+                            {t('Qaytarilganlar jami')} :{' '}
                             <span className='text-black-900 font-bold'>
                                 {calculateAllSum(returned).toLocaleString(
                                     'ru-Ru'
@@ -329,7 +333,7 @@ export const SaleCheckAll = forwardRef((props, ref) => {
                 </li>
                 <li className='text-black-900 check-ul-li-foot'>
                     {' '}
-                    {t("To'langan")}:{' '}
+                    {t('To\'langan')}:{' '}
                     <span className='text-black-900 font-bold'>
                         {(
                             calculateAllPayments(selledPayments) +

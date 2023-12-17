@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import CheckoutCards from '../../Components/CheckoutCard/CheckoutCards'
 import SearchForm from '../../Components/SearchForm/SearchForm.js'
-import { useDispatch, useSelector } from 'react-redux'
-import { universalToast } from '../../Components/ToastMessages/ToastMessages.js'
-import { uniqueId, map } from 'lodash'
-import { VscClose } from "react-icons/vsc";
+import {useDispatch, useSelector} from 'react-redux'
+import {universalToast} from '../../Components/ToastMessages/ToastMessages.js'
+import {map, uniqueId} from 'lodash'
+import {VscClose} from 'react-icons/vsc'
 
 import {
     changeEndDate,
@@ -14,56 +14,55 @@ import {
     getProducts,
     getReports,
     getReportsForTotal,
-    getSaleProducts,
+    getSaleProducts
 } from './reportsSlice.js'
-import { useTranslation } from 'react-i18next'
-import { motion } from 'framer-motion'
+import {useTranslation} from 'react-i18next'
+import {motion} from 'framer-motion'
 import UniversalModal from '../../Components/Modal/UniversalModal'
-import PrintBtn from '../../Components/Buttons/PrintBtn.js'
-import { FaFilter } from 'react-icons/fa'
+import {FaFilter} from 'react-icons/fa'
 
 const Reports = () => {
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
+            setIsMobile(window.innerWidth <= 768)
+        }
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', handleResize)
 
         return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-    const [modalOpen,setModalOpen]=useState(false)
-    const { t } = useTranslation(['common'])
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
+    const [modalOpen, setModalOpen] = useState(false)
+    const {t} = useTranslation(['common'])
 
     const card = [
-        
+
         {
             name: 'Sof foyda',
-            type: 'income',
+            type: 'income'
         },
         {
             name: 'Xarajatlar',
-            type: 'expenses',
+            type: 'expenses'
         },
         {
-            name: "Tushumlar",
-            type: 'payments',
+            name: 'Tushumlar',
+            type: 'payments'
         },
         {
             name: 'Qaytarilgan',
-            type: 'backproducts',
+            type: 'backproducts'
         },
         {
             name: 'Chegirmalar',
-            type: 'discounts',
+            type: 'discounts'
         },
         {
             name: 'Qarzlar',
-            type: 'debts',
-        },
+            type: 'debts'
+        }
     ]
 
     const dispatch = useDispatch()
@@ -76,10 +75,10 @@ const Reports = () => {
         totalreports,
         saleproductsreport,
         startDate,
-        endDate,
+        endDate
     } = useSelector((state) => state.reports)
 
-    const { currencyType } = useSelector((state) => state.currency)
+    const {currencyType} = useSelector((state) => state.currency)
 
     const [modalVisible, setModalVisible] = useState(false)
     const [modalBody, setModalBody] = useState(null)
@@ -95,10 +94,10 @@ const Reports = () => {
     }
 
     const handleStartDate = (e) => {
-        dispatch(changeStartDate({ start: e.toISOString() }))
+        dispatch(changeStartDate({start: e.toISOString()}))
     }
     const handleEndDate = (e) => {
-        dispatch(changeEndDate({ end: e.toISOString() }))
+        dispatch(changeEndDate({end: e.toISOString()}))
     }
 
     useEffect(() => {
@@ -108,13 +107,13 @@ const Reports = () => {
                 new Date(startDate).getMonth(),
                 new Date(startDate).getDate()
             ).toISOString(),
-            endDate: endDate,
+            endDate: endDate
         }
         let bodyTotal = {
             startDate: new Date(
                 new Date().setMonth(new Date().getMonth() - 1)
             ).toISOString(),
-            endDate: new Date(),
+            endDate: new Date()
         }
 
         dispatch(getReports(body))
@@ -137,44 +136,49 @@ const Reports = () => {
             animate='open'
             exit='collapsed'
             variants={{
-                open: { opacity: 1, height: 'auto' },
-                collapsed: { opacity: 0, height: 0 },
+                open: {opacity: 1, height: 'auto'},
+                collapsed: {opacity: 0, height: 0}
             }}
-            transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+            transition={{duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98]}}
         >
             <div className='mt-[60px]  flex items-center ps-[20px] pe-[20px]'>
                 {
-                    isMobile?
-                    <button onClick={()=>setModalOpen(true)} className='  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[116px] h-[34px] createElement '><FaFilter   /> {t('izlash')}</button>:
-                    <div className=''>
-                        <SearchForm
-                filterBy={['startDate', 'endDate']}
-                startDate={new Date(startDate)}
-                endDate={new Date(endDate)}
-                setStartDate={handleStartDate}
-                setEndDate={handleEndDate}
-                />
-                </div>
+                    isMobile ?
+                        <button onClick={() => setModalOpen(true)}
+                                className='  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[116px] h-[34px] createElement '>
+                            <FaFilter /> {t('izlash')}</button> :
+                        <div className=''>
+                            <SearchForm
+                                filterBy={['startDate', 'endDate']}
+                                startDate={new Date(startDate)}
+                                endDate={new Date(endDate)}
+                                setStartDate={handleStartDate}
+                                setEndDate={handleEndDate}
+                            />
+                        </div>
                 }
-                <PrintBtn key={'print_btn_1'}  onClick={handleClickPrint} />
+                {/*<PrintBtn key={'print_btn_1'}  onClick={handleClickPrint} />*/}
             </div>
 
             {
-                modalOpen?<div className='fixed w-[100%] h-[100vh] bg-[white] z-50 top-0 start-0 pt-[50px]'>
-                <VscClose onClick={()=>setModalOpen(false)} className='absolute text-3xl end-[25px] top-[25px] cursor-pointer' />
-                <SearchForm
-                filterBy={['startDate', 'endDate']}
-                startDate={new Date(startDate)}
-                endDate={new Date(endDate)}
-                setStartDate={handleStartDate}
-                setEndDate={handleEndDate}
-                />
-                <div className='flex justify-center mt-[100px]'>
-                <button onClick={()=>setModalOpen(false)} className='  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[116px] h-[34px] createElement '><FaFilter   /> {t('izlash')}</button>
-                </div>
-                </div>:null
+                modalOpen ? <div className='fixed w-[100%] h-[100vh] bg-[white] z-50 top-0 start-0 pt-[50px]'>
+                    <VscClose onClick={() => setModalOpen(false)}
+                              className='absolute text-3xl end-[25px] top-[25px] cursor-pointer' />
+                    <SearchForm
+                        filterBy={['startDate', 'endDate']}
+                        startDate={new Date(startDate)}
+                        endDate={new Date(endDate)}
+                        setStartDate={handleStartDate}
+                        setEndDate={handleEndDate}
+                    />
+                    <div className='flex justify-center mt-[100px]'>
+                        <button onClick={() => setModalOpen(false)}
+                                className='  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[116px] h-[34px] createElement '>
+                            <FaFilter /> {t('izlash')}</button>
+                    </div>
+                </div> : null
             }
-            
+
             <div className='checkout-card pl-[20px] mainPadding mt-[30px]'>
                 {reports &&
                     map(card, (i) => (
@@ -201,11 +205,11 @@ const Reports = () => {
                 isOpen={modalVisible}
                 headerText={
                     modalBody === 'complete' &&
-                    "To'lovni amalga oshirishni tasdiqlaysizmi ?"
+                    'To\'lovni amalga oshirishni tasdiqlaysizmi ?'
                 }
                 title={
                     modalBody === 'complete' &&
-                    "To'lovni amalga oshirgach bu ma`lumotlarni o`zgaritirb bo`lmaydi !"
+                    'To\'lovni amalga oshirgach bu ma`lumotlarni o`zgaritirb bo`lmaydi !'
                 }
             />
         </motion.section>

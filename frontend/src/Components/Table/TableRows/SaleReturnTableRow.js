@@ -22,7 +22,6 @@ export const SaleReturnTableRow = ({
                                     }, []);
     
     return (
-        
         <>
             {map(data,(salereturn, index) => (
                 !isMobile?<tr className='tr' key={salereturn._id}>

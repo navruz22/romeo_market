@@ -97,17 +97,10 @@ export const ExpensesTableRow = ({
 
                     </li>
             ))}
-            <tr className='tr'>
-                <td className='text-left td'>
-                </td>
-                <td className='text-left td'>
-                </td>
-                <td className='text-left td font-medium'>
+            <tr className='tr bg-transparent'>
+                <td className='text-right td font-medium bg-none border-none' colSpan={3}>
                     {currency === 'USD' ? data.reduce((prev, el) => prev + el.sum, 0) : data.reduce((prev, el) => prev + el.sumuzs, 0).toLocaleString('ru-Ru')}{' '}
                     <span>{currency}</span>
-                </td>
-                <td className='text-left td'></td>
-                <td className='text-left py-[0.625rem] td'>
                 </td>
             </tr>
         </>

@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import PrintBtn from '../../Buttons/PrintBtn'
-import { useReactToPrint } from 'react-to-print'
-import { SaleCheckAll } from '../../SaleCheck/SaleCheckAll.js'
+import {useReactToPrint} from 'react-to-print'
+import {SaleCheckAll} from '../../SaleCheck/SaleCheckAll.js'
 import SmallLoader from '../../Spinner/SmallLoader.js'
-import { filter } from 'lodash'
-import { SmallCheck } from './SmallCheck'
-import { IoPrint } from 'react-icons/io5'
-function AllCheck({ product }) {
+import {filter} from 'lodash'
+import {SmallCheck} from './SmallCheck'
+import {IoPrint} from 'react-icons/io5'
+
+function AllCheck({product}) {
     const [loadContent, setLoadContent] = useState(false)
     const [selled, setSelled] = useState([])
     const [returned, setReturned] = useState([])
@@ -15,10 +16,11 @@ function AllCheck({ product }) {
     const [selledPayments, setSelledPayments] = useState([])
     const [returnedPayments, setReturnedPayments] = useState([])
     const [userInfo, setUserInfo] = useState({})
-    const saleCheckRef = useRef(null)
-    const saleSmallCheckRef = useRef(null)
+    const saleCheckRef = useRef()
+    const saleSmallCheckRef = useRef()
     const onBeforeGetContentResolve = useRef(null)
-    const handleOnBeforeGetContent = React.useCallback(() => {
+
+    const handleOnBeforeGetContent = React.useCallback((e) => {
         setLoadContent(true)
         return new Promise((resolve) => {
             onBeforeGetContentResolve.current = resolve
@@ -29,28 +31,29 @@ function AllCheck({ product }) {
             }, 2000)
         })
     }, [setLoadContent])
-    const reactToPrintContent = React.useCallback(() => {
-        return saleCheckRef.current
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [saleCheckRef.current])
 
-    const reactToPrintContent2 = React.useCallback(() => {
-        return saleSmallCheckRef.current
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [saleSmallCheckRef.current])
+    const reactToPrintContent = () => {
+        return saleCheckRef.current?.cloneNode(true)
+    }
+
+    const reactToPrintContent2 = () => {
+        return saleSmallCheckRef.current?.cloneNode(true)
+    }
 
     const print = useReactToPrint({
-        content: reactToPrintContent,
+        content: () => reactToPrintContent(),
         documentTitle: 'All Checks',
         onBeforeGetContent: handleOnBeforeGetContent,
-        removeAfterPrint: true,
+        removeAfterPrint: false,
+        // for A4 printer
+        pageStyle: '@page { size: A4; margin: 0mm; }'
     })
 
     const print2 = useReactToPrint({
-        content: reactToPrintContent2,
+        content: () => reactToPrintContent2(),
         documentTitle: 'All Checks',
         onBeforeGetContent: handleOnBeforeGetContent,
-        removeAfterPrint: true,
+        removeAfterPrint: false
     })
 
     useEffect(() => {
@@ -81,7 +84,8 @@ function AllCheck({ product }) {
     return (
         <section className='w-[27cm] mt-4 mx-auto'>
             {loadContent && (
-                <div className='fixed backdrop-blur-[2px] left-0 right-0 bg-white-700 flex flex-col items-center justify-center w-full h-full'>
+                <div
+                    className='fixed backdrop-blur-[2px] left-0 right-0 bg-white-700 flex flex-col items-center justify-center w-full h-full'>
                     <SmallLoader />
                 </div>
             )}
@@ -114,7 +118,7 @@ function AllCheck({ product }) {
                     <button
 
                         className={`group print-btn-style ml-auto min-w-max ${loadContent ? 'pointer-events-none' : 'pointer-events-auto'
-                            }`}
+                        }`}
                         onClick={print2}
                         disabled={loadContent}
                     >

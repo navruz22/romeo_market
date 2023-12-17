@@ -9,70 +9,72 @@ import Check from './ModalBodys/Check.js'
 import AllChecks from './ModalBodys/AllChecks.js'
 import StepperPage from './ModalBodys/StepperPage.js'
 import AdminMarkets from './ModalBodys/AdminMarkets.js'
-import { SavedSalesCheck } from '../SaleCheck/SavedSalesCheck.js'
+import {SavedSalesCheck} from '../SaleCheck/SavedSalesCheck.js'
 import ExchangesBody from './ModalBodys/ExchangesBody'
-import { useTranslation } from 'react-i18next'
+import {useTranslation} from 'react-i18next'
 import SalesList from './ModalBodys/SalesList'
 import TotalReports from '../TotalReports/TotalReports.js'
-import { SavedIncomingsCheck } from '../SaleCheck/SavedIncomingsCheck.js'
+import {SavedIncomingsCheck} from '../SaleCheck/SavedIncomingsCheck.js'
 import RequestConnection from './ModalBodys/RequestConnection.js'
 import RequestApplication from './ModalBodys/ReuqestApplication.js'
 import SendingApplication from './ModalBodys/SendingApplication.js'
-import { SavedOrdersCheck } from '../OrdersCheck/SavedOrdersCheck.js'
+import {SavedOrdersCheck} from '../OrdersCheck/SavedOrdersCheck.js'
 import DebtComment from './ModalBodys/DebtComment'
 import ChangeComment from './ModalBodys/ChangeComment'
+import {DailySaleCheck} from './ModalBodys/DailySaleCheck.js'
+
 function UniversalModal({
-    isOpen,
-    toggleModal,
-    body,
-    approveFunction,
-    closeModal,
-    excelData,
-    headers,
-    setCreatedData,
-    createdData,
-    headerText,
-    title,
-    product,
-    changeProduct,
-    currency,
-    printedSelling,
-    printedIncomings,
-    printedInventories,
-    payment,
-    addMarket,
-    incomingreport,
-    productreport,
-    saleproductsreport,
-    totalreports,
-    dataObject,
-    marketByInn,
-    sendingRequests,
-    handleDeleteRequest,
-    incomingRequests,
-    handleAcceptRequest,
-    handleRejectRequest,
-    order,
-    commentText,
-    dailyid
-}) {
-    const { t } = useTranslation(['common'])
+                            isOpen,
+                            toggleModal,
+                            body,
+                            approveFunction,
+                            closeModal,
+                            excelData,
+                            headers,
+                            setCreatedData,
+                            createdData,
+                            headerText,
+                            title,
+                            product,
+                            changeProduct,
+                            currency,
+                            printedSelling,
+                            printedIncomings,
+                            printedInventories,
+                            payment,
+                            addMarket,
+                            incomingreport,
+                            productreport,
+                            saleproductsreport,
+                            totalreports,
+                            dataObject,
+                            marketByInn,
+                            sendingRequests,
+                            handleDeleteRequest,
+                            incomingRequests,
+                            handleAcceptRequest,
+                            handleRejectRequest,
+                            order,
+                            commentText,
+                            dailyid
+                        }) {
+    const {t} = useTranslation(['common'])
 
     const customStyles = {
         content: {
             width: '90%',
             height: '85%',
             padding: '1.25rem',
-            transform: 'auto',
-        },
+            transform: 'auto'
+        }
     }
     const modalFull = {
         content: {
             width: '100%',
             height: '100%',
             padding: '1rem',
-            transform: 'auto',
-        },
+            transform: 'auto'
+        }
     }
     const switchBody = () => {
         switch (body) {
@@ -211,6 +213,8 @@ function UniversalModal({
                 )
             case 'debtcomment':
                 return <DebtComment toggleModal={toggleModal} />
+            case 'dailySaleCheck':
+                return <DailySaleCheck data={printedSelling} />
             default:
                 return t('Bunday jadval topilmadi')
         }
@@ -220,17 +224,17 @@ function UniversalModal({
             isOpen={isOpen}
             style={
                 body === 'checkSell' ||
-                    body === 'allChecks' ||
-                    body === 'addMarket' ||
-                    body === 'filterBranch'
-                    ? { ...modalFull }
+                body === 'allChecks' ||
+                body === 'addMarket' ||
+                body === 'filterBranch'
+                    ? {...modalFull}
                     : body === 'exchanges'
-                        ? { content: { width: '70%' } }
+                        ? {content: {width: '70%'}}
                         : body === 'approve' ||
-                            body === 'complete' ||
-                            body === 'requestconnection'
+                        body === 'complete' ||
+                        body === 'requestconnection'
                             ? {}
-                            : { ...customStyles }
+                            : {...customStyles}
             }
             onRequestClose={closeModal || toggleModal}
             closeTimeoutMS={100}

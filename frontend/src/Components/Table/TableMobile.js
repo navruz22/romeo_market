@@ -98,7 +98,8 @@ function TableMobile({
     endDate,
     modalOpen,
     productModal,
-    modalOpen1
+    modalOpen1,
+    totalDebt
 }) {
     const checkRows = () => {
         switch (page) {
@@ -416,6 +417,7 @@ function TableMobile({
                         Pay={Pay}
                         Print={Print}
                         Edit={Edit}
+                        totalDebt={totalDebt}
                     />
                 )
             case 'discounts':
