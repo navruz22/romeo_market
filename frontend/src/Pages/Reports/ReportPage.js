@@ -10,7 +10,10 @@ import CustomerPayment from '../../Components/Payment/CustomerPayment'
 import SearchForm from '../../Components/SearchForm/SearchForm'
 import Table from '../../Components/Table/Table'
 import TableMobile from '../../Components/Table/TableMobile'
-import {warningMoreDiscount, warningMorePayment} from '../../Components/ToastMessages/ToastMessages'
+import {
+    warningMoreDiscount,
+    warningMorePayment,
+} from '../../Components/ToastMessages/ToastMessages'
 import {
     changeEndDate,
     changeStartDate,
@@ -26,7 +29,7 @@ import {
     getReportsForTotal,
     getSaleProducts,
     payDebt,
-    setDebtComment
+    setDebtComment,
 } from './reportsSlice'
 import {getExpense} from '../Expense/expenseSlice'
 import {ReportsTableHeaders} from './ReportsTableHeaders'
@@ -60,23 +63,20 @@ const ReportPage = () => {
 
     const {market: _id, user} = useSelector((state) => state.login)
     const {expenses} = useSelector((state) => state.expense)
-    const {datas, count, startDate, endDate, successDebtComment, totalpayment} = useSelector(
-        (state) => state.reports
-    )
-    const {
-        sellings
-    } = useSelector((state) => state.sellings)
+    const {datas, count, startDate, endDate, successDebtComment, totalpayment} =
+        useSelector((state) => state.reports)
+    const {sellings} = useSelector((state) => state.sellings)
     const {currencyType, currency} = useSelector((state) => state.currency)
     const [currentPage, setCurrentPage] = useState(0)
     const [countPage, setCountPage] = useState(10)
     const [totalPage, setTotalPage] = useState(1)
     const [sendingSearch, setSendingSearch] = useState({
         id: '',
-        client: ''
+        client: '',
     })
     const [localSearch, setLocalSearch] = useState({
         id: '',
-        client: ''
+        client: '',
     })
     const [storageData, setStorageData] = useState([])
     const [currentData, setCurrentData] = useState(datas)
@@ -100,12 +100,12 @@ const ReportPage = () => {
     const [modalOpen, setModalOpen] = useState(false)
     const [discountSelectOption, setDiscountSelectOption] = useState({
         label: '%',
-        value: '%'
+        value: '%',
     })
     const [sorItem, setSorItem] = useState({
         filter: '',
         sort: '',
-        count: 0
+        count: 0,
     })
     const [storeData, setStoreData] = useState(datas)
     const [paymentDebt, setPaymentDebt] = useState(0)
@@ -118,15 +118,9 @@ const ReportPage = () => {
     const [modalData, setModalData] = useState(null)
     const [totalDebt, setTotalDebt] = useState({
         usd: 0,
-        uzs: 0
+        uzs: 0,
     })
-    const [beginDay, setBeginDay] = useState(
-        new Date(
-            new Date().getFullYear(),
-            new Date().getMonth(),
-            new Date().getDate()
-        ).setHours(0, 0, 0)
-    )
+    const [beginDay, setBeginDay] = useState(null)
     const [endDay, setEndDay] = useState(new Date())
     const [customLoading, setCustomLoading] = useState(false)
     const [printBody, setPrintBody] = useState({})
@@ -138,7 +132,7 @@ const ReportPage = () => {
         {title: 'Soni'},
         {title: 'Narxi'},
         {title: 'Jami', styles: 'w-[10rem]'},
-        {title: ''}
+        {title: ''},
     ]
 
     const filterByTotal = ({value}) => {
@@ -158,7 +152,7 @@ const ReportPage = () => {
                     .filter((item) => item.type === 'cash')
                     .reduce((prev, {sum}) => {
                         return prev + sum
-                    }, 0)
+                    }, 0),
             },
             card: {
                 uzs: expenses
@@ -170,7 +164,7 @@ const ReportPage = () => {
                     .filter((item) => item.type === 'card')
                     .reduce((prev, {sum}) => {
                         return prev + sum
-                    }, 0)
+                    }, 0),
             },
             transfer: {
                 uzs: expenses
@@ -182,8 +176,8 @@ const ReportPage = () => {
                     .filter((item) => item.type === 'transfer')
                     .reduce((prev, {sum}) => {
                         return prev + sum
-                    }, 0)
-            }
+                    }, 0),
+            },
         }
     }, [expenses])
 
@@ -196,24 +190,29 @@ const ReportPage = () => {
                 search: {
                     client: '',
                     id: '',
-                    product: ''
-                }
+                    product: '',
+                },
             }
             let reportstotalbody = {
                 startDate: new Date(startDate).toISOString(),
-                endDate: new Date(endDate)
+                endDate: new Date(endDate),
             }
 
             const [
                 {saleconnectors},
                 {income, debts, discounts},
                 {totalpieces},
-                {totalpieces: numberOfRemaningProducts, totalprice, totalpriceuzs, producttypes}
+                {
+                    totalpieces: numberOfRemaningProducts,
+                    totalprice,
+                    totalpriceuzs,
+                    producttypes,
+                },
             ] = await Promise.all([
                 await dispatch(excelAllSellings(numberofsellingsbody)).unwrap(),
                 await dispatch(getReportsForTotal(reportstotalbody)).unwrap(),
                 await dispatch(getSaleProducts(reportstotalbody)).unwrap(),
-                await dispatch(getProducts()).unwrap()
+                await dispatch(getProducts()).unwrap(),
             ])
             toggleCheckModal()
             setModalBody('dailySaleCheck')
@@ -224,78 +223,90 @@ const ReportPage = () => {
                 tushumlar: {
                     naqt: {
                         sum: totalpayment.payment.cashuzs,
-                        dollar: totalpayment.payment.cash
+                        dollar: totalpayment.payment.cash,
                     },
                     plastik: {
                         sum: totalpayment.payment.carduzs,
-                        dollar: totalpayment.payment.card
+                        dollar: totalpayment.payment.card,
                     },
                     utkazma: {
                         sum: totalpayment.payment.transferuzs,
-                        dollar: totalpayment.payment.transfer
-                    }
+                        dollar: totalpayment.payment.transfer,
+                    },
                 },
                 qaytarilganlar: {
                     naqt: {
                         sum: totalpayment.back.cashuzs,
-                        dollar: totalpayment.back.cash
+                        dollar: totalpayment.back.cash,
                     },
                     plastik: {
                         sum: totalpayment.back.carduzs,
-                        dollar: totalpayment.back.card
+                        dollar: totalpayment.back.card,
                     },
                     utkazma: {
                         sum: totalpayment.back.transferuzs,
-                        dollar: totalpayment.back.transfer
-                    }
+                        dollar: totalpayment.back.transfer,
+                    },
                 },
                 xarajatlar: {
                     naqt: {
                         sum: memoizedExpenses.cash.uzs,
-                        dollar: memoizedExpenses.cash.usd
+                        dollar: memoizedExpenses.cash.usd,
                     },
                     plastik: {
                         sum: memoizedExpenses.card.uzs,
-                        dollar: memoizedExpenses.card.usd
+                        dollar: memoizedExpenses.card.usd,
                     },
                     utkazma: {
                         sum: memoizedExpenses.transfer.uzs,
-                        dollar: memoizedExpenses.transfer.usd
-                    }
+                        dollar: memoizedExpenses.transfer.usd,
+                    },
                 },
                 foyda: {
                     sum: income.incomeuzs,
-                    dollar: income.income
+                    dollar: income.income,
                 },
                 qarzlar: {
                     sum: debts.debtsuzs,
-                    dollar: debts.debts
+                    dollar: debts.debts,
                 },
                 chegirmalar: {
                     sum: discounts.discountsuzs,
-                    dollar: discounts.discounts
+                    dollar: discounts.discounts,
                 },
                 kassaqoldiq: {
                     naqt: {
-                        sum: totalpayment.result.cashuzs - memoizedExpenses.cash.uzs,
-                        dollar: totalpayment.result.cash - memoizedExpenses.cash.usd
+                        sum:
+                            totalpayment.result.cashuzs -
+                            memoizedExpenses.cash.uzs,
+                        dollar:
+                            totalpayment.result.cash -
+                            memoizedExpenses.cash.usd,
                     },
                     plastik: {
-                        sum: totalpayment.result.carduzs - memoizedExpenses.card.uzs,
-                        dollar: totalpayment.result.card - memoizedExpenses.card.usd
+                        sum:
+                            totalpayment.result.carduzs -
+                            memoizedExpenses.card.uzs,
+                        dollar:
+                            totalpayment.result.card -
+                            memoizedExpenses.card.usd,
                     },
                     utkazma: {
-                        sum: totalpayment.result.transferuzs - memoizedExpenses.transfer.uzs,
-                        dollar: totalpayment.result.transfer - memoizedExpenses.transfer.usd
-                    }
+                        sum:
+                            totalpayment.result.transferuzs -
+                            memoizedExpenses.transfer.uzs,
+                        dollar:
+                            totalpayment.result.transfer -
+                            memoizedExpenses.transfer.usd,
+                    },
                 },
                 sotilganmaxsulotlarsoni: totalpieces,
                 qolganmaxsulotlarsoni: producttypes,
                 qolganmaxsulotlarumumiysoni: numberOfRemaningProducts,
                 qolganmaxsulotlarqiymati: {
                     sum: totalpriceuzs,
-                    dollar: totalprice
-                }
+                    dollar: totalprice,
+                },
             })
         } catch (e) {
             setCustomLoading(false)
@@ -396,7 +407,7 @@ const ReportPage = () => {
                     setPaidUzs(0)
                     setPaymentDebt(allPayment - Number(paymentDiscount))
                     setPaymentDebtUzs(
-                        allPaymentUzs - Number(paymentDiscountUzs)
+                        allPaymentUzs - Number(paymentDiscountUzs),
                     )
                     break
             }
@@ -531,7 +542,7 @@ const ReportPage = () => {
                 setPaymentDiscount(value)
                 setPaymentDiscountUzs(UsdToUzs(value, currency))
                 setPaymentDiscountPercent(
-                    Math.round(((allPayment * value) / 100) * 10) / 10
+                    Math.round(((allPayment * value) / 100) * 10) / 10,
                 )
                 setPaymentDebt(allPayment - value)
                 setPaymentDebtUzs(UsdToUzs(allPayment - value, currency))
@@ -543,7 +554,7 @@ const ReportPage = () => {
                 setPaymentDiscountUzs(value)
                 setPaymentDiscount(UzsToUsd(value, currency))
                 setPaymentDiscountPercent(
-                    Math.round(((allPaymentUzs * value) / 100) * 10) / 10
+                    Math.round(((allPaymentUzs * value) / 100) * 10) / 10,
                 )
                 setPaymentDebt(UzsToUsd(allPaymentUzs - value, currency))
                 setPaymentDebtUzs(allPaymentUzs - value)
@@ -667,10 +678,10 @@ const ReportPage = () => {
                 transfer: Number(paymentTransfer),
                 transferuzs: Number(paymentTransferUzs),
                 discount: Number(paymentDiscount),
-                discountuzs: Number(paymentDiscountUzs)
+                discountuzs: Number(paymentDiscountUzs),
             },
             user: user._id,
-            saleconnectorid: saleConnectorId
+            saleconnectorid: saleConnectorId,
         }
         dispatch(payDebt(body)).then(({payload}) => {
             setModalData(payload)
@@ -732,12 +743,12 @@ const ReportPage = () => {
             ...filter([...storageData], (item) =>
                 item.saleconnector
                     ? item.saleconnector.id.includes(target)
-                    : item.id.includes(target)
-            )
+                    : item.id.includes(target),
+            ),
         ])
         setLocalSearch({
             ...localSearch,
-            id: target
+            id: target,
         })
     }
 
@@ -748,12 +759,12 @@ const ReportPage = () => {
                 [...storageData],
                 (item) =>
                     item.client &&
-                    item.client.name.toLowerCase().includes(target)
-            )
+                    item.client.name.toLowerCase().includes(target),
+            ),
         ])
         setLocalSearch({
             ...localSearch,
-            client: target
+            client: target,
         })
     }
 
@@ -780,49 +791,49 @@ const ReportPage = () => {
                     setSorItem({
                         filter: filterKey,
                         sort: '1',
-                        count: 2
+                        count: 2,
                     })
                     universalSort(
                         currentData,
                         setCurrentData,
                         filterKey,
                         1,
-                        storeData
+                        storeData,
                     )
                     break
                 case 2:
                     setSorItem({
                         filter: filterKey,
                         sort: '',
-                        count: 0
+                        count: 0,
                     })
                     universalSort(
                         currentData,
                         setCurrentData,
                         filterKey,
                         '',
-                        storeData
+                        storeData,
                     )
                     break
                 default:
                     setSorItem({
                         filter: filterKey,
                         sort: '-1',
-                        count: 1
+                        count: 1,
                     })
                     universalSort(
                         currentData,
                         setCurrentData,
                         filterKey,
                         -1,
-                        storeData
+                        storeData,
                     )
             }
         } else {
             setSorItem({
                 filter: filterKey,
                 sort: '-1',
-                count: 1
+                count: 1,
             })
             universalSort(currentData, setCurrentData, filterKey, -1, storeData)
         }
@@ -849,11 +860,11 @@ const ReportPage = () => {
             startDate,
             endDate,
             market: _id,
-            search: sendingSearch
+            search: sendingSearch,
         }
         let debtBody = {
             startDate: beginDay,
-            endDate: endDay
+            endDate: endDay,
         }
         check('sale') && dispatch(getSellings(body))
         check('income') && dispatch(getProfit(body))
@@ -875,7 +886,7 @@ const ReportPage = () => {
         beginDay,
         endDay,
         _id,
-        id
+        id,
     ])
     useEffect(() => {
         if (id === 'cash' || id === 'card' || id === 'transfer') {
@@ -902,8 +913,8 @@ const ReportPage = () => {
             setTotalDebt({
                 usd: roundUsd(datas.reduce((prev, {debt}) => prev + debt, 0)),
                 uzs: roundUzs(
-                    datas.reduce((prev, {debtuzs}) => prev + debtuzs, 0)
-                )
+                    datas.reduce((prev, {debtuzs}) => prev + debtuzs, 0),
+                ),
             })
         }
     }, [datas, id])
@@ -925,7 +936,7 @@ const ReportPage = () => {
             let debtBody = {
                 startDate: beginDay,
                 endDate: endDay,
-                market: _id
+                market: _id,
             }
             dispatch(getDebts(debtBody))
             dispatch(clearSuccessDebtComment())
@@ -936,17 +947,35 @@ const ReportPage = () => {
         let body = {
             currentPage: 0,
             countPage: 10000000,
-            startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString(),
-            endDate: new Date(new Date().setHours(23, 59, 59, 59)).toISOString()
+            startDate: new Date(beginDay).toISOString(),
+            endDate: new Date(endDay).toISOString(),
         }
         dispatch(getExpense(body))
-    }, [dispatch])
+    }, [dispatch, beginDay, endDay])
+
+    useEffect(() => {
+        if (id === 'debts') {
+            let date = new Date()
+            let month = date.getMonth()
+            let year = date.getFullYear()
+            let day = date.getDate()
+            let startDate = new Date(year, month - 3, day)
+            setBeginDay(startDate)
+        } else {
+            setBeginDay(
+                new Date(
+                    new Date().getFullYear(),
+                    new Date().getMonth(),
+                    new Date().getDate(),
+                ).setHours(0, 0, 0),
+            )
+        }
+    }, [id])
 
     return (
         <div className='relative overflow-auto '>
             {customLoading && (
-                <div
-                    className='fixed backdrop-blur-[2px] z-[100] left-0 top-0 right-0 bottom-0 bg-white-700 flex flex-col items-center justify-center w-full h-full'>
+                <div className='fixed backdrop-blur-[2px] z-[100] left-0 top-0 right-0 bottom-0 bg-white-700 flex flex-col items-center justify-center w-full h-full'>
                     <SmallLoader />
                 </div>
             )}
@@ -954,97 +983,177 @@ const ReportPage = () => {
                 <span className='lg:mt-[20px]'>
                     <LinkToBack link={'/kassa'} />
                 </span>
-                {
-                    isMobile ? <>
-                            <div className={'mt-12'}>
-                                <SelectForm key={'total_1'} onSelect={filterByTotal} />
-                            </div>
-                            <button className={'mt-12 exportButton'}>
-                                <ReactHTMLTableToExcel
-                                    id='reacthtmltoexcel'
-                                    table='excel-tabel'
-                                    sheet='Sheet'
-                                    buttonText='Excel'
-                                    filename={id === 'income' ? 'Sof foyda' : id === 'expenses' ? 'Xarajatlar' : id === 'payments' ? 'Tushumlar' : id === 'backproducts' ? 'Qaytarilganlar' : id === 'discounts' ? 'Chegirmalar' : 'Qarzlar'}
-                                />
-                                <span className={'btn-icon bg-white-900 p-[8px]'}>
-                                    <img src={Excel} alt='excel icon' />
-                                </span>
-                            </button>
-                            <button onClick={() => setModalOpen(true)}
-                                    className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[50px] h-[33px] lg:mt-2 lg:ms-2 mt-[50px]  createElement '>
-                                <GrSettingsOption /></button>
-                        </>
-                        :
-                        <>
-                            <div className={'mt-6'}>
-                                <SelectForm key={'total_1'} onSelect={filterByTotal} />
-                            </div>
-                            <SearchForm
-                                filterBy={
-                                    id === 'debts'
-                                        ? ['startDate', 'endDate', 'id', 'clientName']
-                                        : id === 'income'
-                                            ? ['total', 'id', 'startDate', 'endDate']
-                                            : id === 'expenses'
-                                                ? ['startDate', 'endDate']
-                                                : id === 'payments'
-                                                    ? ['id', 'clientName', 'startDate', 'endDate']
-                                                    : id === 'backproducts'
-                                                        ? ['id', 'clientName', 'startDate', 'endDate']
-                                                        : ['id', 'clientName', 'startDate', 'endDate']
-                                }
-                                filterById={searchId}
-                                filterByClientName={searchClientName}
-                                filterByIdWhenPressEnter={onKeySearch}
-                                filterByClientNameWhenPressEnter={onKeySearch}
-                                startDate={beginDay}
-                                endDate={endDay}
-                                setStartDate={handleBeginDay}
-                                setEndDate={handleEndDay}
+                {isMobile ? (
+                    <>
+                        <div className={'mt-12'}>
+                            <SelectForm
+                                key={'total_1'}
+                                onSelect={filterByTotal}
                             />
-                            <button className={'mt-6 exportButton'}>
-                                <ReactHTMLTableToExcel
-                                    id='reacthtmltoexcel'
-                                    table='excel-tabel'
-                                    sheet='Sheet'
-                                    buttonText='Excel'
-                                    filename={id === 'income' ? 'Sof foyda' : id === 'expenses' ? 'Xarajatlar' : id === 'payments' ? 'Tushumlar' : id === 'backproducts' ? 'Qaytarilganlar' : id === 'discounts' ? 'Chegirmalar' : 'Qarzlar'}
-                                />
-                                <span className={'btn-icon bg-white-900 p-[8px]'}>
-                                    <img src={Excel} alt='excel icon' />
-                                </span>
-                            </button>
-                        </>
-                }
+                        </div>
+                        <button className={'mt-12 exportButton'}>
+                            <ReactHTMLTableToExcel
+                                id='reacthtmltoexcel'
+                                table='excel-tabel'
+                                sheet='Sheet'
+                                buttonText='Excel'
+                                filename={
+                                    id === 'income'
+                                        ? 'Sof foyda'
+                                        : id === 'expenses'
+                                          ? 'Xarajatlar'
+                                          : id === 'payments'
+                                            ? 'Tushumlar'
+                                            : id === 'backproducts'
+                                              ? 'Qaytarilganlar'
+                                              : id === 'discounts'
+                                                ? 'Chegirmalar'
+                                                : 'Qarzlar'
+                                }
+                            />
+                            <span className={'btn-icon bg-white-900 p-[8px]'}>
+                                <img src={Excel} alt='excel icon' />
+                            </span>
+                        </button>
+                        <button
+                            onClick={() => setModalOpen(true)}
+                            className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[50px] h-[33px] lg:mt-2 lg:ms-2 mt-[50px]  createElement '
+                        >
+                            <GrSettingsOption />
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <div className={'mt-6'}>
+                            <SelectForm
+                                key={'total_1'}
+                                onSelect={filterByTotal}
+                            />
+                        </div>
+                        <SearchForm
+                            filterBy={
+                                id === 'debts'
+                                    ? [
+                                          'startDate',
+                                          'endDate',
+                                          'id',
+                                          'clientName',
+                                      ]
+                                    : id === 'income'
+                                      ? ['total', 'id', 'startDate', 'endDate']
+                                      : id === 'expenses'
+                                        ? ['startDate', 'endDate']
+                                        : id === 'payments'
+                                          ? [
+                                                'id',
+                                                'clientName',
+                                                'startDate',
+                                                'endDate',
+                                            ]
+                                          : id === 'backproducts'
+                                            ? [
+                                                  'id',
+                                                  'clientName',
+                                                  'startDate',
+                                                  'endDate',
+                                              ]
+                                            : [
+                                                  'id',
+                                                  'clientName',
+                                                  'startDate',
+                                                  'endDate',
+                                              ]
+                            }
+                            filterById={searchId}
+                            filterByClientName={searchClientName}
+                            filterByIdWhenPressEnter={onKeySearch}
+                            filterByClientNameWhenPressEnter={onKeySearch}
+                            startDate={beginDay}
+                            endDate={endDay}
+                            setStartDate={handleBeginDay}
+                            setEndDate={handleEndDay}
+                        />
+                        <button className={'mt-6 exportButton'}>
+                            <ReactHTMLTableToExcel
+                                id='reacthtmltoexcel'
+                                table='excel-tabel'
+                                sheet='Sheet'
+                                buttonText='Excel'
+                                filename={
+                                    id === 'income'
+                                        ? 'Sof foyda'
+                                        : id === 'expenses'
+                                          ? 'Xarajatlar'
+                                          : id === 'payments'
+                                            ? 'Tushumlar'
+                                            : id === 'backproducts'
+                                              ? 'Qaytarilganlar'
+                                              : id === 'discounts'
+                                                ? 'Chegirmalar'
+                                                : 'Qarzlar'
+                                }
+                            />
+                            <span className={'btn-icon bg-white-900 p-[8px]'}>
+                                <img src={Excel} alt='excel icon' />
+                            </span>
+                        </button>
+                    </>
+                )}
             </div>
-            {
-                id === 'payments' && <div className='ml-3 px-4 py-2 flex justify-end'>
+            {id === 'payments' && (
+                <div className='ml-3 px-4 py-2 flex justify-end'>
                     <SessionBtn
                         text={'Savdo hisoboti'}
                         onClick={handlePrintModal}
                     />
                 </div>
-            }
+            )}
             <div className='flex items-center justify-between'>
-                {
-                    modalOpen ? <div className='fixed w-[100%] h-[100vh] top-0 start-0 bg-[white] z-50 '>
-                        <VscClose onClick={() => setModalOpen(false)}
-                                  className='absolute text-3xl end-[25px] top-[25px] cursor-pointer' />
+                {modalOpen ? (
+                    <div className='fixed w-[100%] h-[100vh] top-0 start-0 bg-[white] z-50 '>
+                        <VscClose
+                            onClick={() => setModalOpen(false)}
+                            className='absolute text-3xl end-[25px] top-[25px] cursor-pointer'
+                        />
                         <div className='pl-[0px] flex items-center justify-between mainPadding mt-[30px]'>
                             <SearchForm
                                 filterBy={
                                     id === 'debts'
-                                        ? ['startDate', 'endDate', 'id', 'clientName']
+                                        ? [
+                                              'startDate',
+                                              'endDate',
+                                              'id',
+                                              'clientName',
+                                          ]
                                         : id === 'income'
-                                            ? ['id', 'client', 'startDate', 'endDate']
-                                            : id === 'expenses'
-                                                ? ['startDate', 'endDate']
-                                                : id === 'payments'
-                                                    ? ['id', 'clientName', 'startDate', 'endDate']
-                                                    : id === 'backproducts'
-                                                        ? ['id', 'clientName', 'startDate', 'endDate']
-                                                        : ['id', 'clientName', 'startDate', 'endDate']
+                                          ? [
+                                                'id',
+                                                'client',
+                                                'startDate',
+                                                'endDate',
+                                            ]
+                                          : id === 'expenses'
+                                            ? ['startDate', 'endDate']
+                                            : id === 'payments'
+                                              ? [
+                                                    'id',
+                                                    'clientName',
+                                                    'startDate',
+                                                    'endDate',
+                                                ]
+                                              : id === 'backproducts'
+                                                ? [
+                                                      'id',
+                                                      'clientName',
+                                                      'startDate',
+                                                      'endDate',
+                                                  ]
+                                                : [
+                                                      'id',
+                                                      'clientName',
+                                                      'startDate',
+                                                      'endDate',
+                                                  ]
                                 }
                                 filterById={searchId}
                                 filterByClientName={searchClientName}
@@ -1057,50 +1166,54 @@ const ReportPage = () => {
                             />
                         </div>
                         <div className='flex justify-center'>
-                            <button onClick={() => setModalOpen(false)}
-                                    className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '>
-                                <GrSettingsOption /> {t('izlash')}</button>
+                            <button
+                                onClick={() => setModalOpen(false)}
+                                className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '
+                            >
+                                <GrSettingsOption /> {t('izlash')}
+                            </button>
                         </div>
-                    </div> : null
-                }
+                    </div>
+                ) : null}
             </div>
             <div className='lg:ps-[20px] lg:tableContainerPadding '>
-                {currentData.length > 0 && (
-                    !isMobile ? <Table
-                        page={id === 'sale' ? 'saleslist' : id}
-                        headers={ReportsTableHeaders(id)}
-                        data={currentData}
-                        currentPage={currentPage}
-                        countPage={countPage}
-                        currency={currencyType}
-                        type={id}
-                        Pay={handleClickPayment}
-                        reports={true}
-                        Print={handleClickPrint}
-                        Sort={filterData}
-                        sortItem={sorItem}
-                        Edit={handleModalDebtComment}
-                        totalDebt={totalDebt}
-                    /> : <TableMobile
-                        page={id === 'sale' ? 'saleslist' : id}
-                        headers={ReportsTableHeaders(id)}
-                        data={currentData}
-                        currentPage={currentPage}
-                        countPage={countPage}
-                        currency={currencyType}
-                        type={id}
-                        Pay={handleClickPayment}
-                        reports={true}
-                        Print={handleClickPrint}
-                        Sort={filterData}
-                        sortItem={sorItem}
-                        Edit={handleModalDebtComment}
-                        totalDebt={totalDebt}
-                    />
-
-                )}
+                {currentData.length > 0 &&
+                    (!isMobile ? (
+                        <Table
+                            page={id === 'sale' ? 'saleslist' : id}
+                            headers={ReportsTableHeaders(id)}
+                            data={currentData}
+                            currentPage={currentPage}
+                            countPage={countPage}
+                            currency={currencyType}
+                            type={id}
+                            Pay={handleClickPayment}
+                            reports={true}
+                            Print={handleClickPrint}
+                            Sort={filterData}
+                            sortItem={sorItem}
+                            Edit={handleModalDebtComment}
+                            totalDebt={totalDebt}
+                        />
+                    ) : (
+                        <TableMobile
+                            page={id === 'sale' ? 'saleslist' : id}
+                            headers={ReportsTableHeaders(id)}
+                            data={currentData}
+                            currentPage={currentPage}
+                            countPage={countPage}
+                            currency={currencyType}
+                            type={id}
+                            Pay={handleClickPayment}
+                            reports={true}
+                            Print={handleClickPrint}
+                            Sort={filterData}
+                            sortItem={sorItem}
+                            Edit={handleModalDebtComment}
+                            totalDebt={totalDebt}
+                        />
+                    ))}
                 <div className='flex justify-center mt-3'>
-
                     {id !== 'debts' && (
                         <Pagination
                             countPage={countPage}
@@ -1130,16 +1243,21 @@ const ReportPage = () => {
                     </ul>
                 )} */}
                 {id === 'payments' && totalpayment?.payment?.cash && (
-                    <div
-                        className='flex items-center justify-between gap-10 mt-6 bg-white py-6 md:py-0 flex-col md:flex-row'>
+                    <div className='flex items-center justify-between gap-10 mt-6 bg-white py-6 md:py-0 flex-col md:flex-row'>
                         <div className='flex flex-col items-start gap-2'>
-                            <div className='text-[18px] font-bold mb-2'>Tushumlar</div>
+                            <div className='text-[18px] font-bold mb-2'>
+                                Tushumlar
+                            </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
                                 <div>Naqt:</div>
                                 <div>
                                     {currencyType === 'USD'
-                                        ? roundUsd(totalpayment.payment.cash).toLocaleString('ru-RU')
-                                        : roundUzs(totalpayment.payment.cashuzs).toLocaleString('ru-RU')}{' '}
+                                        ? roundUsd(
+                                              totalpayment.payment.cash,
+                                          ).toLocaleString('ru-RU')
+                                        : roundUzs(
+                                              totalpayment.payment.cashuzs,
+                                          ).toLocaleString('ru-RU')}{' '}
                                     {currencyType}
                                 </div>
                             </div>
@@ -1147,8 +1265,12 @@ const ReportPage = () => {
                                 <div>Plastik:</div>
                                 <div>
                                     {currencyType === 'USD'
-                                        ? roundUsd(totalpayment.payment.card).toLocaleString('ru-RU')
-                                        : roundUzs(totalpayment.payment.carduzs).toLocaleString('ru-RU')}{' '}
+                                        ? roundUsd(
+                                              totalpayment.payment.card,
+                                          ).toLocaleString('ru-RU')
+                                        : roundUzs(
+                                              totalpayment.payment.carduzs,
+                                          ).toLocaleString('ru-RU')}{' '}
                                     {currencyType}
                                 </div>
                             </div>
@@ -1156,160 +1278,200 @@ const ReportPage = () => {
                                 <div>O'tkazma:</div>
                                 <div>
                                     {currencyType === 'USD'
-                                        ? roundUsd(totalpayment.payment.transfer).toLocaleString('ru-RU')
-                                        : roundUzs(totalpayment.payment.transferuzs).toLocaleString('ru-RU')}{' '}
+                                        ? roundUsd(
+                                              totalpayment.payment.transfer,
+                                          ).toLocaleString('ru-RU')
+                                        : roundUzs(
+                                              totalpayment.payment.transferuzs,
+                                          ).toLocaleString('ru-RU')}{' '}
                                     {currencyType}
                                 </div>
                             </div>
                             <div className='text-[18px] font-semibold w-full text-end'>
                                 {currencyType === 'USD'
                                     ? roundUsd(
-                                        totalpayment.payment.cash +
-                                        totalpayment.payment.card +
-                                        totalpayment.payment.transfer
-                                    ).toLocaleString('ru-RU')
+                                          totalpayment.payment.cash +
+                                              totalpayment.payment.card +
+                                              totalpayment.payment.transfer,
+                                      ).toLocaleString('ru-RU')
                                     : roundUzs(
-                                        totalpayment.payment.cashuzs +
-                                        totalpayment.payment.carduzs +
-                                        totalpayment.payment.transferuzs
-                                    ).toLocaleString('ru-RU')}{' '}
+                                          totalpayment.payment.cashuzs +
+                                              totalpayment.payment.carduzs +
+                                              totalpayment.payment.transferuzs,
+                                      ).toLocaleString('ru-RU')}{' '}
                                 {currencyType}
                             </div>
                         </div>
                         <div className='flex flex-col items-start gap-2'>
-                            <div className='text-[18px] font-bold mb-2'>Qaytarilganlar</div>
+                            <div className='text-[18px] font-bold mb-2'>
+                                Qaytarilganlar
+                            </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
-                                <div>Naqt:</div>
-                                {' '}
+                                <div>Naqt:</div>{' '}
                                 <span>
-                  {currencyType === 'USD'
-                      ? roundUsd(totalpayment.back.cash).toLocaleString('ru-RU')
-                      : roundUzs(totalpayment.back.cashuzs).toLocaleString('ru-RU')}{' '}
+                                    {currencyType === 'USD'
+                                        ? roundUsd(
+                                              totalpayment.back.cash,
+                                          ).toLocaleString('ru-RU')
+                                        : roundUzs(
+                                              totalpayment.back.cashuzs,
+                                          ).toLocaleString('ru-RU')}{' '}
                                     {currencyType}
-                </span>
+                                </span>
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
                                 <div>Plastik:</div>
                                 <span>
-                  {currencyType === 'USD'
-                      ? roundUsd(totalpayment.back.card).toLocaleString('ru-RU')
-                      : roundUzs(totalpayment.back.carduzs).toLocaleString('ru-RU')}{' '}
+                                    {currencyType === 'USD'
+                                        ? roundUsd(
+                                              totalpayment.back.card,
+                                          ).toLocaleString('ru-RU')
+                                        : roundUzs(
+                                              totalpayment.back.carduzs,
+                                          ).toLocaleString('ru-RU')}{' '}
                                     {currencyType}
-                </span>
+                                </span>
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
                                 <div>O'tkazma:</div>
                                 <span>
-                  {currencyType === 'USD'
-                      ? roundUsd(totalpayment.back.transfer).toLocaleString('ru-RU')
-                      : roundUzs(totalpayment.back.transferuzs).toLocaleString('ru-RU')}{' '}
+                                    {currencyType === 'USD'
+                                        ? roundUsd(
+                                              totalpayment.back.transfer,
+                                          ).toLocaleString('ru-RU')
+                                        : roundUzs(
+                                              totalpayment.back.transferuzs,
+                                          ).toLocaleString('ru-RU')}{' '}
                                     {currencyType}
-                </span>
+                                </span>
                             </div>
                             <div className='text-[18px] font-semibold w-full text-end'>
                                 {currencyType === 'USD'
                                     ? roundUsd(
-                                        totalpayment.back.cash + totalpayment.back.card + totalpayment.back.transfer
-                                    ).toLocaleString('ru-RU')
+                                          totalpayment.back.cash +
+                                              totalpayment.back.card +
+                                              totalpayment.back.transfer,
+                                      ).toLocaleString('ru-RU')
                                     : roundUzs(
-                                        totalpayment.back.cashuzs +
-                                        totalpayment.back.carduzs +
-                                        totalpayment.back.transferuzs
-                                    ).toLocaleString('ru-RU')}{' '}
+                                          totalpayment.back.cashuzs +
+                                              totalpayment.back.carduzs +
+                                              totalpayment.back.transferuzs,
+                                      ).toLocaleString('ru-RU')}{' '}
                                 {currencyType}
                             </div>
                         </div>
                         {expenses && (
                             <div className='flex flex-col items-start gap-2'>
-                                <div className='text-[18px] font-bold mb-2'>Xarajatlar</div>
+                                <div className='text-[18px] font-bold mb-2'>
+                                    Xarajatlar
+                                </div>
                                 <div className='font-semibold w-full gap-5 flex justify-between'>
-                                    <div>Naqt:</div>
-                                    {' '}
+                                    <div>Naqt:</div>{' '}
                                     <span>
-                    -
+                                        -
                                         {currencyType === 'USD'
-                                            ? roundUsd(memoizedExpenses.cash.usd).toLocaleString('ru-RU')
-                                            : roundUzs(memoizedExpenses.cash.uzs).toLocaleString('ru-RU')}{' '}
+                                            ? roundUsd(
+                                                  memoizedExpenses.cash.usd,
+                                              ).toLocaleString('ru-RU')
+                                            : roundUzs(
+                                                  memoizedExpenses.cash.uzs,
+                                              ).toLocaleString('ru-RU')}{' '}
                                         {currencyType}
-                  </span>
+                                    </span>
                                 </div>
                                 <div className='font-semibold w-full gap-5 flex justify-between'>
                                     <div>Plastik:</div>
                                     <span>
-                    -
+                                        -
                                         {currencyType === 'USD'
-                                            ? roundUsd(memoizedExpenses.card.usd).toLocaleString('ru-RU')
-                                            : roundUzs(memoizedExpenses.card.uzs).toLocaleString('ru-RU')}{' '}
+                                            ? roundUsd(
+                                                  memoizedExpenses.card.usd,
+                                              ).toLocaleString('ru-RU')
+                                            : roundUzs(
+                                                  memoizedExpenses.card.uzs,
+                                              ).toLocaleString('ru-RU')}{' '}
                                         {currencyType}
-                  </span>
+                                    </span>
                                 </div>
                                 <div className='font-semibold w-full gap-5 flex justify-between'>
                                     <div>O'tkazma:</div>
                                     <span>
-                    -
+                                        -
                                         {currencyType === 'USD'
-                                            ? roundUsd(memoizedExpenses.transfer.usd).toLocaleString('ru-RU')
-                                            : roundUzs(memoizedExpenses.transfer.uzs).toLocaleString('ru-RU')}{' '}
+                                            ? roundUsd(
+                                                  memoizedExpenses.transfer.usd,
+                                              ).toLocaleString('ru-RU')
+                                            : roundUzs(
+                                                  memoizedExpenses.transfer.uzs,
+                                              ).toLocaleString('ru-RU')}{' '}
                                         {currencyType}
-                  </span>
+                                    </span>
                                 </div>
                                 <div className='text-[18px] font-semibold w-full text-end'>
                                     -
                                     {currencyType === 'USD'
                                         ? roundUsd(
-                                            memoizedExpenses.cash.usd +
-                                            memoizedExpenses.card.usd +
-                                            memoizedExpenses.transfer.usd
-                                        ).toLocaleString('ru-RU')
+                                              memoizedExpenses.cash.usd +
+                                                  memoizedExpenses.card.usd +
+                                                  memoizedExpenses.transfer.usd,
+                                          ).toLocaleString('ru-RU')
                                         : roundUzs(
-                                            memoizedExpenses.cash.uzs +
-                                            memoizedExpenses.card.uzs +
-                                            memoizedExpenses.transfer.uzs
-                                        ).toLocaleString('ru-RU')}{' '}
+                                              memoizedExpenses.cash.uzs +
+                                                  memoizedExpenses.card.uzs +
+                                                  memoizedExpenses.transfer.uzs,
+                                          ).toLocaleString('ru-RU')}{' '}
                                     {currencyType}
                                 </div>
                             </div>
                         )}
                         <div className='flex flex-col items-start gap-2'>
-                            <div className='text-[18px] font-bold mb-2'>Kassadagi qoldiq</div>
+                            <div className='text-[18px] font-bold mb-2'>
+                                Kassadagi qoldiq
+                            </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
                                 <div>Naqt:</div>
                                 <span>
-                  {currencyType === 'USD'
-                      ? roundUsd(totalpayment.result.cash - memoizedExpenses.cash.usd).toLocaleString(
-                          'ru-RU'
-                      )
-                      : roundUzs(
-                          totalpayment.result.cashuzs - memoizedExpenses.cash.uzs
-                      ).toLocaleString('ru-RU')}{' '}
+                                    {currencyType === 'USD'
+                                        ? roundUsd(
+                                              totalpayment.result.cash -
+                                                  memoizedExpenses.cash.usd,
+                                          ).toLocaleString('ru-RU')
+                                        : roundUzs(
+                                              totalpayment.result.cashuzs -
+                                                  memoizedExpenses.cash.uzs,
+                                          ).toLocaleString('ru-RU')}{' '}
                                     {currencyType}
-                </span>
+                                </span>
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
                                 <div>Plastik:</div>
                                 <span>
-                  {currencyType === 'USD'
-                      ? roundUsd(totalpayment.result.card - memoizedExpenses.card.usd).toLocaleString(
-                          'ru-RU'
-                      )
-                      : roundUzs(
-                          totalpayment.result.carduzs - memoizedExpenses.card.uzs
-                      ).toLocaleString('ru-RU')}{' '}
+                                    {currencyType === 'USD'
+                                        ? roundUsd(
+                                              totalpayment.result.card -
+                                                  memoizedExpenses.card.usd,
+                                          ).toLocaleString('ru-RU')
+                                        : roundUzs(
+                                              totalpayment.result.carduzs -
+                                                  memoizedExpenses.card.uzs,
+                                          ).toLocaleString('ru-RU')}{' '}
                                     {currencyType}
-                </span>
+                                </span>
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
                                 <div>O'tkazma:</div>
                                 <span>
-                  {currencyType === 'USD'
-                      ? roundUsd(
-                          totalpayment.result.transfer - memoizedExpenses.transfer.usd
-                      ).toLocaleString('ru-RU')
-                      : roundUzs(
-                          totalpayment.result.transferuzs - memoizedExpenses.transfer.uzs
-                      ).toLocaleString('ru-RU')}{' '}
+                                    {currencyType === 'USD'
+                                        ? roundUsd(
+                                              totalpayment.result.transfer -
+                                                  memoizedExpenses.transfer.usd,
+                                          ).toLocaleString('ru-RU')
+                                        : roundUzs(
+                                              totalpayment.result.transferuzs -
+                                                  memoizedExpenses.transfer.uzs,
+                                          ).toLocaleString('ru-RU')}{' '}
                                     {currencyType}
-                </span>
+                                </span>
                             </div>
                             {/* <div className='text-[18px] w-full font-semibold text-end'>
                 {currencyType === 'USD'
@@ -1350,8 +1512,8 @@ const ReportPage = () => {
                                 ? paymentDiscount
                                 : paymentDiscountPercent
                             : discountSelectOption.value === 'UZS'
-                                ? paymentDiscountUzs
-                                : paymentDiscountPercent
+                              ? paymentDiscountUzs
+                              : paymentDiscountPercent
                     }
                     handleChangeDiscount={handleChangeDiscount}
                     hasDiscount={hasDiscount}
@@ -1375,26 +1537,28 @@ const ReportPage = () => {
                     modalBody === 'sell'
                         ? toggleModal
                         : modalBody === 'complete'
-                            ? handleClosePay
-                            : modalBody === 'allChecks'
-                                ? toggleSaleCheck
-                                : modalBody === 'debtcomment'
-                                    ? toggleDebtCommentModal
-                                    : toggleCheckModal
+                          ? handleClosePay
+                          : modalBody === 'allChecks'
+                            ? toggleSaleCheck
+                            : modalBody === 'debtcomment'
+                              ? toggleDebtCommentModal
+                              : toggleCheckModal
                 }
                 approveFunction={handleApprovePay}
                 isOpen={modalVisible}
                 payment={modalData}
-                printedSelling={modalBody === 'dailySaleCheck' ? printBody : modalData}
+                printedSelling={
+                    modalBody === 'dailySaleCheck' ? printBody : modalData
+                }
                 product={modalData}
                 headers={headers}
                 headerText={
                     modalBody === 'complete' &&
-                    'To\'lovni amalga oshirishni tasdiqlaysizmi?'
+                    "To'lovni amalga oshirishni tasdiqlaysizmi?"
                 }
                 title={
                     modalBody === 'complete' &&
-                    'To\'lovni amalga oshirgach bu ma`lumotlarni o\'zgaritirib bo\'lmaydi!'
+                    "To'lovni amalga oshirgach bu ma`lumotlarni o'zgaritirib bo'lmaydi!"
                 }
             />
         </div>
