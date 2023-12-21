@@ -13,9 +13,10 @@
     --clock-hour-length: calc(var(--clock-width) * 0.2);
     --clock-thickness: 0.1rem;
 }
+
 ::-webkit-scrollbar {
     height: 0px;
-  }
+}
 
 @layer base {
     .exportButton {
@@ -659,7 +660,7 @@
     /* admin Report style start */
     /* Loader style start */
     .loader {
-        @apply w-full h-full flex justify-center items-center absolute z-[10000] top-[0] left-[0];
+        @apply w-full h-full flex justify-center items-center absolute z-[10000] top-[0] left-[0] backdrop-blur-[10px];
     }
 
     .animation {
@@ -727,21 +728,27 @@
     .product-exchange-modal-text {
         @apply text-[1rem] font-[300] text-black-700 w-full flex items-center justify-center gap-4;
     }
+
     .request-application-ul {
         @apply flex justify-between border-b border-b-primary-900 pb-[0.5rem] mb-[1rem] items-center;
     }
+
     .request-application-ul-li {
         @apply text-[0.75rem] text-black-700 pb-[8px];
     }
+
     .request-application-li-p {
         @apply text-[1rem] text-black-900 flex items-center gap-[5px];
     }
+
     .request-application-delete-icon {
         @apply w-[22px] h-[22px] rounded-full bg-error-700 flex justify-center items-center text-white-900 hover:bg-error-800 duration-200 cursor-pointer;
     }
+
     .request-application-cancel-icon {
         @apply text-success-700 hover:text-success-800 duration-200;
     }
+
     /* product exchanges style */
 }
 
@@ -754,9 +761,9 @@ body {
 .loginPage {
     height: 100vh;
     background: radial-gradient(
-        100% 316.36% at 0% 50%,
-        #0090a3 0%,
-        rgba(36, 86, 50, 0.9) 100%
+            100% 316.36% at 0% 50%,
+            #0090a3 0%,
+            rgba(36, 86, 50, 0.9) 100%
     );
 }
 
@@ -903,7 +910,8 @@ input[type='number'] {
 .reciept {
     font-family: 'Fake Receipt', sans-serif;
 }
-@media (max-width: 767px){
+
+@media (max-width: 767px) {
     .ReactModal__Content {
         width: 90%;
         inset: auto !important;

@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {changeCurrencyType, clearError, getCurrency, getCurrencyType} from './Currency/currencySlice'
 import {universalToast, warningCurrencyRate} from '../Components/ToastMessages/ToastMessages.js'
 import protectedRoutes from './ProtectedRoutes.js'
-import Loader from './../Components/Loader/Loader';
+import Loader from './../Components/Loader/Loader'
 
 const PageRoutes = () => {
     const dispatch = useDispatch()
@@ -18,19 +18,19 @@ const PageRoutes = () => {
         const prevCurrencyType = currencyType === 'USD' ? 'UZS' : 'USD'
         dispatch(changeCurrencyType({currency: prevCurrencyType}))
     }
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
 
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
+            setIsMobile(window.innerWidth <= 768)
+        }
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', handleResize)
 
         return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
     useEffect(() => {
         if (user.type !== 'Admin') {
             dispatch(getCurrency())
@@ -53,7 +53,7 @@ const PageRoutes = () => {
         <section className={'flex bg-background relative overflow-x-hidden'}>
             {user.type !== 'Admin' && <Currency currency={currencyType} onClick={changeCurrency} />}
             {
-                isMobile ? <NavbarMobile/> : <Navbar />
+                isMobile ? <NavbarMobile /> : <Navbar />
             }
             <div className={'grow h-screen overflow-y-auto'}>
                 <Suspense fallback={<Loader />}>
