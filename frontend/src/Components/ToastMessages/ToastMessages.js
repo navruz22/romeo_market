@@ -105,7 +105,7 @@ export const successPayDebt = () =>
 export const warningRepeatPasswordDoesntMatch = () =>
     toast.warn(i18n.t('Takroriy parol no`to`g`ri kiritilgan!'))
 export const warningEmptyInput = (text) =>
-    toast.warn(text ? i18n.t(`${text} ${t("bo'sh qolishi mumkin emas!")}`) : i18n.t('Ma`lumotlar to`liq kiritilmagan!'))
+    toast.warn(text ? i18n.t(`${text} ${i18n.t("bo'sh qolishi mumkin emas!")}`) : i18n.t('Ma`lumotlar to`liq kiritilmagan!'))
 export const warningCurrencyRate = () =>
     toast.warn(i18n.t('Valyuta kursi kiritilmagan!'))
 export const warningCategory = () => {

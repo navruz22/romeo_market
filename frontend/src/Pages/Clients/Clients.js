@@ -168,7 +168,7 @@ const ClientsPage = () => {
             dispatch(addClients(body)).then(({error}) => {
                 if (!error) {
                     clearForm()
-                    successAddClientMessageMessage()
+                    successAddClientMessage()
                 }
             })
         }
