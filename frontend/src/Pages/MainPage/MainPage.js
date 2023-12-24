@@ -107,7 +107,7 @@ function MainPage() {
                                       monthlyReport.sales.length - 1
                                   ]
                                 : 0
-                        } ${t('ta')}`,
+                        }`,
                     ]}
                     arr={monthlyReport?.sales}
                 />

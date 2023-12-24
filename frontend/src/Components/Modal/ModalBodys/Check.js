@@ -91,7 +91,9 @@ function Check({ product, returned, isPayment, payment, isOrder, order }) {
                     <OrderCheck ref={saleCheckRef} order={order} />
                 ) : (
                     <>
-                        <SaleCheck product={product} ref={saleCheckRef} />
+                        <div className='hidden md:block'>
+                            <SaleCheck product={product} ref={saleCheckRef} />
+                        </div>
                         <div className='hidden'>
                             <SmallCheck2
                                 ref={saleSmallCheckRef}

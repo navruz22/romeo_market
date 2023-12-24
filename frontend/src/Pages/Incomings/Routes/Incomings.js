@@ -197,7 +197,7 @@ function Incomings() {
                         />
                     }
                     grow={true}
-                    label={t('Yetkazuvchini tanlang')}
+                    label={t('Yetkazuvchi')}
                 />
             </div>
             <ResultIncomings

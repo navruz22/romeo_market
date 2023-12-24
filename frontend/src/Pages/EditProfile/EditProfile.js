@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import ImageCrop from '../../Components/ImageCrop/ImageCrop.js'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import FieldContainer from '../../Components/FieldContainer/FieldContainer.js'
 import BtnAddRemove from '../../Components/Buttons/BtnAddRemove.js'
-import {editProfileImage, editUser} from '../Login/loginSlice.js'
-import {successUploadImage, warningEmptyInput} from '../../Components/ToastMessages/ToastMessages.js'
-import {checkEmptyString} from '../../App/globalFunctions.js'
+import { editProfileImage, editUser } from '../Login/loginSlice.js'
+import { successUploadImage, warningEmptyInput } from '../../Components/ToastMessages/ToastMessages.js'
+import { checkEmptyString } from '../../App/globalFunctions.js'
 import SmallLoader from '../../Components/Spinner/SmallLoader.js'
+import { t } from 'i18next'
 
 function EditProfile() {
     const dispatch = useDispatch()
-    const {user, loading} = useSelector((state) => state.login)
+    const { user, loading } = useSelector((state) => state.login)
     const [modalIsOpen, setIsOpen] = useState(false)
     const [currentUser, setCurrentUser] = useState({
         ...user,
@@ -51,7 +52,7 @@ function EditProfile() {
     const handleChangeImage = (croppedImage) => {
         const formData = new FormData()
         formData.append('file', croppedImage)
-        dispatch(editProfileImage(formData)).then(({error, payload}) => {
+        dispatch(editProfileImage(formData)).then(({ error, payload }) => {
             if (!error) {
                 successUploadImage()
                 setCurrentUser({
@@ -63,7 +64,7 @@ function EditProfile() {
         })
     }
     const handleSubmit = () => {
-        const {failed, message} = checkEmptyString([
+        const { failed, message } = checkEmptyString([
             {
                 value: currentUser.firstname,
                 message: 'Ismi'
@@ -93,7 +94,7 @@ function EditProfile() {
                 market: currentUser.market,
                 password: currentUser.newPassword.replace(/\s+/g, ' ').trim(),
                 login: currentUser.newLogin.replace(/\s+/g, ' ').trim(),
-                // image: currentUser.image.replace(/\s+/g, ' ').trim(),
+                image: currentUser.image.replace(/\s+/g, ' ').trim(),
                 firstname: currentUser.firstname.replace(/\s+/g, ' ').trim(),
                 lastname: currentUser.lastname.replace(/\s+/g, ' ').trim()
             }
@@ -116,21 +117,21 @@ function EditProfile() {
                     <SmallLoader />
                 </div>}
             <ImageCrop output={currentUser.image} modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}
-                       approve={handleChangeImage} />
+                approve={handleChangeImage} />
             <div className='flex gap-[2.5rem] mb-[2.5rem] w-full'>
                 <FieldContainer
-                    label={`Ismi`}
+                    label={t(`Ismi`)}
                     maxWidth={'grow'}
-                    placeholder={'yangi ismi'}
+                    placeholder={t(`Ismi`)}
                     type='text'
                     value={currentUser.firstname}
                     star={true}
                     onChange={handleChangeFirstname}
                 />
                 <FieldContainer
-                    label={`Familiyasi`}
+                    label={t(`Familiyasi`)}
                     maxWidth={'grow'}
-                    placeholder={'yangi familiyasi'}
+                    placeholder={t(`Familiyasi`)}
                     type='text'
                     value={currentUser.lastname}
                     star={true}
@@ -139,27 +140,27 @@ function EditProfile() {
             </div>
             <div className='flex gap-[2.5rem] mb-[2.5rem] w-full'>
                 <FieldContainer
-                    label={`Login`}
+                    label={t(`Login`)}
                     maxWidth={'grow'}
-                    placeholder={'yangi login'}
+                    placeholder={t(`Login`)}
                     type='text'
                     value={currentUser.newLogin}
                     star={true}
                     onChange={handleChangeNewLogin}
                 />
                 <FieldContainer
-                    label={`Parol`}
+                    label={t(`Parol`)}
                     maxWidth={'grow'}
-                    placeholder={'yangi parol'}
+                    placeholder={t(`Parol`)}
                     type='password'
                     value={currentUser.newPassword}
                     star={true}
                     onChange={handleChangeNewPassword}
                 />
                 <FieldContainer
-                    label={`Parol takroriy`}
+                    label={t(`Parol takroriy`)}
                     maxWidth={'grow'}
-                    placeholder={'yangi parolni takror kiriting'}
+                    placeholder={t(`Parol takroriy`)}
                     type='password'
                     value={currentUser.repeatPassword}
                     star={true}
@@ -167,7 +168,7 @@ function EditProfile() {
                 />
             </div>
             <div className={'max-w-[15.625rem] mx-auto'}>
-                <BtnAddRemove text={'Saqlash'} edit={true} onClick={handleSubmit} />
+                <BtnAddRemove text={t('Saqlash')} edit={true} onClick={handleSubmit} />
             </div>
         </section>
     )

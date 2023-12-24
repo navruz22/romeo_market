@@ -53,8 +53,8 @@ export const RegisteredSaleModal = (
                 <li className='w-[100vw] mt-[50px] bg-white list-none mb-[10px] p-[20px] rounded-md'>
                     <li className='mt-2 text-2xl flex justify-between text-start'>
                     
-                    <p className='text-black-700'>
-                        {product.product.name}
+                    <p className='text-black-700 leading-7'>
+                        {product.product.name} gsehserthrsthrstbhrsthsrthsrthrsj
                     </p>
                    
                 </li>

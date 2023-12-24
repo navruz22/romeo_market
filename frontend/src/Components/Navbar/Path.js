@@ -233,6 +233,13 @@ export const navListForSeller = [
     },
     {
         id: 3,
+        label: 'Xarajatlar',
+        icon: <FaHandHoldingUsd size={'1.5rem'} />,
+        path: 'xarajatlar',
+        submenu: false,
+    },
+    {
+        id: 4,
         label: 'Hamkorlar',
         path: 'hamkorlar',
         icon: <IoPeople size={'1.5rem'} />,
@@ -277,12 +284,6 @@ export const navListForAdmin = [
 ]
 
 export const profileList = [
-    {
-        id: 1,
-        label: 'Tahrirlash',
-        path: 'shaxsiy/tahrirlash',
-        icon: <IoSettingsOutline size={'1rem'} />,
-    },
     {
         id: 2,
         path: 'shaxsiy/parol',

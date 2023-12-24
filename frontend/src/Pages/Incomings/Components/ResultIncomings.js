@@ -21,7 +21,7 @@ const ResultIncomings = ({ connectors, styles, currencyType }) => {
     return (
         <div className={`productTypeBlock ${styles}`}>
             <div className='productType'>
-                {t("Maxsulotlar soni:")}{' '}
+                {t("Maxsulotlar soni")}:{' '}
                 <span className='ml-[0.5rem] font-[400] text-black-900'>
                     {connectors
                         .reduce((prev, item) => prev + item.products, 0)

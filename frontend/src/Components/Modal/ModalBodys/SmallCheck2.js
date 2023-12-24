@@ -7,7 +7,7 @@ export const SmallCheck2 = forwardRef((props, ref) => {
     const {
         product
     } = props
-
+    console.log(product);
     const { market } = useSelector((state) => state.login)
     const { currencyType } = useSelector((state) => state.currency)
     const calculateDebt = (total, payment, discount = 0) => {
@@ -60,7 +60,7 @@ export const SmallCheck2 = forwardRef((props, ref) => {
                 <div className={'flex justify-between items-center py-1 text-[12px] font-bold'}>
                     {t('Sotuvchi')}:{' '}
                     <span className='text-[12px] text-black-900 font-bold'>
-                        {product?.saleconnector?.id}
+                        {product?.user?.firstname} {' '} {product?.user?.lastname}
                     </span>
                 </div>
             </div>

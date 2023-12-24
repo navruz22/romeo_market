@@ -9,6 +9,7 @@ import NotFind from '../../Components/NotFind/NotFind.js'
 import { reduce } from 'lodash'
 import { roundUsd, roundUzs } from '../../App/globalFunctions.js'
 import TableMobile from '../../Components/Table/TableMobile.js'
+import { t } from 'i18next'
 
 const calculateTotal = (data) => {
     return reduce(data, (sum, item) => {
@@ -55,13 +56,13 @@ function CategoryReport() {
     }, []);
     const headers = [
         { title: '№' }, 
-        { title: 'Kodi' }, 
-        { title: 'Nomi' }, 
-        { title: 'Soni' }, 
-        { title: 'Olish ' }, 
-        { title: 'Sotish' }, 
-        { title: 'Sotilganlar soni' }, 
-        { title: 'Sotilganlar jami' }]
+        { title: t('Kodi') }, 
+        { title: t('Nomi') }, 
+        { title: t('Soni') }, 
+        { title: t('Olish') }, 
+        { title: t('Sotish') }, 
+        { title: t('Sotilganlar soni') }, 
+        { title: t('Sotilganlar jami') }]
     const dispatch = useDispatch()
     const location = useLocation()
     const navigate = useNavigate()
@@ -81,27 +82,26 @@ function CategoryReport() {
             <span
                     className={'font-medium text-xl text-blue-400'}>{code} {location?.state?.name && `- ${location?.state?.name}`}</span>
                 <h2 className={'text-base text-black-800 mt-[5px]'}>
-                    kategoriya
-                    bo'yicha hisobot</h2>
+                    {t("kategoriya bo'yicha hisobot")}</h2>
             </div>
             <div className={'mb-4 mt-3 pl-[2.5rem] pr-[1.25rem] flex items-center  lg:justify-center gap-[1rem]'}>
                 <p className={'font-medium'}></p>
                 <ul className={'lg:flex lg:justify-center justify-start gap-[1rem] '}>
                     <li className={'text-sm flex items-center gap-[0.5rem]'}>
                         <div className={'w-[0.5rem] h-[0.5rem] rounded-full bg-primary-700'}></div>
-                        <span className={'font-medium'}>Jami: {products.length} ta maxsulot</span>
+                        <span className={'font-medium'}>{t("Jami")}: {products.length} </span>
                     </li>
                     <li className={'text-sm flex items-center gap-[0.5rem]'}>
                         <div className={'w-[0.5rem] h-[0.5rem] rounded-full bg-warning-400'}></div>
-                        <span className={'font-medium'}>Soni: {calculateTotal(products)}</span>
+                        <span className={'font-medium'}>{t("Soni")}: {calculateTotal(products)}</span>
                     </li>
                     <li className={'text-sm flex items-center gap-[0.5rem]'}>
                         <div className={'w-[0.5rem] h-[0.5rem] rounded-full bg-blue-400'}></div>
-                        <span className={'font-medium'}>Olish : {calculateIncomings(products, 'UZS')} UZS {' / '} {calculateIncomings(products, 'USD')} USD</span>
+                        <span className={'font-medium'}>{t("Olish")}: {calculateIncomings(products, 'UZS')} UZS {' / '} {calculateIncomings(products, 'USD')} USD</span>
                     </li>
                     <li className={'text-sm flex items-center gap-[0.5rem]'}>
                         <div className={'w-[0.5rem] h-[0.5rem] rounded-full bg-success-400'}></div>
-                        <span className={'font-medium'}>Sotish : {calculateSellings(products, 'UZS')} UZS {' / '} {calculateSellings(products, 'USD')} USD</span>
+                        <span className={'font-medium'}>{t("Sotish")}: {calculateSellings(products, 'UZS')} UZS {' / '} {calculateSellings(products, 'USD')} USD</span>
                     </li>
                 </ul>
             </div>

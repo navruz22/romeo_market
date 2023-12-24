@@ -56,7 +56,7 @@ function Unit() {
         {
             styles: 'w-[80%] text-start',
             filter: '',
-            title: t('O`lchov birligi nomi')
+            title: t('O\'lchov birliklari')
         },
         {styles: 'w-[10%]', filter: '', title: ' '}
     ]

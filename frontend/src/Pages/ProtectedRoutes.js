@@ -318,6 +318,10 @@ const sellerRoutes = [
         element: <PayDebts />
     },
     {
+        path: '/xarajatlar',
+        element: <Expense />
+    },
+    {
         path: '/hamkorlar/agentlar',
         element: <Packman />
     },

@@ -625,10 +625,6 @@ const RegisterSelling = () => {
         setClientValue('')
         setPackmanValue('')
         setOptionPackman([
-            {
-                label: t('Tanlang'),
-                value: '',
-            },
             ...map([...packmans], (pack) => ({
                 value: pack._id,
                 label: pack.name,
@@ -1732,7 +1728,7 @@ const RegisterSelling = () => {
                                 />
                                 <div className={'flex gap-[1.25rem] mt-[1rem]'}>
                                     <FieldContainer
-                                        placeholder={t('Santexniklar')}
+                                        placeholder={t('Agentlar')}
                                         maxWidth={'w-[14.676875rem]'}
                                         disabled={!checked}
                                         border={true}
@@ -1899,7 +1895,7 @@ const RegisterSelling = () => {
                                             label={t('Mijoz')}
                                         />
                                         <FieldContainer
-                                            placeholder={t('Santexniklar')}
+                                            placeholder={t('Agentlar')}
                                             maxWidth={'lg:w-[14.676875rem] w-[90vw]'}
                                             disabled={!checked}
                                             border={true}

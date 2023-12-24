@@ -12,9 +12,9 @@ import UniversalModal from '../../Components/Modal/UniversalModal.js'
 import {motion} from 'framer-motion'
 import {filter, map} from 'lodash'
 import {
-    successAddSupplierMessage,
-    successDeleteSupplierMessage,
-    successUpdateSupplierMessage,
+    successAddClientMessage,
+    successDeleteClientMessage,
+    successUpdateClientMessage,
     warningEmptyInput,
 } from '../../Components/ToastMessages/ToastMessages.js'
 import {
@@ -139,7 +139,7 @@ const ClientsPage = () => {
         dispatch(deleteClients(body)).then(({error}) => {
             if (!error) {
                 clearForm()
-                successDeleteSupplierMessage()
+                successDeleteClientMessage()
             }
         })
         toggleModal()
@@ -168,7 +168,7 @@ const ClientsPage = () => {
             dispatch(addClients(body)).then(({error}) => {
                 if (!error) {
                     clearForm()
-                    successAddSupplierMessage()
+                    successAddClientMessageMessage()
                 }
             })
         }
@@ -198,7 +198,7 @@ const ClientsPage = () => {
             dispatch(updateClients(body)).then(({error}) => {
                 if (!error) {
                     clearForm()
-                    successUpdateSupplierMessage()
+                    successUpdateClientMessage()
                 }
             })
         }

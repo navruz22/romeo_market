@@ -132,7 +132,17 @@ const Expense = () => {
             expense
         }
         if (!checkExpense(expense)) {
-            dispatch(registerExpense(body))
+            dispatch(registerExpense(body)).then(({ error }) => {
+                if (!error) {
+                    let body = {
+                        currentPage,
+                        countPage,
+                        startDate,
+                        endDate
+                    }
+                    dispatch(getExpense(body))
+                }
+            })
         }
     }
 
