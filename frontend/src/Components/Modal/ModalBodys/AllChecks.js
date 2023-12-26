@@ -89,7 +89,8 @@ function AllCheck({product}) {
                     <SmallLoader />
                 </div>
             )}
-            <SaleCheckAll
+<div className="hidden md:block">
+    <SaleCheckAll
                 ref={saleCheckRef}
                 returned={returned}
                 selled={selled}
@@ -100,6 +101,7 @@ function AllCheck({product}) {
                 product={product}
                 userInfo={userInfo}
             />
+    </div>
             <div className='hidden'>
                 <SmallCheck
                     ref={saleSmallCheckRef}
