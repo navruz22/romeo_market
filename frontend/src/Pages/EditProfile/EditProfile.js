@@ -110,7 +110,7 @@ function EditProfile() {
         })
     }, [user])
     return (
-        <section className={'mainPadding h-full'}>
+        <section className={'mainPadding h-full overflow-y-auto'}>
             {loading &&
                 <div
                     className='fixed backdrop-blur-[2px] left-0 right-0 bg-white-700 flex flex-col items-center justify-center w-full h-full'>
@@ -118,7 +118,7 @@ function EditProfile() {
                 </div>}
             <ImageCrop output={currentUser.image} modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}
                 approve={handleChangeImage} />
-            <div className='flex gap-[2.5rem] mb-[2.5rem] w-full'>
+            <div className='flex flex-col md:flex-row gap-[2.5rem] mb-[2.5rem] w-full'>
                 <FieldContainer
                     label={t(`Ismi`)}
                     maxWidth={'grow'}
@@ -138,7 +138,7 @@ function EditProfile() {
                     onChange={handleChangeLastname}
                 />
             </div>
-            <div className='flex gap-[2.5rem] mb-[2.5rem] w-full'>
+            <div className='flex flex-col md:flex-row gap-[2.5rem] mb-[2.5rem] w-full'>
                 <FieldContainer
                     label={t(`Login`)}
                     maxWidth={'grow'}

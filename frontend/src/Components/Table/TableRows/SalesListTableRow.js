@@ -289,7 +289,6 @@ export const SalesListTableRow = ({
                         )}
 
                     </td>
-
                     <td className='py-[0.375rem] td border-r-0'>
                         <div className='flex items-center justify-center gap-[0.625rem]'>
                             <TableBtn
@@ -317,7 +316,7 @@ export const SalesListTableRow = ({
                         </div>
                     </td>
                 </tr>:
-                <li onClick={() => Print(saleconnector)} className='text-sm w-[90vw]  bg-[white] rounded-lg m-1 list-none'>
+                <li onClick={() => Print(saleconnector)} className='text-sm w-[90vw] bg-[white] rounded-lg m-1 list-none'>
                     <li className='border p-[10px] text-[black] text-sm flex justify-between border-s-0 border-t-0 border-e-0'>
                         <p>{t('Mijoz')}:{' '}
                         {saleconnector?.client?.name}

@@ -6,8 +6,12 @@ import SmallLoader from '../../Spinner/SmallLoader.js'
 import {filter} from 'lodash'
 import {SmallCheck} from './SmallCheck'
 import {IoPrint} from 'react-icons/io5'
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
 
 function AllCheck({product}) {
+    // detect mobile
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     const [loadContent, setLoadContent] = useState(false)
     const [selled, setSelled] = useState([])
     const [returned, setReturned] = useState([])
@@ -49,6 +53,52 @@ function AllCheck({product}) {
         pageStyle: '@page { size: A4; margin: 0mm; }'
     })
 
+    const printMobile = useReactToPrint({
+        content: () => reactToPrintContent(),
+        documentTitle: 'All Checks',
+        onBeforeGetContent: handleOnBeforeGetContent,
+        removeAfterPrint: false,
+        // for A4 printer
+        pageStyle: '@page { size: A4; margin: 0mm; }',
+        print: async (printIframe) => {
+            setLoadContent(true)
+            try {
+                const document = printIframe.contentDocument
+                const body = document.body
+
+                const canvas = await html2canvas(body, {
+                    useCORS: true,
+                    allowTaint: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    onclone: (document) => {
+                        const body = document.body
+                        body.style.overflow = 'hidden'
+                        body.style.width = '21cm'
+                        body.style.height = '29.7cm'
+                        body.style.padding = '0'
+                        body.style.margin = '0'
+                        body.style.border = 'none'
+                    }
+                })
+
+                const imgData = canvas.toDataURL('image/png')
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    format: 'a4'
+                })
+                const width = pdf.internal.pageSize.getWidth()
+                const height = pdf.internal.pageSize.getHeight()
+                pdf.addImage(imgData, 'JPEG', 0, 0, width, height)
+                await pdf.save(product?.client ? `${product.client.name}.pdf` : product?.saleconnector ? `${product.saleconnector.id}.pdf` : product?.id ? `${product.id}.pdf` : `${new Date().toISOString()}.pdf`, {returnPromise: true})
+            } catch (e) {
+                console.log(e)
+            } finally {
+                setLoadContent(false)
+            }
+        }
+    })
+
     const print2 = useReactToPrint({
         content: () => reactToPrintContent2(),
         documentTitle: 'All Checks',
@@ -80,6 +130,17 @@ function AllCheck({product}) {
         )
         setUserInfo(product?.user)
     }, [product])
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768)
+        }
+
+        window.addEventListener('resize', handleResize)
+
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
 
     return (
         <section className='w-[27cm] mt-4 mx-auto'>
@@ -89,19 +150,19 @@ function AllCheck({product}) {
                     <SmallLoader />
                 </div>
             )}
-<div className="hidden md:block">
-    <SaleCheckAll
-                ref={saleCheckRef}
-                returned={returned}
-                selled={selled}
-                selledDiscounts={selledDiscounts}
-                returnedDiscounts={returnedDiscounts}
-                selledPayments={selledPayments}
-                returnedPayments={returnedPayments}
-                product={product}
-                userInfo={userInfo}
-            />
-    </div>
+            <div className='hidden md:block'>
+                <SaleCheckAll
+                    ref={saleCheckRef}
+                    returned={returned}
+                    selled={selled}
+                    selledDiscounts={selledDiscounts}
+                    returnedDiscounts={returnedDiscounts}
+                    selledPayments={selledPayments}
+                    returnedPayments={returnedPayments}
+                    product={product}
+                    userInfo={userInfo}
+                />
+            </div>
             <div className='hidden'>
                 <SmallCheck
                     ref={saleSmallCheckRef}
@@ -115,8 +176,8 @@ function AllCheck({product}) {
                     userInfo={userInfo}
                 />
             </div>
-            <div className='flex justify-between items-center mt-6 w-[80vw]'>
-                <div>
+            <div className='flex justify-center md:justify-between items-center mt-6 w-[80vw]'>
+                <div className={'hidden md:inline'}>
                     <button
 
                         className={`group print-btn-style ml-auto min-w-max ${loadContent ? 'pointer-events-none' : 'pointer-events-auto'
@@ -134,7 +195,7 @@ function AllCheck({product}) {
                     </button>
                 </div>
                 <div>
-                    <PrintBtn onClick={print} isDisabled={loadContent} />
+                    <PrintBtn onClick={isMobile ? printMobile : print} isDisabled={loadContent} />
                 </div>
             </div>
         </section>

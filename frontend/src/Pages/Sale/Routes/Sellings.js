@@ -7,14 +7,14 @@ import {useDispatch, useSelector} from 'react-redux'
 import Spinner from '../../../Components/Spinner/SmallLoader.js'
 import NotFind from '../../../Components/NotFind/NotFind.js'
 import {motion} from 'framer-motion'
-import { VscChromeClose } from "react-icons/vsc";
+import {VscChromeClose} from 'react-icons/vsc'
 
 import {
     clearSearchedSellings,
     getSellings,
     getSellingsByFilter,
     excelAllSellings,
-    addClient,
+    addClient
 } from '../Slices/sellingsSlice.js'
 import {regexForTypeNumber} from '../../../Components/RegularExpressions/RegularExpressions.js'
 import UniversalModal from '../../../Components/Modal/UniversalModal.js'
@@ -23,55 +23,55 @@ import {filter, map} from 'lodash'
 import {universalSort, exportExcel} from './../../../App/globalFunctions'
 import {universalToast} from '../../../Components/ToastMessages/ToastMessages.js'
 import socket from '../../../Config/socket.js'
-import { setAllProductsBySocket } from '../Slices/registerSellingSlice.js'
+import {setAllProductsBySocket} from '../Slices/registerSellingSlice.js'
 import SelectForm from '../../../Components/Select/SelectForm.js'
-import { FaFilter } from 'react-icons/fa'
+import {FaFilter} from 'react-icons/fa'
 import TableMobile from '../../../Components/Table/TableMobile.js'
 
 const Sellings = ({id}) => {
     const {t} = useTranslation(['common'])
     const headers = [
         {
-            title: '№',
+            title: '№'
         },
         {
             title: t('Sana'),
-            filter: 'createdAt',
+            filter: 'createdAt'
         },
         {
             title: t('ID'),
-            filter: 'id',
+            filter: 'id'
         },
         {
-            title: t('Mijoz'),
+            title: t('Mijoz')
         },
         {
-            title: t('Jami'),
+            title: t('Jami')
         },
         {
-            title: t('Chegirma'),
+            title: t('Chegirma')
         },
         {
-            title: t('Qarz'),
+            title: t('Qarz')
         },
         {
-            title: t('Izoh'),
+            title: t('Izoh')
         },
         {
             title: '',
-            styles: 'w-[7rem]',
-        },
+            styles: 'w-[7rem]'
+        }
     ]
     const dispatch = useDispatch()
     const {currencyType} = useSelector((state) => state.currency)
     const {user, market} = useSelector((state) => state.login)
-    const [FilterModal,setFilterModal] = useState(false)
+    const [FilterModal, setFilterModal] = useState(false)
     const {
         sellings,
         searchedSellings,
         getSellingsLoading,
         total,
-        totalSearched,
+        totalSearched
     } = useSelector((state) => state.sellings)
     const [chooseBody, setChooseBody] = useState('')
     const [data, setData] = useState(sellings)
@@ -83,12 +83,12 @@ const Sellings = ({id}) => {
     const [search, setSearch] = useState({
         id: '',
         client: '',
-        product: ""
+        product: ''
     })
     const [sorItem, setSorItem] = useState({
         filter: '',
         sort: '',
-        count: 0,
+        count: 0
     })
     const [startDate, setStartDate] = useState(
         new Date(
@@ -116,7 +116,7 @@ const Sellings = ({id}) => {
         const valForSearch = val.replace(/\s+/g, ' ').trim()
         regexForTypeNumber.test(val) && setSearch({...search, id: val})
         ;(searchedData.length > 0 || totalSearched > 0) &&
-            dispatch(clearSearchedSellings())
+        dispatch(clearSearchedSellings())
         if (valForSearch === '') {
             setData(sellings)
             setFilteredDataTotal(total)
@@ -133,7 +133,7 @@ const Sellings = ({id}) => {
         const valForSearch = val.toLowerCase().replace(/\s+/g, ' ').trim()
         setSearch({...search, client: val})
         ;(searchedData.length > 0 || totalSearched > 0) &&
-            dispatch(clearSearchedSellings())
+        dispatch(clearSearchedSellings())
         if (valForSearch === '') {
             setData(sellings)
             setFilteredDataTotal(total)
@@ -159,7 +159,7 @@ const Sellings = ({id}) => {
                 countPage: showByTotal,
                 startDate: startDate.toISOString(),
                 endDate: endDate.toISOString(),
-                search: search,
+                search: search
             }
             dispatch(getSellingsByFilter(body))
         }
@@ -178,7 +178,7 @@ const Sellings = ({id}) => {
                 id: '',
                 client: '',
                 product: selectedProduct?.label
-            },
+            }
         }
         dispatch(getSellings(body))
     }
@@ -194,7 +194,7 @@ const Sellings = ({id}) => {
             t('Chegirma UZS'),
             t('Chegirma USD'),
             t('Qarz UZS'),
-            t('Qarz USD'),
+            t('Qarz USD')
         ]
         if (data?.length > 0) {
             const SellingData = map(data, (item, index) => ({
@@ -206,37 +206,37 @@ const Sellings = ({id}) => {
                 discount:
                     item.discounts.length > 0
                         ? item.discounts.map((discount) => {
-                              return discount
-                          })
+                            return discount
+                        })
                         : 0,
                 discountusd:
                     item.discounts.length > 0
                         ? item.discounts.map((discount) => {
-                              return discount
-                          })
+                            return discount
+                        })
                         : 0,
                 debd:
                     item?.products[0]?.totalpriceuzs -
-                        item?.payments[0]?.paymentuzs -
-                        item?.discounts.length >
+                    item?.payments[0]?.paymentuzs -
+                    item?.discounts.length >
                     0
                         ? item.discounts.map((discount) => {
-                              return discount.discount
-                          })
+                            return discount.discount
+                        })
                         : 0,
                 debdusd:
                     item.products[0].totalprice -
-                        item.payments[0].payment -
-                        item.discounts.length >
+                    item.payments[0].payment -
+                    item.discounts.length >
                     0
                         ? item.discounts.map((discount) => {
-                              return discount.discount
-                          })
-                        : 0,
+                            return discount.discount
+                        })
+                        : 0
             }))
             exportExcel(SellingData, fileName, sellingHeaders)
         } else {
-            universalToast("Jadvalda ma'lumot mavjud emas !", 'warning')
+            universalToast('Jadvalda ma\'lumot mavjud emas !', 'warning')
         }
     }
 
@@ -282,8 +282,8 @@ const Sellings = ({id}) => {
             endDate: endDate.toISOString(),
             search: {
                 id: '',
-                client: '',
-            },
+                client: ''
+            }
         }
         dispatch(getSellings(body))
     }, [currentPage, showByTotal, startDate, endDate, dispatch, id])
@@ -292,7 +292,7 @@ const Sellings = ({id}) => {
         const body = {
             startDate,
             endDate,
-            search,
+            search
         }
         dispatch(excelAllSellings(body))
     }, [dispatch, startDate, endDate, search])
@@ -301,7 +301,7 @@ const Sellings = ({id}) => {
         dispatch(
             addClient({
                 ...client,
-                saleconnectorid: saleConnectorId,
+                saleconnectorid: saleConnectorId
             })
         ).then(() => {
             const body = {
@@ -312,8 +312,8 @@ const Sellings = ({id}) => {
                 endDate: endDate.toISOString(),
                 search: {
                     id: '',
-                    client: '',
-                },
+                    client: ''
+                }
             }
             dispatch(getSellings(body))
         })
@@ -327,7 +327,7 @@ const Sellings = ({id}) => {
                     setSorItem({
                         filter: filterKey,
                         sort: '1',
-                        count: 2,
+                        count: 2
                     })
                     universalSort(data, setData, filterKey, 1, storeData)
                     break
@@ -335,7 +335,7 @@ const Sellings = ({id}) => {
                     setSorItem({
                         filter: filterKey,
                         sort: '',
-                        count: 0,
+                        count: 0
                     })
                     universalSort(data, setData, filterKey, '', storeData)
                     break
@@ -343,7 +343,7 @@ const Sellings = ({id}) => {
                     setSorItem({
                         filter: filterKey,
                         sort: '-1',
-                        count: 1,
+                        count: 1
                     })
                     universalSort(data, setData, filterKey, -1, storeData)
             }
@@ -351,55 +351,55 @@ const Sellings = ({id}) => {
             setSorItem({
                 filter: filterKey,
                 sort: '-1',
-                count: 1,
+                count: 1
             })
             universalSort(data, setData, filterKey, -1, storeData)
         }
     }
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
+            setIsMobile(window.innerWidth <= 768)
+        }
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', handleResize)
 
         return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
     //
     useEffect(() => {
         let allProductsReducer = []
         let productsForSearch = [
             {
-                label: "Xammasi",
-                value: ""
-            },
+                label: 'Xammasi',
+                value: ''
+            }
         ]
         market &&
-            socket.emit('getProductsOfCount', {
-                market: market._id,
-            })
+        socket.emit('getProductsOfCount', {
+            market: market._id
+        })
         market &&
-            socket.on('getProductsOfCount', ({id, products}) => {
-                if (id === market._id) {
-                    productsForSearch = [
-                        ...productsForSearch,
-                        ...map(products, (product) => ({
-                            value: product._id,
-                            label: product.productdata.name
-                        })),
-                    ]
-                    setFilteredProducts(productsForSearch)
-                    allProductsReducer.push(...products)
-                    dispatch(setAllProductsBySocket(allProductsReducer))
-                }
-            })
+        socket.on('getProductsOfCount', ({id, products}) => {
+            if (id === market._id) {
+                productsForSearch = [
+                    ...productsForSearch,
+                    ...map(products, (product) => ({
+                        value: product._id,
+                        label: product.productdata.name
+                    }))
+                ]
+                setFilteredProducts(productsForSearch)
+                allProductsReducer.push(...products)
+                dispatch(setAllProductsBySocket(allProductsReducer))
+            }
+        })
         market &&
-            socket.on('error', ({id, message}) => {
-                id === market._id && universalToast(message, 'error')
-            })
+        socket.on('error', ({id, message}) => {
+            id === market._id && universalToast(message, 'error')
+        })
 
         //    eslint-disable-next-line react-hooks/exhaustive-deps
     }, [market, dispatch])
@@ -416,7 +416,7 @@ const Sellings = ({id}) => {
                 id: '',
                 client: '',
                 product: option.label
-            },
+            }
         }
         dispatch(getSellingsByFilter(body))
     }
@@ -429,7 +429,7 @@ const Sellings = ({id}) => {
             exit='collapsed'
             variants={{
                 open: {opacity: 1, height: 'auto'},
-                collapsed: {opacity: 0, height: 0},
+                collapsed: {opacity: 0, height: 0}
             }}
             transition={{duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98]}}
         >
@@ -443,87 +443,93 @@ const Sellings = ({id}) => {
                 commentText={commentText}
                 dailyid={dailyId}
             />
-            <div className='pagination  lg:m-3 flex lg:justify-start items-center justify-evenly'>
+            <div className='pagination lg:m-3 flex lg:justify-start items-center justify-evenly'>
                 <span className='ms-[-10px] lg:ms-3'>
-                <SelectForm  key={'total_1'}  onSelect={filterByTotal}/>
+                <SelectForm key={'total_1'} onSelect={filterByTotal} />
                 </span>
                 <ExportBtn onClick={exportData} />
-                <button onClick={()=>setFilterModal(true)} className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[90px] h-[33px]  createElement'><FaFilter   /> {t('izlash')}</button>
+                <button onClick={() => setFilterModal(true)}
+                        className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[90px] h-[33px]  createElement'>
+                    <FaFilter /> {t('izlash')}</button>
             </div>
             {
-                FilterModal?
-                <div className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap   top-0	left-0 z-50 bg-[white]	'>
-                <VscChromeClose  onClick={()=>setFilterModal(false)} className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer'/>
-                <div className='mt-[100px]'>
-                <SearchForm
-                filterBy={['total', 'startDate', 'endDate', 'id', 'clientName', "product_name"]}
-                filterByTotal={filterByTotal}
-                startDate={startDate}
-                setStartDate={setStartDate}
-                endDate={endDate}
-                setEndDate={setEndDate}
-                searchById={search.id}
-                searchByClientName={search.client}
-                filterByClientName={handleChangeClient}
-                filterById={handleChangeId}
-                filterByClientNameWhenPressEnter={
-                    handleChangeIdAndClientWhenPressEnter
-                }
-                filterByIdWhenPressEnter={handleChangeIdAndClientWhenPressEnter}
-                filteredProducts={filteredProducts}
-                handleChangeSelectedProduct={handleChangeSelectedProduct}
-                selectedProduct={selectedProduct}
-            />
-            <div className='flex justify-center'>
-            <button onClick={()=>setFilterModal(false)} className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] h-[40px]  createElement'><FaFilter   /> {t('izlash')}</button>
-            </div>
-                </div>
-                </div>:null
+                FilterModal ?
+                    <div
+                        className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap   top-0	left-0 z-50 bg-[white]	'>
+                        <VscChromeClose onClick={() => setFilterModal(false)}
+                                        className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
+                        <div className='mt-[100px]'>
+                            <SearchForm
+                                filterBy={['total', 'startDate', 'endDate', 'id', 'clientName', 'product_name']}
+                                filterByTotal={filterByTotal}
+                                startDate={startDate}
+                                setStartDate={setStartDate}
+                                endDate={endDate}
+                                setEndDate={setEndDate}
+                                searchById={search.id}
+                                searchByClientName={search.client}
+                                filterByClientName={handleChangeClient}
+                                filterById={handleChangeId}
+                                filterByClientNameWhenPressEnter={
+                                    handleChangeIdAndClientWhenPressEnter
+                                }
+                                filterByIdWhenPressEnter={handleChangeIdAndClientWhenPressEnter}
+                                filteredProducts={filteredProducts}
+                                handleChangeSelectedProduct={handleChangeSelectedProduct}
+                                selectedProduct={selectedProduct}
+                            />
+                            <div className='flex justify-center'>
+                                <button onClick={() => setFilterModal(false)}
+                                        className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] h-[40px]  createElement'>
+                                    <FaFilter /> {t('izlash')}</button>
+                            </div>
+                        </div>
+                    </div> : null
             }
-            
+
             <div className='lg:tableContainerPadding'>
                 {getSellingsLoading ? (
                     <Spinner />
                 ) : data.length === 0 && searchedData.length === 0 ? (
-                    <NotFind text={"Ro'yxat mavjud emas..."} />
+                    <NotFind text={'Ro\'yxat mavjud emas...'} />
                 ) : (
-                    !isMobile?<Table
-                    data={searchedData.length > 0 ? searchedData : data}
-                    currentPage={currentPage}
-                    currency={currencyType}
-                    countPage={showByTotal}
-                    page={'saleslist'}
-                    headers={headers}
-                    Print={handleClickPrint}
-                    addPlus={addPlus}
-                    Sort={filterData}
-                    sortItem={sorItem}
-                    sellers={user?.type === 'Seller' ? true : false}
-                    editComment={editComment}
-                />:<TableMobile
-                data={searchedData.length > 0 ? searchedData : data}
-                currentPage={currentPage}
-                currency={currencyType}
-                countPage={showByTotal}
-                page={'saleslist'}
-                headers={headers}
-                Print={handleClickPrint}
-                addPlus={addPlus}
-                Sort={filterData}
-                sortItem={sorItem}
-                sellers={user?.type === 'Seller' ? true : false}
-                editComment={editComment}
-            />
-                )}
-                <div className='m-4  flex justify-center'>
-                {(filteredDataTotal !== 0 || totalSearched !== 0) && (
-                    <Pagination
-                        countPage={Number(showByTotal)}
-                        totalDatas={totalSearched || filteredDataTotal}
+                    !isMobile ? <Table
+                        data={searchedData.length > 0 ? searchedData : data}
                         currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
+                        currency={currencyType}
+                        countPage={showByTotal}
+                        page={'saleslist'}
+                        headers={headers}
+                        Print={handleClickPrint}
+                        addPlus={addPlus}
+                        Sort={filterData}
+                        sortItem={sorItem}
+                        sellers={user?.type === 'Seller' ? true : false}
+                        editComment={editComment}
+                    /> : <TableMobile
+                        data={searchedData.length > 0 ? searchedData : data}
+                        currentPage={currentPage}
+                        currency={currencyType}
+                        countPage={showByTotal}
+                        page={'saleslist'}
+                        headers={headers}
+                        Print={handleClickPrint}
+                        addPlus={addPlus}
+                        Sort={filterData}
+                        sortItem={sorItem}
+                        sellers={user?.type === 'Seller' ? true : false}
+                        editComment={editComment}
                     />
                 )}
+                <div className='m-4  flex justify-center'>
+                    {(filteredDataTotal !== 0 || totalSearched !== 0) && (
+                        <Pagination
+                            countPage={Number(showByTotal)}
+                            totalDatas={totalSearched || filteredDataTotal}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+                    )}
                 </div>
             </div>
         </motion.section>

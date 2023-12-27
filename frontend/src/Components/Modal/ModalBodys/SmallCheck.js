@@ -14,7 +14,6 @@ export const SmallCheck = forwardRef((props, ref) => {
         product,
         userInfo,
     } = props
-    console.log(returned);
     const { market } = useSelector((state) => state.login)
     const { currencyType } = useSelector((state) => state.currency)
     const calculateAllSum = (data) => {

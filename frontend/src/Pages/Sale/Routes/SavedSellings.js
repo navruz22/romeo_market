@@ -157,7 +157,7 @@ const SavedSellings = () => {
     }
 
     return (
-        <div className='pb-[1.25rem]  max-h-[35rem] mb-[1rem] pt-[1.25rem]'>
+        <div className='pb-[1.25rem] max-h-[35rem] mb-[1rem] pt-[1.25rem] ps-[1rem] pe-[2rem]'>
             <UniversalModal
                 isOpen={modalVisible}
                 body={modalBody}
