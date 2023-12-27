@@ -150,11 +150,11 @@ export const DebtsTableRow = ({data, currency, Pay, Print, Edit, totalDebt}) => 
                 <td className='text-left td border-none bg-none' colSpan={6}></td>
                 <td className='text-left td py-[0.625rem] font-medium border-none bg-none' colSpan={2}>
                     {currency === 'UZS'
-                        ? (Math.round(totalDebt.uzs * 1)).toLocaleString(
+                        ? (Math.round(data.reduce((prev, debt) => prev + debt.debtuzs, 0) * 1) / 1).toLocaleString(
                             'ru-RU'
                         )
                         : (
-                            Math.round(totalDebt.usd * 1000) / 1000
+                            Math.round(data.reduce((prev, debt) => prev + debt.debt, 0) * 1000) / 1000
                         ).toLocaleString('ru-RU')}{' '}
                     <span className='text-error-500'>{currency}</span>
                 </td>

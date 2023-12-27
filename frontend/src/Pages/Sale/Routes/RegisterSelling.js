@@ -662,7 +662,12 @@ const RegisterSelling = () => {
     }
 
     const handleClickPay = () => {
-        handleApprovePay()
+        
+        if (returnProducts.length) {
+            handleApproveReturn()
+        } else {
+            handleApprovePay()
+        }
     }
 
     const handleDoubleClick = () => {
@@ -770,6 +775,7 @@ const RegisterSelling = () => {
     }
 
     const handleApproveReturn = () => {
+        setClickDelay(true)
         handleClosePay()
         const body = {
             saleproducts: filter(
@@ -815,6 +821,9 @@ const RegisterSelling = () => {
                     setModalVisible(true)
                     clearAll()
                 }, 500)
+                setTimeout(() => {
+                    setClickDelay(false)
+                }, 10000);
             }
         })
     }
