@@ -1,13 +1,12 @@
-import React, { forwardRef } from 'react'
-import { uniqueId, map } from 'lodash'
-import { useSelector } from 'react-redux'
-import { t } from 'i18next'
+import React, {forwardRef} from 'react'
+import {map} from 'lodash'
+import {useSelector} from 'react-redux'
+import {t} from 'i18next'
 
 export const SmallCheck2 = forwardRef((props, ref) => {
     const {
         product
     } = props
-    console.log(product);
     const { market } = useSelector((state) => state.login)
     const { currencyType } = useSelector((state) => state.currency)
     const calculateDebt = (total, payment, discount = 0) => {

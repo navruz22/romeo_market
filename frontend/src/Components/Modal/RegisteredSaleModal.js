@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import TableBtn from '../Buttons/TableBtn'
+import React, {useEffect, useState} from 'react'
 import TableInput from '../Inputs/TableInput'
-import { filter, map } from 'lodash'
-import { IoAdd, IoEye, IoEyeOff, IoRemove } from 'react-icons/io5'
-import { useSelector } from 'react-redux'
+import {map} from 'lodash'
+import {IoEye, IoEyeOff} from 'react-icons/io5'
+import {useSelector} from 'react-redux'
 
-import { t } from 'i18next'
+import {t} from 'i18next'
 
 export const RegisteredSaleModal = (
     {

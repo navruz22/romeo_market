@@ -1,9 +1,9 @@
 import React from 'react'
 import TableBtn from '../../Buttons/TableBtn'
-import { map } from 'lodash'
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { roundUsd, roundUzs } from '../../../App/globalFunctions'
+import {map} from 'lodash'
+import {useNavigate} from 'react-router-dom'
+import {useSelector} from 'react-redux'
+import {roundUsd, roundUzs} from '../../../App/globalFunctions'
 
 export const CategoryTableRow = ({
     data,

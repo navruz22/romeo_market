@@ -1,7 +1,6 @@
-import {uniqueId, map} from 'lodash'
-import React, {useState} from 'react'
+import {map, uniqueId} from 'lodash'
+import React, {useEffect, useState} from 'react'
 import TableBtn from '../../Buttons/TableBtn'
-import {useEffect} from 'react'
 import {t} from 'i18next'
 
 export const DebtsTableRow = ({data, currency, Pay, Print, Edit, totalDebt}) => {

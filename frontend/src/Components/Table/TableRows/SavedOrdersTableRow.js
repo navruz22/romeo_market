@@ -2,6 +2,7 @@ import React from 'react'
 import {map} from 'lodash'
 import TableBtn from '../../Buttons/TableBtn'
 import {useNavigate} from 'react-router-dom'
+
 export const SavedOrdersTableRow = ({data, Delete, handlePrint}) => {
     const navigate = useNavigate()
     const linkToSale = (temporary) => {

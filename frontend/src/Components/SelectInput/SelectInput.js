@@ -15,7 +15,7 @@ const SelectInput = ({
             {label && (
                 <label
                     className={
-                        'lg:w-[8.5rem] w-[90vw] text-blue-700 block leading-[1.125rem] mb-[.625rem]'
+                        'w-[90%] text-blue-700 block leading-[1.125rem] mb-[.625rem]'
                     }
                 >
                     {label}

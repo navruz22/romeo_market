@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react'
 import Table from '../../Components/Table/Table'
 import {useDispatch, useSelector} from 'react-redux'
 import {
-    getFilialShopData,
-    getExchangesFilterId,
-    clearSearchedExchanges,
     changeEndDate,
     changeStartDate,
+    clearSearchedExchanges,
+    getExchangesFilterId,
+    getFilialShopData
 } from './filialExchengesSlice.js'
 import {motion} from 'framer-motion'
 import SearchForm from '../../Components/SearchForm/SearchForm'
@@ -17,7 +17,7 @@ import NotFind from '../../Components/NotFind/NotFind'
 import SmallLoader from '../../Components/Spinner/SmallLoader'
 import {exportExcel} from '../../App/globalFunctions'
 import {universalToast} from '../../Components/ToastMessages/ToastMessages'
-import { t } from 'i18next'
+import {t} from 'i18next'
 
 function FilialExchangesProduct({id, currency}) {
     const dispatch = useDispatch()
@@ -86,7 +86,7 @@ function FilialExchangesProduct({id, currency}) {
     }
 
     const exportData = () => {
-        let fileName = 'Almashinilgan tovarlar'
+        let fileName = `${t("Almashinilgan tovarlar")}`
         const headersExcel = [
             '№',
             t('Sana'),
@@ -173,7 +173,7 @@ function FilialExchangesProduct({id, currency}) {
         >
             <div className='pagination-supplier mainPadding'>
                 <ExportBtn onClick={exportData} />
-                <p className='supplier-title'>Almashinilgan tovarlar</p>
+                <p className='supplier-title'>`${t("Almashinilgan tovarlar")}`</p>
                 <div>
                     {(filteredDataTotal !== 0 || totalSearched !== 0) && (
                         <Pagination
@@ -200,7 +200,7 @@ function FilialExchangesProduct({id, currency}) {
                 {loading ? (
                     <SmallLoader />
                 ) : data.length === 0 ? (
-                    <NotFind text={'Tovarlar mavjud emas'} />
+                    <NotFind text={`${t("Tovarlar mavjud emas")}`} />
                 ) : (
                     <Table
                         data={data}

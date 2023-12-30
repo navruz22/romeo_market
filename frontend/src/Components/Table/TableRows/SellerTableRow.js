@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import TableBtn from '../../Buttons/TableBtn'
-import {uniqueId, map} from 'lodash'
+import {map, uniqueId} from 'lodash'
 import {roundUsd, roundUzs} from '../../../App/globalFunctions'
-import { t } from 'i18next'
+import {t} from 'i18next'
 
 export const SellerTableRow = ({
     data,

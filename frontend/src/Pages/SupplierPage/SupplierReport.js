@@ -11,6 +11,7 @@ import Table from '../../Components/Table/Table'
 import {warningMorePayment} from '../../Components/ToastMessages/ToastMessages'
 import {payDebt} from '../Incomings/incomingSlice'
 import {getIncomingConnectorsBySupplier} from './suppliersSlice'
+import {t} from 'i18next'
 
 const SupplierReport = () => {
     const {id} = useParams()
@@ -339,10 +340,10 @@ const SupplierReport = () => {
                         ? isMinus(paymentTransferUzs)
                         : paymentTransferUzs
                 ),
-                comment: saleComment,
+                comment: saleComment
             },
             user: user._id,
-            incomingconnectorid: currentId,
+            incomingconnectorid: currentId
         }
         dispatch(payDebt(body)).then(({error}) => {
             if (!error) {
@@ -352,7 +353,7 @@ const SupplierReport = () => {
                         startDate,
                         endDate,
                         currentPage,
-                        countPage,
+                        countPage
                     })
                 )
                 setModalVisible(false)
@@ -371,7 +372,7 @@ const SupplierReport = () => {
             startDate,
             endDate,
             currentPage,
-            countPage,
+            countPage
         }
         dispatch(getIncomingConnectorsBySupplier(body))
     }, [dispatch, startDate, endDate, currentPage, countPage, id])
@@ -382,35 +383,35 @@ const SupplierReport = () => {
 
     const headers = [
         {
-            title: '№',
+            title: '№'
         },
         {
-            title: 'Sana',
+            title: t('Sana')
         },
         {
-            title: 'Vaqti',
+            title: t('Vaqti')
         },
         {
-            title: 'ID',
+            title: t('ID')
         },
         {
-            title: 'Mahsulot turi',
+            title: t('Mahsulot turi')
         },
         {
-            title: 'Soni',
+            title: t('Soni')
         },
         {
-            title: 'Umumiy',
+            title: t('Umumiy')
         },
         {
-            title: "To'langan",
+            title: t('To\'langan')
         },
         {
-            title: 'Qarz',
+            title: t('Qarz')
         },
         {
-            title: '',
-        },
+            title: ''
+        }
     ]
 
     return (
@@ -473,9 +474,9 @@ const SupplierReport = () => {
             <UniversalModal
                 body={modalBody}
                 isOpen={modalVisible}
-                headerText={"To'lovni amalga oshirishni tasdiqlaysizmi ?"}
+                headerText={'To\'lovni amalga oshirishni tasdiqlaysizmi ?'}
                 title={
-                    "To'lovni amalga oshirgach bu ma`lumotlarni o`zgaritirb bo`lmaydi !"
+                    'To\'lovni amalga oshirgach bu ma`lumotlarni o`zgaritirb bo`lmaydi !'
                 }
                 approveFunction={handleApprovePay}
                 toggleModal={toggleModal}

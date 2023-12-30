@@ -1,12 +1,8 @@
 import React from 'react'
-import {
-    IoShieldCheckmark,
-    IoBanSharp,
-    IoTrashOutline,
-    IoHourglass,
-} from 'react-icons/io5'
+import {IoBanSharp, IoHourglass, IoShieldCheckmark, IoTrashOutline} from 'react-icons/io5'
 import {map, uniqueId} from 'lodash'
 import NotFind from '../../NotFind/NotFind.js'
+
 function SendingApplication({sendingRequests, handleDeleteRequest}) {
     return (
         <div>

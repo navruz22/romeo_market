@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Checkbox from '../../../Components/Checkbox/Checkbox.js'
 import FieldContainer from '../../../Components/FieldContainer/FieldContainer.js'
 import Table from '../../../Components/Table/Table.js'
-import { useDispatch, useSelector } from 'react-redux'
-import { IoAttach } from 'react-icons/io5'
+import {useDispatch, useSelector} from 'react-redux'
+import {IoAttach} from 'react-icons/io5'
 import CategoryCard from '../../../Components/CategoryCard/CategoryCard.js'
 import NotFind from '../../../Components/NotFind/NotFind.js'
 import Spinner from '../../../Components/Spinner/SmallLoader.js'
 import SmallLoader from '../../../Components/Spinner/SmallLoader.js'
-import { RegisteredSaleModal } from '../../../Components/Modal/RegisteredSaleModal.js'
+import {RegisteredSaleModal} from '../../../Components/Modal/RegisteredSaleModal.js'
 import {
     addPayment,
     getClients,
@@ -16,13 +16,13 @@ import {
     makePayment,
     returnSaleProducts,
     savePayment,
-    setAllProductsBySocket,
+    setAllProductsBySocket
 } from '../Slices/registerSellingSlice.js'
-import { deleteSavedPayment } from '../Slices/savedSellingsSlice.js'
-import { getAllPackmans } from '../../Clients/clientsSlice.js'
+import {deleteSavedPayment} from '../Slices/savedSellingsSlice.js'
+import {getAllPackmans} from '../../Clients/clientsSlice.js'
 import SearchInput from '../../../Components/Inputs/SearchInput.js'
 import UniversalModal from '../../../Components/Modal/UniversalModal.js'
-import { UsdToUzs, UzsToUsd } from '../../../App/globalFunctions.js'
+import {UsdToUzs, UzsToUsd} from '../../../App/globalFunctions.js'
 import {
     universalToast,
     warningCountSellPayment,
@@ -31,36 +31,36 @@ import {
     warningMoreDiscount,
     warningMorePayment,
     warningReturnProductsEmpty,
-    warningSaleProductsEmpty,
+    warningSaleProductsEmpty
 } from '../../../Components/ToastMessages/ToastMessages.js'
 import CustomerPayment from '../../../Components/Payment/CustomerPayment.js'
-import { useLocation, useNavigate } from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import BarcodeReader from 'react-barcode-reader'
-import { useTranslation } from 'react-i18next'
-import { filter, map } from 'lodash'
+import {useTranslation} from 'react-i18next'
+import {filter, map} from 'lodash'
 import socket from '../../../Config/socket.js'
-import { setAllCategories } from '../../Category/categorySlice.js'
+import {setAllCategories} from '../../Category/categorySlice.js'
 import Api from '../../../Config/Api.js'
 import TableMobile from '../../../Components/Table/TableMobile.js'
-import { FaFilter, FaRegUser } from 'react-icons/fa'
-import { MdCategory } from 'react-icons/md'
-import { VscChromeClose } from "react-icons/vsc";
+import {FaFilter, FaRegUser} from 'react-icons/fa'
+import {MdCategory} from 'react-icons/md'
+import {VscChromeClose} from 'react-icons/vsc'
 
 const RegisterSelling = () => {
     const [productAddModal, setProductAddModal] = useState(false)
-    const { t } = useTranslation(['common'])
+    const {t} = useTranslation(['common'])
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
-    const { user, market } = useSelector((state) => state.login)
+    const {user, market} = useSelector((state) => state.login)
     const [modalOpen, setModalOpen] = useState(false)
     const [categoryModal, setCategoryModal] = useState(false)
-    const { currencyType, currency } = useSelector((state) => state.currency)
-    const { allcategories, loading } = useSelector((state) => state.category)
-    const { filials } = useSelector((state) => state.registerSelling)
-    const { allProducts, clients, loadingMakePayment, lastPayments } =
+    const {currencyType, currency} = useSelector((state) => state.currency)
+    const {allcategories, loading} = useSelector((state) => state.category)
+    const {filials} = useSelector((state) => state.registerSelling)
+    const {allProducts, clients, loadingMakePayment, lastPayments} =
         useSelector((state) => state.registerSelling)
-    const { packmans } = useSelector((state) => state.clients)
+    const {packmans} = useSelector((state) => state.clients)
     const [filteredProducts, setFilteredProducts] = useState([])
     const [selectedProduct, setSelectedProduct] = useState('')
     const [checked, setChecked] = useState(false)
@@ -89,7 +89,7 @@ const RegisterSelling = () => {
     const [hasDiscount, setHasDiscount] = useState(false)
     const [discountSelectOption, setDiscountSelectOption] = useState({
         label: '%',
-        value: '%',
+        value: '%'
     })
     const [productId, setProductId] = useState(null)
     const [paymentDebt, setPaymentDebt] = useState(0)
@@ -116,55 +116,55 @@ const RegisterSelling = () => {
 
     const [selectedFilial, setSelectedFilial] = useState({
         label: market.name,
-        value: market._id,
+        value: market._id
     })
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
+            setIsMobile(window.innerWidth <= 768)
+        }
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', handleResize)
 
         return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
     let delay = null
 
     const headers = [
-        { title: '№' },
-        { title: t('Filial') },
-        { title: t('Qoldiq') },
-        { title: t('Nomi') },
-        { title: t('Soni') },
-        { title: 'Ombordan' },
-        { title: t('Narxi') },
-        { title: t('Jami'), styles: 'w-[8rem]' },
-        { title: '' },
-        { title: '' },
+        {title: '№'},
+        {title: t('Filial')},
+        {title: t('Qoldiq')},
+        {title: t('Nomi')},
+        {title: t('Soni')},
+        {title: t('Ombordan')},
+        {title: t('Narxi')},
+        {title: t('Jami'), styles: 'w-[8rem]'},
+        {title: ''},
+        {title: ''}
     ]
     const headers2 = [
-        { title: '№' },
+        {title: '№'},
         // {title: t('Filial')},
-        { title: t('Qoldiq') },
-        { title: t('Nomi') },
-        { title: t('Soni') },
+        {title: t('Qoldiq')},
+        {title: t('Nomi')},
+        {title: t('Soni')},
         // {title: 'Ombordan'},
-        { title: t('Narxi') },
-        { title: t('Jami'), styles: 'w-[8rem]' },
-        { title: '' },
-        { title: '' },
+        {title: t('Narxi')},
+        {title: t('Jami'), styles: 'w-[8rem]'},
+        {title: ''},
+        {title: ''}
     ]
 
     const headerReturn = [
-        { title: '№' },
-        { title: t('Kodi') },
-        { title: t('Nomi') },
-        { title: t('Soni') },
-        { title: t('Jami') },
-        { title: t('Soni') },
-        { title: t('Jami') },
+        {title: '№'},
+        {title: t('Kodi')},
+        {title: t('Nomi')},
+        {title: t('Soni')},
+        {title: t('Jami')},
+        {title: t('Soni')},
+        {title: t('Jami')}
     ]
 
     // payment
@@ -179,7 +179,7 @@ const RegisterSelling = () => {
         setPaymentDiscountPercent('')
         setPaymentDebt(0)
         setPaymentDebtUzs(0)
-        setDiscountSelectOption({ label: '%', value: '%' })
+        setDiscountSelectOption({label: '%', value: '%'})
     }
 
     const toggleCheckModal = () => {
@@ -627,19 +627,19 @@ const RegisterSelling = () => {
         setOptionPackman([
             ...map([...packmans], (pack) => ({
                 value: pack._id,
-                label: pack.name,
-            })),
+                label: pack.name
+            }))
         ])
         setOptionClient([
             {
                 label: t('Barchasi'),
-                value: '',
+                value: ''
             },
             ...map([...clients], (client) => ({
                 value: client._id,
                 label: client.name,
-                saleconnectorid: client?.saleconnectorid || null,
-            })),
+                saleconnectorid: client?.saleconnectorid || null
+            }))
         ])
         setUserValue('')
         setChecked(false)
@@ -657,12 +657,12 @@ const RegisterSelling = () => {
         togglePaymentModal(bool)
         setSelectedFilial({
             label: market.name,
-            value: market._id,
+            value: market._id
         })
     }
 
     const handleClickPay = () => {
-        
+
         if (returnProducts.length) {
             handleApproveReturn()
         } else {
@@ -697,7 +697,7 @@ const RegisterSelling = () => {
                             Number(product.pieces) + Number(product.fromFilial),
                         unitprice: product.tradeprice || product.unitprice,
                         unitpriceuzs:
-                            product.tradepriceuzs || product.unitpriceuzs,
+                            product.tradepriceuzs || product.unitpriceuzs
                     }
                     prev?.tradeprice && delete prev?.tradeprice
                     prev?.tradepriceuzs && delete prev?.tradepriceuzs
@@ -706,7 +706,7 @@ const RegisterSelling = () => {
                     const prev = {
                         ...product,
                         pieces:
-                            Number(product.pieces) + Number(product.fromFilial),
+                            Number(product.pieces) + Number(product.fromFilial)
                     }
                     prev?.tradeprice && delete prev?.tradeprice
                     prev?.tradepriceuzs && delete prev?.tradepriceuzs
@@ -716,19 +716,19 @@ const RegisterSelling = () => {
             client: {
                 _id: clientValue ? clientValue.value : null,
                 name: clientValue ? clientValue.label : userValue,
-                packman: clientValue?.packman,
+                packman: clientValue?.packman
             },
             packman: packmanValue
                 ? {
                     _id: packmanValue.value,
-                    name: packmanValue.label,
+                    name: packmanValue.label
                 }
                 : null,
             discount: {
                 discount: Number(paymentDiscount),
                 discountuzs: Number(paymentDiscountUzs),
                 procient: Number(paymentDiscountPercent),
-                isProcient: !!paymentDiscountPercent,
+                isProcient: !!paymentDiscountPercent
             },
             payment: {
                 totalprice: Number(allPayment),
@@ -741,34 +741,36 @@ const RegisterSelling = () => {
                 transfer: Number(paymentTransfer),
                 transferuzs: Number(paymentTransferUzs),
                 discount: Number(paymentDiscount),
-                discountuzs: Number(paymentDiscountUzs),
+                discountuzs: Number(paymentDiscountUzs)
             },
             debt: {
                 debt: Number(paymentDebt),
                 debtuzs: Number(paymentDebtUzs),
-                comment: '',
+                comment: ''
             },
             user: user._id,
             saleconnectorid: saleConnectorId,
-            comment: saleComment,
+            comment: saleComment
         }
         dispatch(saleConnectorId ? addPayment(body) : makePayment(body)).then(
-            ({ payload, error }) => {
+            ({payload, error}) => {
                 if (!error) {
                     setModalData(payload)
                     setWholesale(false)
                     setTimeout(() => {
-                        setModalBody('checkSell')
-                        setModalVisible(true)
+                        if (!isMobile) {
+                            setModalBody('checkSell')
+                            setModalVisible(true)
+                        }
                         clearAll()
                     }, 500)
                     if (temporary) {
-                        dispatch(deleteSavedPayment({ _id: temporary._id }))
+                        dispatch(deleteSavedPayment({_id: temporary._id}))
                         setTemporary(null)
                     }
                     setTimeout(() => {
                         setClickDelay(false)
-                    }, 10000);
+                    }, 10000)
                 }
             }
         )
@@ -800,30 +802,32 @@ const RegisterSelling = () => {
                 ),
                 transferuzs: Number(
                     allPayment < 0 ? -1 * paymentTransferUzs : paymentTransfer
-                ),
+                )
             },
             debt: {
                 debt: Number(allPayment < 0 ? -1 * paymentDebt : paymentDebt),
                 debtuzs: Number(
                     allPayment < 0 ? -1 * paymentDebtUzs : paymentDebtUzs
                 ),
-                comment: '',
+                comment: ''
             },
             user: user._id,
             saleconnectorid: saleConnectorId,
-            comment: saleComment,
+            comment: saleComment
         }
-        dispatch(returnSaleProducts(body)).then(({ payload, error }) => {
+        dispatch(returnSaleProducts(body)).then(({payload, error}) => {
             if (!error) {
                 setModalData(payload)
                 setTimeout(() => {
-                    setModalBody('checkSellReturn')
-                    setModalVisible(true)
+                    if (!isMobile) {
+                        setModalBody('checkSellReturn')
+                        setModalVisible(true)
+                    }
                     clearAll()
                 }, 500)
                 setTimeout(() => {
                     setClickDelay(false)
-                }, 10000);
+                }, 10000)
             }
         })
     }
@@ -845,18 +849,18 @@ const RegisterSelling = () => {
                     userValue,
                     tableProducts,
                     totalPrice: all,
-                    totalPriceUzs: allUzs,
+                    totalPriceUzs: allUzs
                 },
-                user: user._id,
+                user: user._id
             }
-            dispatch(savePayment(body)).then(({ error }) => {
+            dispatch(savePayment(body)).then(({error}) => {
                 if (!error) {
                     clearAll(false)
                     navigate('/sotuv/saqlanganlar')
                 }
             })
             if (temporary) {
-                dispatch(deleteSavedPayment({ _id: temporary._id }))
+                dispatch(deleteSavedPayment({_id: temporary._id}))
                 setTemporary(null)
             }
         }
@@ -886,7 +890,7 @@ const RegisterSelling = () => {
         tableProducts.splice(index, 1)
         setTableProducts([...tableProducts])
     }
-    const handleDeleteJSON = JSON.stringify(handleChange);
+    const handleDeleteJSON = JSON.stringify(handleChange)
 
 
     const handleChangeChecked = () => {
@@ -924,11 +928,11 @@ const RegisterSelling = () => {
     const handleChangeSelectedProduct = (option) => {
         const hasProduct = option.barcode
             ? filter(
-                tableProducts,
-                (obj) => obj.product.barcode === option.barcode
-            ).length > 0
+            tableProducts,
+            (obj) => obj.product.barcode === option.barcode
+        ).length > 0
             : filter(tableProducts, (obj) => obj.product._id === option.value)
-                .length > 0
+            .length > 0
         if (!hasProduct) {
             !option.barcode && setSelectedProduct(option)
             const product = option.barcode
@@ -942,7 +946,7 @@ const RegisterSelling = () => {
                     _id: product._id,
                     code: product.productdata.code,
                     name: product.productdata.name,
-                    barcode: product.productdata.barcode,
+                    barcode: product.productdata.barcode
                 },
                 totalprice: product.price.sellingprice,
                 totalpriceuzs: product.price.sellingpriceuzs,
@@ -956,7 +960,7 @@ const RegisterSelling = () => {
                 categorycode: product.category.code,
                 filialProductsTotal: product.total,
                 fromFilial: 0,
-                filial: market._id,
+                filial: market._id
             }
             if (
                 (currencyType === 'USD' &&
@@ -971,7 +975,7 @@ const RegisterSelling = () => {
                 warningLessSellPayment()
             }
         } else {
-            universalToast(t("Maxsulot ro'yxatda mavjud !"), 'error')
+            universalToast(t('Maxsulot ro\'yxatda mavjud !'), 'error')
         }
     }
 
@@ -984,28 +988,29 @@ const RegisterSelling = () => {
                     label: client.name,
                     value: client._id,
                     packman: pack,
-                    saleconnectorid: client?.saleconnectorid || null,
+                    saleconnectorid: client?.saleconnectorid || null
                 }))
             )
         } else {
             setOptionClient([
                 {
                     label: t('Tanlang'),
-                    value: '',
+                    value: ''
                 },
                 ...map([...clients], (client) => ({
                     label: client.name,
                     value: client._id,
                     packman: client?.packman,
-                    saleconnectorid: client?.saleconnectorid || null,
-                })),
+                    saleconnectorid: client?.saleconnectorid || null
+                }))
             ])
         }
         setClientValue('')
         setUserValue('')
     }
 
-    const handleClickPrint = () => { }
+    const handleClickPrint = () => {
+    }
 
     const handleChangeClientValue = (option) => {
         setClientValue(option)
@@ -1017,7 +1022,7 @@ const RegisterSelling = () => {
         if (client && client.hasOwnProperty('packman')) {
             setPackmanValue({
                 label: client.packman.name,
-                value: client.packman._id,
+                value: client.packman._id
             })
         }
         option.value ? setUserValue(option.label) : setUserValue('')
@@ -1041,7 +1046,7 @@ const RegisterSelling = () => {
             totalpriceuzs:
                 currencyType === 'UZS'
                     ? value * currentProduct.pieces
-                    : UsdToUzs(value * currentProduct.pieces, exchangerate),
+                    : UsdToUzs(value * currentProduct.pieces, exchangerate)
         })
     }
 
@@ -1050,7 +1055,7 @@ const RegisterSelling = () => {
             ...currentProduct,
             pieces: value,
             totalprice: value * currentProduct.unitprice,
-            totalpriceuzs: value * currentProduct.unitpriceuzs,
+            totalpriceuzs: value * currentProduct.unitpriceuzs
         })
     }
 
@@ -1093,7 +1098,7 @@ const RegisterSelling = () => {
                                             prevProduct.fromFilial
                                         )),
                                     exchangerate
-                                ),
+                                )
                     }
                     : prevProduct
             )
@@ -1122,7 +1127,7 @@ const RegisterSelling = () => {
                                 : UsdToUzs(
                                     value * prevProduct.pieces,
                                     exchangerate
-                                ),
+                                )
                     }
                     : prevProduct
             )
@@ -1148,7 +1153,7 @@ const RegisterSelling = () => {
                             ? prevProduct.tradepriceuzs ||
                             prevProduct.unitpriceuzs
                             : prevProduct.unitpriceuzs)
-                    ),
+                    )
                 }
                 : prevProduct
         )
@@ -1174,7 +1179,7 @@ const RegisterSelling = () => {
                             ? prevProduct.tradepriceuzs ||
                             prevProduct.unitpriceuzs
                             : prevProduct.unitpriceuzs)
-                    ),
+                    )
                 }
                 : prevProduct
         )
@@ -1218,7 +1223,7 @@ const RegisterSelling = () => {
                             ? prevProduct.tradepriceuzs ||
                             prevProduct.unitpriceuzs
                             : prevProduct.unitpriceuzs)
-                    ),
+                    )
                 }
                 : prevProduct
         )
@@ -1254,7 +1259,7 @@ const RegisterSelling = () => {
                             ? prevProduct.tradepriceuzs ||
                             prevProduct.unitpriceuzs
                             : prevProduct.unitpriceuzs)
-                    ),
+                    )
                 }
                 : prevProduct
         )
@@ -1266,18 +1271,18 @@ const RegisterSelling = () => {
     }
 
     const handleError = () => {
-        universalToast(t("Mahsulot kodi o'qilmadi!"), 'warning')
+        universalToast(t('Mahsulot kodi o\'qilmadi!'), 'warning')
     }
 
     const handleScan = (data) => {
-        handleChangeSelectedProduct({ barcode: data })
+        handleChangeSelectedProduct({barcode: data})
     }
 
     const handleChangeReturnProduct = (value, id, index) => {
         if (value > Number(returnProducts[index].product.pieces))
             return universalToast(
                 t(
-                    "Diqqat! Qaytariladigan mahsulot soni sotilgan mahsulot sonidan ortiq bo'lolmaydi"
+                    'Diqqat! Qaytariladigan mahsulot soni sotilgan mahsulot sonidan ortiq bo\'lolmaydi'
                 ),
                 'warning'
             )
@@ -1289,7 +1294,7 @@ const RegisterSelling = () => {
                     totalprice: convertToUsd(value * prevProduct.unitprice),
                     totalpriceuzs: convertToUzs(
                         value * prevProduct.unitpriceuzs
-                    ),
+                    )
                 }
                 : prevProduct
         )
@@ -1308,7 +1313,7 @@ const RegisterSelling = () => {
             )
 
             const newRelease = discounts.map((discount) => {
-                let newDiscount = { ...discount }
+                let newDiscount = {...discount}
                 map(returnProducts, (product) => {
                     if (discount._id === product.product?.discount) {
                         newDiscount = {
@@ -1330,12 +1335,12 @@ const RegisterSelling = () => {
                             totalpriceuzs: convertToUzs(
                                 newDiscount.totalpriceuzs -
                                 product.totalpriceuzs
-                            ),
+                            )
                         }
                     }
                     return ''
                 })
-                return { ...newDiscount }
+                return {...newDiscount}
             })
             const totalDiscountsUsd = newRelease.reduce(
                 (summ, discount) => summ + discount.discount,
@@ -1396,7 +1401,7 @@ const RegisterSelling = () => {
                                 Number(product.pieces + product.fromFilial) *
                                 product.tradepriceuzs
                             )
-                            : product.totalpriceuzs,
+                            : product.totalpriceuzs
                     }))
                 )
             } else {
@@ -1414,7 +1419,7 @@ const RegisterSelling = () => {
                                 Number(product.pieces + product.fromFilial) *
                                 product.unitpriceuzs
                             )
-                            : product.totalpriceuzs,
+                            : product.totalpriceuzs
                     }))
                 )
             }
@@ -1456,7 +1461,7 @@ const RegisterSelling = () => {
     }
 
     const getFilialProducts = async (value) => {
-        const { data } = await Api.post('/filials/products/get', value)
+        const {data} = await Api.post('/filials/products/get', value)
         return data
     }
 
@@ -1464,41 +1469,41 @@ const RegisterSelling = () => {
         let allProductsReducer = []
         let productsForSearch = []
         market &&
-            socket.emit('getProductsOfCount', {
-                market: market._id,
-            })
+        socket.emit('getProductsOfCount', {
+            market: market._id
+        })
         market &&
-            socket.on('categories', ({ id, categories }) => {
-                id === market._id && dispatch(setAllCategories(categories))
-            })
+        socket.on('categories', ({id, categories}) => {
+            id === market._id && dispatch(setAllCategories(categories))
+        })
         market &&
-            socket.on('getProductsOfCount', ({ id, products }) => {
-                if (id === market._id) {
-                    productsForSearch = [
-                        ...productsForSearch,
-                        ...map(products, (product) => ({
-                            value: product._id,
-                            label: `(${product.total}) ${product.category.code
-                                }${product.productdata.code} - ${product.productdata.name
-                                } -------- (${currencyType === 'USD'
-                                    ? (product?.price?.sellingprice).toLocaleString(
-                                        'ru-RU'
-                                    )
-                                    : (product?.price?.sellingpriceuzs).toLocaleString(
-                                        'ru-RU'
-                                    )
-                                } ${currencyType})`,
-                        })),
-                    ]
-                    setFilteredProducts(productsForSearch)
-                    allProductsReducer.push(...products)
-                    dispatch(setAllProductsBySocket(allProductsReducer))
-                }
-            })
+        socket.on('getProductsOfCount', ({id, products}) => {
+            if (id === market._id) {
+                productsForSearch = [
+                    ...productsForSearch,
+                    ...map(products, (product) => ({
+                        value: product._id,
+                        label: `(${product.total}) ${product.category.code
+                        }${product.productdata.code} - ${product.productdata.name
+                        } -------- (${currencyType === 'USD'
+                            ? (product?.price?.sellingprice).toLocaleString(
+                                'ru-RU'
+                            )
+                            : (product?.price?.sellingpriceuzs).toLocaleString(
+                                'ru-RU'
+                            )
+                        } ${currencyType})`
+                    }))
+                ]
+                setFilteredProducts(productsForSearch)
+                allProductsReducer.push(...products)
+                dispatch(setAllProductsBySocket(allProductsReducer))
+            }
+        })
         market &&
-            socket.on('error', ({ id, message }) => {
-                id === market._id && universalToast(message, 'error')
-            })
+        socket.on('error', ({id, message}) => {
+            id === market._id && universalToast(message, 'error')
+        })
 
         //    eslint-disable-next-line react-hooks/exhaustive-deps
     }, [market, dispatch, lastPayments])
@@ -1512,14 +1517,14 @@ const RegisterSelling = () => {
             setFilteredProducts(
                 map(filteredData, (product) => ({
                     value: product._id,
-                    label: `(${product.total}) ${product.category.code}${product.productdata.code} - ${product.productdata.name}`,
+                    label: `(${product.total}) ${product.category.code}${product.productdata.code} - ${product.productdata.name}`
                 }))
             )
         } else {
             setFilteredProducts(
                 map(allProducts, (product) => ({
                     value: product._id,
-                    label: `(${product.total}) ${product.category.code}${product.productdata.code} - ${product.productdata.name}`,
+                    label: `(${product.total}) ${product.category.code}${product.productdata.code} - ${product.productdata.name}`
                 }))
             )
         }
@@ -1529,7 +1534,7 @@ const RegisterSelling = () => {
     useEffect(() => {
         dispatch(getAllPackmans())
         dispatch(getClients())
-        dispatch(getFilials({ marketData: market }))
+        dispatch(getFilials({marketData: market}))
     }, [dispatch, market])
 
     useEffect(() => {
@@ -1540,12 +1545,12 @@ const RegisterSelling = () => {
         setOptionPackman([
             {
                 label: t('Tanlang'),
-                value: '',
+                value: ''
             },
             ...map([...packmans], (packman) => ({
                 value: packman._id,
-                label: packman.name,
-            })),
+                label: packman.name
+            }))
         ])
     }, [packmans, t])
 
@@ -1553,13 +1558,13 @@ const RegisterSelling = () => {
         setOptionClient([
             {
                 label: t('Barchasi'),
-                value: '',
+                value: ''
             },
             ...map([...clients], (client) => ({
                 value: client._id,
                 label: client.name,
-                saleconnectorid: client?.saleconnectorid || null,
-            })),
+                saleconnectorid: client?.saleconnectorid || null
+            }))
         ])
     }, [clients, t])
 
@@ -1568,15 +1573,15 @@ const RegisterSelling = () => {
 
         const setClientData = () => {
             data.saleconnector.client &&
-                setClientValue({
-                    label: data.saleconnector.client.name,
-                    value: data.saleconnector.client._id,
-                })
+            setClientValue({
+                label: data.saleconnector.client.name,
+                value: data.saleconnector.client._id
+            })
             data.saleconnector.packman &&
-                setPackmanValue({
-                    label: data.saleconnector.packman.name,
-                    value: data.saleconnector.packman._id,
-                })
+            setPackmanValue({
+                label: data.saleconnector.packman.name,
+                value: data.saleconnector.packman._id
+            })
             setSaleConnectorId(data.saleconnector._id)
         }
         if (data && data.temporary) {
@@ -1598,7 +1603,7 @@ const RegisterSelling = () => {
                     discount: saleProduct.discount && saleProduct.discount,
                     pieces: saleProduct.pieces,
                     totalprice: saleProduct.totalprice,
-                    totalpriceuzs: saleProduct.totalpriceuzs,
+                    totalpriceuzs: saleProduct.totalpriceuzs
                 }
                 map(saleProduct.saleproducts, (product) => {
                     sale.pieces += product.pieces
@@ -1607,16 +1612,16 @@ const RegisterSelling = () => {
                     return ''
                 })
                 saleProduct.pieces > 0 &&
-                    returned.push({
-                        pieces: '',
-                        totalpriceuzs: 0,
-                        totalprice: 0,
-                        unitprice: saleProduct.unitprice,
-                        unitpriceuzs: saleProduct.unitpriceuzs,
-                        product: { ...sale },
-                        productdata: { ...saleProduct.product.productdata },
-                        _id: saleProduct._id,
-                    })
+                returned.push({
+                    pieces: '',
+                    totalpriceuzs: 0,
+                    totalprice: 0,
+                    unitprice: saleProduct.unitprice,
+                    unitpriceuzs: saleProduct.unitpriceuzs,
+                    product: {...sale},
+                    productdata: {...saleProduct.product.productdata},
+                    _id: saleProduct._id
+                })
                 return ''
             })
 
@@ -1651,7 +1656,8 @@ const RegisterSelling = () => {
     return (
         <div className={'flex grow relative overflow-auto'}>
             {loadingMakePayment && (
-                <div className='fixed backdrop-blur-[2px] z-[100] left-0 top-0 right-0 bottom-0 bg-white-700 flex flex-col items-center justify-center w-full h-full'>
+                <div
+                    className='fixed backdrop-blur-[2px] z-[100] left-0 top-0 right-0 bottom-0 bg-white-700 flex flex-col items-center justify-center w-full h-full'>
                     <SmallLoader />
                 </div>
             )}
@@ -1713,12 +1719,12 @@ const RegisterSelling = () => {
                 headers={headers}
                 headerText={
                     modalBody === 'complete' &&
-                    t("To'lovni amalga oshirishni tasdiqlaysizmi ?")
+                    t('To\'lovni amalga oshirishni tasdiqlaysizmi ?')
                 }
                 title={
                     modalBody === 'complete' &&
                     t(
-                        "To'lovni amalga oshirgach bu ma`lumotlarni o`zgaritirb bo`lmaydi !"
+                        'To\'lovni amalga oshirgach bu ma`lumotlarni o`zgaritirb bo`lmaydi !'
                     )
                 }
                 changeProduct={handleChangeProduct}
@@ -1802,7 +1808,7 @@ const RegisterSelling = () => {
                                 />
                             ) : !tableProducts.length ? (
                                 <NotFind
-                                    text={t("Sotuvda mahsulotlar qo'shilmagan!")}
+                                    text={t('Sotuvda mahsulotlar qo\'shilmagan!')}
                                 />
                             ) : (
                                 <Table
@@ -1848,9 +1854,13 @@ const RegisterSelling = () => {
                 isMobile ?
                     <div className='flex mt-[-20px] flex-col grow gap-[1.25rem] overflow-auto'>
                         <div className='flex gap-2 p-4 lg:justify-start mt-4 justify-evenly'>
-                            {isMobile ? <button onClick={() => setModalOpen(true)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '><FaRegUser />{t('Mijoz')}</button> : null}
+                            {isMobile ? <button onClick={() => setModalOpen(true)}
+                                                className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '>
+                                <FaRegUser />{t('Mijoz')}</button> : null}
 
-                            {isMobile ? <button onClick={() => setCategoryModal(true)} className=' hover:bg-green-200  bg-green-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '><MdCategory /> {t('Kategoriya')}</button> : null}
+                            {isMobile ? <button onClick={() => setCategoryModal(true)}
+                                                className=' hover:bg-green-200  bg-green-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '>
+                                <MdCategory /> {t('Kategoriya')}</button> : null}
 
                         </div>
                         <div className=' flex justify-center'>
@@ -1861,11 +1871,10 @@ const RegisterSelling = () => {
                                         placeholder={t('misol: kompyuter')}
                                         value={selectedProduct}
                                         onChange={(event) => {
-                                            handleChangeSelectedProduct(event);
-                                            setProductAddModal(true);
+                                            handleChangeSelectedProduct(event)
+                                            setProductAddModal(true)
                                             setProductId(event.value)
                                         }}
-
 
 
                                         options={filteredProducts}
@@ -1892,7 +1901,8 @@ const RegisterSelling = () => {
                         </div>
 
                         {modalOpen ? <div className='fixed w-[100%] h-[100vh] bg-[white] top-0 right-0 z-50 '>
-                            <VscChromeClose onClick={() => setModalOpen(false)} className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
+                            <VscChromeClose onClick={() => setModalOpen(false)}
+                                            className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
                             <div className={'mainPadding ps-[20px] mt-[50px] flex flex-col gap-[1.25rem]'}>
                                 <div>
 
@@ -1934,7 +1944,9 @@ const RegisterSelling = () => {
                                 </div>
 
                                 <div className='flex mt-[30px] justify-center '>
-                                    <button onClick={() => setModalOpen(false)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '><FaFilter /> {t('izlash')}</button>
+                                    <button onClick={() => setModalOpen(false)}
+                                            className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '>
+                                        <FaFilter /> {t('izlash')}</button>
                                 </div>
                             </div>
                         </div> : null}
@@ -1956,23 +1968,23 @@ const RegisterSelling = () => {
 
                             ) : !tableProducts.length ? (
                                 <NotFind
-                                    text={t("Sotuvda mahsulotlar qo'shilmagan!")}
+                                    text={t('Sotuvda mahsulotlar qo\'shilmagan!')}
                                 />
                             ) : (
                                 !isMobile ? <Table
-                                    page={'registersale'}
-                                    data={tableProducts}
-                                    headers={filials.length > 1 ? headers : headers2}
-                                    currency={currencyType}
-                                    Delete={handleDelete}
-                                    changeHandler={handleChange}
-                                    footer={'registersale'}
-                                    increment={increment}
-                                    decrement={decrement}
-                                    lowUnitpriceProducts={lowUnitpriceProducts}
-                                    wholeSale={wholesale}
-                                    selectedFilial={selectedFilial}
-                                /> :
+                                        page={'registersale'}
+                                        data={tableProducts}
+                                        headers={filials.length > 1 ? headers : headers2}
+                                        currency={currencyType}
+                                        Delete={handleDelete}
+                                        changeHandler={handleChange}
+                                        footer={'registersale'}
+                                        increment={increment}
+                                        decrement={decrement}
+                                        lowUnitpriceProducts={lowUnitpriceProducts}
+                                        wholeSale={wholesale}
+                                        selectedFilial={selectedFilial}
+                                    /> :
                                     <TableMobile
                                         page={'registersale'}
                                         productModal={setProductAddModal}
@@ -2002,7 +2014,7 @@ const RegisterSelling = () => {
                                             : handleClickPayment
                                     }
                                 >
-                                    {t("To'lov")}
+                                    {t('To\'lov')}
                                 </button>
                                 {!returnProducts.length && (
                                     <button
@@ -2018,14 +2030,17 @@ const RegisterSelling = () => {
                     </div> : null
             }
             {
-                categoryModal ? <div className='fixed w-[100%] h-[100vh] bg-[white] top-0 right-0 z-50 register-selling-right min-w-[20.25rem] bg-white-400 backdrop-blur-[3.125rem] rounded-[0.25rem] flex flex-col gap-[1.25rem]'>
-                    <VscChromeClose onClick={() => setCategoryModal(false)} className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
+                categoryModal ? <div
+                    className='fixed w-[100%] h-[100vh] bg-[white] top-0 right-0 z-50 register-selling-right min-w-[20.25rem] bg-white-400 backdrop-blur-[3.125rem] rounded-[0.25rem] flex flex-col gap-[1.25rem]'>
+                    <VscChromeClose onClick={() => setCategoryModal(false)}
+                                    className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
                     <div className='flex mt-[50px] flex-col grow gap-[1.25rem]'>
                         <SearchInput
                             placeholder={t('kategoriyani qidirish...')}
                             value={searchCategory}
                             onChange={handleSearchCategory}
-                            onKeyUp={() => { }}
+                            onKeyUp={() => {
+                            }}
                         />
                         <div className='grow relative overflow-auto'>
                             <div className='cards-container absolute left-0 right-[0.125rem] top-0 bottom-0'>
@@ -2061,7 +2076,7 @@ const RegisterSelling = () => {
                                 () => setCategoryModal(false)
                             }
                         >
-                            {t("Saqlash")}
+                            {t('Saqlash')}
                         </button>
 
                     </div>
@@ -2070,13 +2085,15 @@ const RegisterSelling = () => {
 
             {
                 !isMobile ?
-                    <div className='register-selling-right min-w-[20.25rem] bg-white-400 backdrop-blur-[3.125rem] rounded-[0.25rem] flex flex-col gap-[1.25rem]'>
+                    <div
+                        className='register-selling-right min-w-[20.25rem] bg-white-400 backdrop-blur-[3.125rem] rounded-[0.25rem] flex flex-col gap-[1.25rem]'>
                         <div className='flex flex-col grow gap-[1.25rem]'>
                             <SearchInput
                                 placeholder={t('kategoriyani qidirish...')}
                                 value={searchCategory}
                                 onChange={handleSearchCategory}
-                                onKeyUp={() => { }}
+                                onKeyUp={() => {
+                                }}
                             />
                             <div className='grow relative overflow-auto'>
                                 <div className='cards-container absolute left-0 right-[0.125rem] top-0 bottom-0'>
@@ -2114,7 +2131,7 @@ const RegisterSelling = () => {
                                         : handleClickPayment
                                 }
                             >
-                                {t("To'lov")}
+                                {t('To\'lov')}
                             </button>
                             {!returnProducts.length && (
                                 <button

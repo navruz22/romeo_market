@@ -303,7 +303,7 @@ const Supplier = () => {
                 <div className='supplier-style'>
                     <FieldContainer
                         label={t('Yetkazuvchi ismi')}
-                        placeholder={t('misol: Alo24')}
+                        placeholder={''}
                         maxWidth={'w-[41rem]'}
                         type={'string'}
                         value={supplierName}

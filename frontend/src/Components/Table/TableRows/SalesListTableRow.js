@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import TableBtn from '../../Buttons/TableBtn'
-import { uniqueId, map } from 'lodash'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { t } from 'i18next'
+import {map, uniqueId} from 'lodash'
+import {useLocation, useNavigate} from 'react-router-dom'
+import {t} from 'i18next'
 
 export const SalesListTableRow = ({
     data,

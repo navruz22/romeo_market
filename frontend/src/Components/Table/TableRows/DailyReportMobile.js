@@ -1,7 +1,7 @@
 import React from 'react'
-import {map, uniqueId} from 'lodash'
+import {map} from 'lodash'
 import {useSelector} from 'react-redux'
-import { t } from 'i18next'
+import {t} from 'i18next'
 
 function DailyReportMobile({data}) {
     const {currencyType} = useSelector((state) => state.currency)

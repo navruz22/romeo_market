@@ -1,5 +1,4 @@
-import React from 'react'
-import {useState, useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import FieldContainer from './../../FieldContainer/FieldContainer'
 import {useDispatch, useSelector} from 'react-redux'

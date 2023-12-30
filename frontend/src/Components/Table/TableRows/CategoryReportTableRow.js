@@ -1,6 +1,6 @@
 import React from 'react'
-import { map } from 'lodash'
-import { useSelector } from 'react-redux'
+import {map} from 'lodash'
+import {useSelector} from 'react-redux'
 
 export const CategoryReportTableRow = ({ data }) => {
     const { currencyType } = useSelector((state) => state.currency)

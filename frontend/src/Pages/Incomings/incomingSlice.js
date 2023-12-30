@@ -1,8 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import {
-    successPayDebt,
-    universalToast,
-} from '../../Components/ToastMessages/ToastMessages'
+import {successPayDebt, universalToast} from '../../Components/ToastMessages/ToastMessages'
 import Api from '../../Config/Api'
 
 export const getAllSuppliers = createAsyncThunk(

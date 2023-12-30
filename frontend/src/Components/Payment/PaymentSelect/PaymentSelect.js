@@ -1,6 +1,7 @@
 import {useSelector} from 'react-redux'
 import Select from 'react-select'
 import CustomStyle, {DropdownIcon} from './CustomStyle.js'
+import {t} from 'i18next'
 
 function PaymentSelect({value, onChange, option, onSelect}) {
     const {currencyType} = useSelector((state) => state.currency)
@@ -14,7 +15,7 @@ function PaymentSelect({value, onChange, option, onSelect}) {
         >
             <input
                 className='w-[8.6875rem] placeholder-blue-200 py-[0.3125rem] px-[.3125rem] rounded-l-[0.25rem] outline-0 text-sm text-right transition-all ease-in-out duration-100'
-                placeholder={'misol: 100 000 000'}
+                placeholder={`${t('misol')}: 100 000 000`}
                 type={'number'}
                 value={value}
                 onChange={(e) => {

@@ -69,12 +69,13 @@ export const PaymentCheck = forwardRef((props, ref) => {
                     {t("To'lov turi")}:{' '}
                     <span>
                         {payment.type === 'cash'
-                            ? 'Naqt'
+                            ? `${t('Naqt')}`
                             : payment.type === 'card'
-                                ? 'Plastik'
+                                ? `${t('Plastik')}`
                                 : payment.type === 'transfer'
-                                    ? 'O\'tkazma'
-                                    : 'Aralash'}
+                                    ? `${t("O'tkazma")}`
+                                    : `${t('Aralash')}`
+                        }
                     </span>
                 </li>
             </ul>

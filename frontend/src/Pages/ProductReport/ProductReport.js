@@ -9,7 +9,7 @@ import Spinner from '../../Components/Spinner/SmallLoader.js'
 import SmallLoader from '../../Components/Spinner/SmallLoader.js'
 import NotFind from '../../Components/NotFind/NotFind.js'
 import SearchForm from '../../Components/SearchForm/SearchForm.js'
-import { VscClose } from "react-icons/vsc";
+import {VscClose} from 'react-icons/vsc'
 
 import {
     clearSearchedProducts,
@@ -20,8 +20,8 @@ import {
 import {filter, map} from 'lodash'
 import Dates from '../../Components/Dates/Dates.js'
 import {exportExcel} from '../../App/globalFunctions.js'
-import { universalToast } from '../../Components/ToastMessages/ToastMessages.js'
-import { FaFilter } from 'react-icons/fa'
+import {universalToast} from '../../Components/ToastMessages/ToastMessages.js'
+import {FaFilter} from 'react-icons/fa'
 import TableMobile from '../../Components/Table/TableMobile.js'
 
 

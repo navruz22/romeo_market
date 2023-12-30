@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, {useState} from 'react'
+import {useSelector} from 'react-redux'
 import LabelInput from '../../Inputs/LabelInput'
-import { t } from 'i18next'
+import {t} from 'i18next'
 
 function ExchangesBody({ approveFunction, toggleModal, dataObject }) {
     const { currencyType } = useSelector((state) => state.currency)

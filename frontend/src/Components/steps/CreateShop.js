@@ -4,6 +4,7 @@ import BtnCreateShop from '../Buttons/BtnCreateShop.js'
 import {motion} from 'framer-motion'
 import {warningEmptyInput} from '../ToastMessages/ToastMessages.js'
 import {checkEmptyString} from '../../App/globalFunctions.js'
+import {t} from 'i18next'
 
 function CreateShop({handleClickNext, editedMarket}) {
     const [shopName, setShopName] = useState('')
@@ -73,7 +74,7 @@ function CreateShop({handleClickNext, editedMarket}) {
         >
             <div className='flex gap-[2.5rem] mb-[2.5rem]'>
                 <FieldContainer
-                    label={`Do'kon nomi`}
+                    label={`${t('Do\'kon nomi...')}`}
                     maxWidth={'grow'}
                     placeholder={'misol : Мой Прайс'}
                     type='text'

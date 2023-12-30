@@ -10,13 +10,8 @@ import CustomerPayment from '../../Components/Payment/CustomerPayment'
 import SearchForm from '../../Components/SearchForm/SearchForm'
 import Table from '../../Components/Table/Table'
 import TableMobile from '../../Components/Table/TableMobile'
+import {warningMoreDiscount, warningMorePayment} from '../../Components/ToastMessages/ToastMessages'
 import {
-    warningMoreDiscount,
-    warningMorePayment
-} from '../../Components/ToastMessages/ToastMessages'
-import {
-    changeEndDate,
-    changeStartDate,
     clearDatas,
     clearSuccessDebtComment,
     getBackProducts,
@@ -1107,7 +1102,7 @@ const ReportPage = () => {
             {id === 'payments' && (
                 <div className='ml-3 px-4 py-2 flex justify-end'>
                     <SessionBtn
-                        text={'Savdo hisoboti'}
+                        text={`${t('Savdo hisoboti')}`}
                         onClick={handlePrintModal}
                     />
                 </div>
@@ -1251,10 +1246,10 @@ const ReportPage = () => {
                         className='flex items-center justify-between gap-10 mt-6 bg-white py-6 md:py-0 flex-col md:flex-row'>
                         <div className='flex flex-col items-start gap-2'>
                             <div className='text-[18px] font-bold mb-2'>
-                                Tushumlar
+                                {t('Tushumlar')}
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
-                                <div>Naqt:</div>
+                                <div>{t('Naqt')}:</div>
                                 <div>
                                     {currencyType === 'USD'
                                         ? roundUsd(
@@ -1267,7 +1262,7 @@ const ReportPage = () => {
                                 </div>
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
-                                <div>Plastik:</div>
+                                <div>{t("Plastik")}:</div>
                                 <div>
                                     {currencyType === 'USD'
                                         ? roundUsd(
@@ -1280,7 +1275,7 @@ const ReportPage = () => {
                                 </div>
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
-                                <div>O'tkazma:</div>
+                                <div>{t("O'tkazma")}:</div>
                                 <div>
                                     {currencyType === 'USD'
                                         ? roundUsd(
@@ -1309,10 +1304,10 @@ const ReportPage = () => {
                         </div>
                         <div className='flex flex-col items-start gap-2'>
                             <div className='text-[18px] font-bold mb-2'>
-                                Qaytarilganlar
+                                {t('Qaytarilganlar')}
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
-                                <div>Naqt:</div>
+                                <div>{t('Naqt')}:</div>
                                 {' '}
                                 <span>
                                     {currencyType === 'USD'
@@ -1326,7 +1321,7 @@ const ReportPage = () => {
                                 </span>
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
-                                <div>Plastik:</div>
+                                <div>{t('Plastik')}:</div>
                                 <span>
                                     {currencyType === 'USD'
                                         ? roundUsd(
@@ -1339,7 +1334,7 @@ const ReportPage = () => {
                                 </span>
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
-                                <div>O'tkazma:</div>
+                                <div>{t('O\'tkazma')}:</div>
                                 <span>
                                     {currencyType === 'USD'
                                         ? roundUsd(
@@ -1369,10 +1364,10 @@ const ReportPage = () => {
                         {expenses && (
                             <div className='flex flex-col items-start gap-2'>
                                 <div className='text-[18px] font-bold mb-2'>
-                                    Xarajatlar
+                                    {t('Xarajatlar')}
                                 </div>
                                 <div className='font-semibold w-full gap-5 flex justify-between'>
-                                    <div>Naqt:</div>
+                                    <div>{t('Naqt')}:</div>
                                     {' '}
                                     <span>
                                         -
@@ -1387,7 +1382,7 @@ const ReportPage = () => {
                                     </span>
                                 </div>
                                 <div className='font-semibold w-full gap-5 flex justify-between'>
-                                    <div>Plastik:</div>
+                                    <div>{t('Plastik')}:</div>
                                     <span>
                                         -
                                         {currencyType === 'USD'
@@ -1401,7 +1396,7 @@ const ReportPage = () => {
                                     </span>
                                 </div>
                                 <div className='font-semibold w-full gap-5 flex justify-between'>
-                                    <div>O'tkazma:</div>
+                                    <div>{t('O\'tkazma')}:</div>
                                     <span>
                                         -
                                         {currencyType === 'USD'
@@ -1433,10 +1428,10 @@ const ReportPage = () => {
                         )}
                         <div className='flex flex-col items-start gap-2'>
                             <div className='text-[18px] font-bold mb-2'>
-                                Kassadagi qoldiq
+                                {t('Kassadagi qoldiq')}
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
-                                <div>Naqt:</div>
+                                <div>{t('Naqt')}:</div>
                                 <span>
                                     {currencyType === 'USD'
                                         ? roundUsd(
@@ -1451,7 +1446,7 @@ const ReportPage = () => {
                                 </span>
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
-                                <div>Plastik:</div>
+                                <div>{t('Plastik')}:</div>
                                 <span>
                                     {currencyType === 'USD'
                                         ? roundUsd(
@@ -1466,7 +1461,7 @@ const ReportPage = () => {
                                 </span>
                             </div>
                             <div className='font-semibold w-full gap-5 flex justify-between'>
-                                <div>O'tkazma:</div>
+                                <div>{t('O\'tkazma')}:</div>
                                 <span>
                                     {currencyType === 'USD'
                                         ? roundUsd(

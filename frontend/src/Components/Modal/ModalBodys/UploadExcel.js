@@ -3,7 +3,7 @@ import SelectInput from '../../SelectInput/SelectInput'
 import {useSelector} from 'react-redux'
 import SmallLoader from '../../Spinner/SmallLoader.js'
 import {map, uniqueId} from 'lodash'
-import { t } from 'i18next'
+import {t} from 'i18next'
 
 function UploadExcel({
                          excelData,

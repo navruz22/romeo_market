@@ -14,14 +14,9 @@ import {
     getIncomingConnectors,
     getIncomings,
     payDebt,
-    updateIncoming,
+    updateIncoming
 } from '../incomingSlice'
-import {
-    universalSort,
-    UsdToUzs,
-    UzsToUsd,
-    exportExcel,
-} from '../../../App/globalFunctions'
+import {exportExcel, universalSort, UsdToUzs, UzsToUsd} from '../../../App/globalFunctions'
 import SearchForm from '../../../Components/SearchForm/SearchForm'
 import {filter, map, uniqueId} from 'lodash'
 import UniversalModal from '../../../Components/Modal/UniversalModal'
@@ -848,7 +843,7 @@ const IncomingSuppliers = () => {
                     <>
                         <div className='mainPadding flex items-center justify-between'>
                             <ExportBtn onClick={exportData} />
-                            <span>Ro`yxat</span>
+                            <span>{t("Ro`yxat")}</span>
                             <Pagination
                                 currentPage={currentPage}
                                 setCurrentPage={setCurrentPage}
@@ -885,7 +880,7 @@ const IncomingSuppliers = () => {
                         </div>
                     </>
                 ) : (
-                    <NotFind text='Qabullar mavjud emas...' />
+                    <NotFind text={`${t('Qabullar mavjud emas...')}`} />
                 )}
                 <UniversalModal
                     body={modalBody}

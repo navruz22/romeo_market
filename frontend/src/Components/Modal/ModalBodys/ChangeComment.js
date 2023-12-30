@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import Api from "../../../Config/Api"
+import React, {useState} from 'react'
+import Api from '../../../Config/Api'
 import FieldContainer from '../../FieldContainer/FieldContainer'
-import { universalToast } from '../../ToastMessages/ToastMessages'
+import {universalToast} from '../../ToastMessages/ToastMessages'
 
 const ChangeComment = ({ commentText, dailyid, toggleModal }) => {
 

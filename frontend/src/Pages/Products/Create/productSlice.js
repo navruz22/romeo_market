@@ -4,7 +4,7 @@ import {
     successAddProductMessage,
     successDeleteProductMessage,
     successUpdateProductMessage,
-    universalToast,
+    universalToast
 } from '../../../Components/ToastMessages/ToastMessages.js'
 
 export const getProducts = createAsyncThunk(

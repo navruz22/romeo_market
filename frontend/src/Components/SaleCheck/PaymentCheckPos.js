@@ -60,13 +60,14 @@ export const PaymentCheckPos = forwardRef((props, ref) => {
                 <li className='flex justify-between text-[7pt] border-b border-b-black-300'>
                     {t("To'lov turi")}:{' '}
                     <span className='font-bold'>
-                        {payment.type === 'cash'
-                            ? 'Naqt'
-                            : payment.type === 'card'
-                            ? 'Plastik'
-                            : payment.type === 'transfer'
-                            ? "O'tkazma"
-                            : 'Aralash'}
+                       {payment.type === 'cash'
+                           ? `${t('Naqt')}`
+                           : payment.type === 'card'
+                               ? `${t('Plastik')}`
+                               : payment.type === 'transfer'
+                                   ? `${t("O'tkazma")}`
+                                   : `${t('Aralash')}`
+                       }
                     </span>
                 </li>
             </ul>

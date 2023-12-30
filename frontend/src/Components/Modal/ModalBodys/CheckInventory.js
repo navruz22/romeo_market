@@ -1,7 +1,7 @@
 import React from 'react'
 import PrintBtn from '../../Buttons/PrintBtn'
 import BtnAddRemove from '../../Buttons/BtnAddRemove'
-import {uniqueId, map} from 'lodash'
+import {map, uniqueId} from 'lodash'
 
 function CheckInventory() {
 

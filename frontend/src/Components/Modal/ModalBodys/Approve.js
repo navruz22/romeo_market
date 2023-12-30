@@ -1,5 +1,5 @@
-import { IoCloseCircleOutline } from 'react-icons/io5'
-import { useTranslation } from 'react-i18next';
+import {IoCloseCircleOutline} from 'react-icons/io5'
+import {useTranslation} from 'react-i18next'
 
 function Approve({ toggleModal, approveFunction, headerText, title }) {
     const { t } = useTranslation(['common'])

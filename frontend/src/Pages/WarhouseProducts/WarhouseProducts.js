@@ -8,9 +8,9 @@ import Dates from '../../Components/Dates/Dates'
 import FieldContainer from '../../Components/FieldContainer/FieldContainer'
 import SelectForm from '../../Components/Select/SelectForm'
 import {roundUsd, roundUzs} from '../../App/globalFunctions'
-import { FaFilter } from 'react-icons/fa'
-import { t } from 'i18next'
-import { VscClose } from 'react-icons/vsc'
+import {FaFilter} from 'react-icons/fa'
+import {t} from 'i18next'
+import {VscClose} from 'react-icons/vsc'
 
 const WarhouseProducts = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);

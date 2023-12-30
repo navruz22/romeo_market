@@ -1,7 +1,7 @@
-import React, { forwardRef } from 'react'
-import { uniqueId, map } from 'lodash'
-import { useSelector } from 'react-redux'
-import { t } from 'i18next'
+import React, {forwardRef} from 'react'
+import {map} from 'lodash'
+import {useSelector} from 'react-redux'
+import {t} from 'i18next'
 
 export const SmallCheck = forwardRef((props, ref) => {
     const {

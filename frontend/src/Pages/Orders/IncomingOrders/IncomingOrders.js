@@ -1,8 +1,8 @@
 import React from 'react'
-import { RouteLink } from '../../../Components/RouteLinks/RouteLink'
-import { Outlet } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next';
+import {RouteLink} from '../../../Components/RouteLinks/RouteLink'
+import {Outlet} from 'react-router-dom'
+import {motion} from 'framer-motion'
+import {useTranslation} from 'react-i18next'
 
 const IncomingOrders = () => {
     const { t } = useTranslation(['common'])

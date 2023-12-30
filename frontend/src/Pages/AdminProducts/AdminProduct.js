@@ -5,24 +5,21 @@ import BtnAddRemove from './../../Components/Buttons/BtnAddRemove'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     clearSearchedMarkets,
-    deleteMarket,
     createDirector,
     createMarket,
+    deleteMarket,
     editDirector,
     editMarket,
     getMarkets,
-    getMarketsByFilter,
+    getMarketsByFilter
 } from './adminproductsSlice.js'
 import Pagination from '../../Components/Pagination/Pagination.js'
 import Spinner from '../../Components/Spinner/SmallLoader.js'
 import NotFind from '../../Components/NotFind/NotFind.js'
 import UniversalModal from '../../Components/Modal/UniversalModal.js'
-import {
-    successAddDirectory,
-    successEditProfile,
-} from '../../Components/ToastMessages/ToastMessages.js'
+import {successAddDirectory, successEditProfile} from '../../Components/ToastMessages/ToastMessages.js'
 import {filter} from 'lodash'
-import { t } from 'i18next'
+import {t} from 'i18next'
 
 const AdminProduct = () => {
     const dispatch = useDispatch()
@@ -304,11 +301,11 @@ const AdminProduct = () => {
                 <UniversalModal
                     title={
                         modalBody === 'approve' &&
-                        "O'chirilgan do'kon ma'lumotlarini tiklashning imkoni mavjud emas"
+                        t("O'chirilgan do'kon ma'lumotlarini tiklashning imkoni mavjud emas")
                     }
                     headerText={
                         modalBody === 'approve' &&
-                        "Diqqat do'kon ma'lumotlarni o'chirishni tasdiqlaysizmi?"
+                        t("Diqqat do'kon ma'lumotlarni o'chirishni tasdiqlaysizmi?")
                     }
                     body={modalBody}
                     isOpen={modalVisible}

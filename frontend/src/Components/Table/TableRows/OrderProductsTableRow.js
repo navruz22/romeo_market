@@ -3,6 +3,7 @@ import {map} from 'lodash'
 import TableBtn from '../../Buttons/TableBtn'
 import TableInput from '../../Inputs/TableInput'
 import {IoAdd, IoRemove} from 'react-icons/io5'
+
 export const OrderProductsTableRow = ({
     data,
     currency,

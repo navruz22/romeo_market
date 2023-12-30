@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Table from '../../Components/Table/Table'
 import Pagination from '../../Components/Pagination/Pagination'
 import SearchForm from '../../Components/SearchForm/SearchForm.js'
-import { motion } from 'framer-motion'
+import {motion} from 'framer-motion'
 import {
     clearCompleteSuccessInventory,
     clearErrorInventories,
@@ -13,8 +13,8 @@ import {
     getInventoriesByFilter,
     updateInventory
 } from './inventorySlice'
-import { universalSort } from '../../App/globalFunctions.js'
-import { useDispatch, useSelector } from 'react-redux'
+import {universalSort} from '../../App/globalFunctions.js'
+import {useDispatch, useSelector} from 'react-redux'
 import {
     successCompleteInventoryMessage,
     successUpdateInventoryMessage,
@@ -23,9 +23,10 @@ import {
 import Spinner from '../../Components/Spinner/SmallLoader.js'
 import NotFind from '../../Components/NotFind/NotFind.js'
 import UniversalModal from '../../Components/Modal/UniversalModal.js'
-import { useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next';
-import {filter} from "lodash"   
+import {useNavigate} from 'react-router-dom'
+import {useTranslation} from 'react-i18next'
+import {filter} from 'lodash'
+
 function Inventory() {
     const { t } = useTranslation(['common'])
     const headers = [

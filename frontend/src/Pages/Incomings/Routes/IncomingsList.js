@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {universalSort, UsdToUzs, UzsToUsd, exportExcel} from '../../../App/globalFunctions'
+import {exportExcel, universalSort, UsdToUzs, UzsToUsd} from '../../../App/globalFunctions'
 import ExportBtn from '../../../Components/Buttons/ExportBtn'
 import Dates from '../../../Components/Dates/Dates'
 import UniversalModal from '../../../Components/Modal/UniversalModal'
@@ -18,7 +18,7 @@ import {
 } from '../incomingSlice'
 import {useTranslation} from 'react-i18next'
 import SmallLoader from '../../../Components/Spinner/SmallLoader'
-import { universalToast } from '../../../Components/ToastMessages/ToastMessages'
+import {universalToast} from '../../../Components/ToastMessages/ToastMessages'
 
 
 const IncomingsList = () => {

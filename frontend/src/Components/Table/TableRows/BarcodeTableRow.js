@@ -1,5 +1,5 @@
 import React from 'react'
-import {uniqueId, map} from 'lodash'
+import {map, uniqueId} from 'lodash'
 import TableBtn from '../../Buttons/TableBtn.js'
 
 export const BarcodeTableRow = (

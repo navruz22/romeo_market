@@ -4,20 +4,15 @@ import ExportBtn from '../../../Components/Buttons/ExportBtn.js'
 import Pagination from '../../../Components/Pagination/Pagination.js'
 import SearchForm from '../../../Components/SearchForm/SearchForm.js'
 import {useDispatch, useSelector} from 'react-redux'
-import {
-    clearSearchedProducts,
-    getProducts,
-    getProductsAll,
-    getProductsByFilter,
-} from './partnerProductSlice.js'
+import {clearSearchedProducts, getProducts, getProductsAll, getProductsByFilter} from './partnerProductSlice.js'
 import {filter, map} from 'lodash'
 import {exportExcel, universalSort} from '../../../App/globalFunctions.js'
 import {universalToast} from '../../../Components/ToastMessages/ToastMessages.js'
 import {useTranslation} from 'react-i18next'
 import Spinner from '../../../Components/Spinner/SmallLoader.js'
+import SmallLoader from '../../../Components/Spinner/SmallLoader.js'
 import NotFind from '../../../Components/NotFind/NotFind.js'
 import Table from '../../../Components/Table/Table.js'
-import SmallLoader from '../../../Components/Spinner/SmallLoader.js'
 import {useParams} from 'react-router-dom'
 
 const PartnerProducts = () => {

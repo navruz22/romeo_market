@@ -41,7 +41,7 @@ module.exports.getSellersReport = async (req, res) => {
         $lt: endDate,
       },
     })
-      .select('-isArchive -updatedAt -market -__v')
+      .select('-isArchive +updatedAt -market -__v')
       .sort({ _id: -1 })
       .populate({
         path: 'products',

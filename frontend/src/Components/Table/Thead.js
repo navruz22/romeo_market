@@ -1,5 +1,5 @@
 import {FaSortDown, FaSortUp} from 'react-icons/fa'
-import {uniqueId, map} from 'lodash'
+import {map, uniqueId} from 'lodash'
 
 function Thead({headers, Sort, sortItem}) {
     const sort = (filter, pos) => {

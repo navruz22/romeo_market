@@ -41,9 +41,9 @@ import {useTranslation} from 'react-i18next'
 import {filter, map} from 'lodash'
 import ExportBtn from '../../Components/Buttons/ExportBtn.js'
 import SelectForm from '../../Components/Select/SelectForm.js'
-import { VscChromeClose } from "react-icons/vsc";
+import {VscChromeClose} from 'react-icons/vsc'
 import TableMobile from '../../Components/Table/TableMobile.js'
-import { FaFilter } from 'react-icons/fa'
+import {FaFilter} from 'react-icons/fa'
 
 
 const Category = () => {
@@ -508,7 +508,7 @@ const Category = () => {
                     <FieldContainer
                         value={nameOfCategory}
                         label={t('Kategoriya nomi')}
-                        placeholder={t('misol: Alo24')}
+                        placeholder={''}
                         maxWidth={'w-[29rem]'}
                         type={'string'}
                         onChange={handleChangeNameOfCategory}

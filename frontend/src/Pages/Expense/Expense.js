@@ -2,12 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import FieldContainer from '../../Components/FieldContainer/FieldContainer'
 import Button from '../../Components/Buttons/BtnAddRemove'
-import {
-    clearSuccessRegister,
-    deleteExpense,
-    getExpense,
-    registerExpense
-} from './expenseSlice'
+import {clearSuccessRegister, deleteExpense, getExpense, registerExpense} from './expenseSlice'
 import SearchForm from '../../Components/SearchForm/SearchForm'
 import Pagination from '../../Components/Pagination/Pagination'
 import Table from '../../Components/Table/Table'
@@ -283,7 +278,7 @@ const Expense = () => {
                                 }
                                 onChange={(e) => handleChangeInput(e, 'sum')}
                                 label={t('Narxi')}
-                                placeholder={'misol: 100'}
+                                placeholder={`${t('misol')}: 100`}
                                 maxWidth={'w-[21.75rem]'}
                                 type={'number'}
                                 border={true}
@@ -362,7 +357,7 @@ const Expense = () => {
                                 value={expenseType}
                                 onChange={handleChangeSelect}
                                 label={t('Xarajat turi')}
-                                placeholder={t('misol: Dilso`z')}
+                                placeholder={''}
                                 select={true}
                                 options={types}
                                 maxWidth={'w-[90vw]'}

@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
-import { RouteLink } from '../../Components/RouteLinks/RouteLink'
-import { Outlet } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { motion } from 'framer-motion'
-import { getCurrency } from '../Currency/currencySlice.js'
-import { useTranslation } from 'react-i18next'
+import React, {useEffect} from 'react'
+import {RouteLink} from '../../Components/RouteLinks/RouteLink'
+import {Outlet} from 'react-router-dom'
+import {useDispatch, useSelector} from 'react-redux'
+import {motion} from 'framer-motion'
+import {getCurrency} from '../Currency/currencySlice.js'
+import {useTranslation} from 'react-i18next'
 
 const Sale = () => {
     const { t } = useTranslation(['common'])

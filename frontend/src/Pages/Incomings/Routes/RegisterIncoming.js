@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import SelectInput from '../../../Components/SelectInput/SelectInput'
 import Table from '../../../Components/Table/Table'
 import {
@@ -9,27 +9,20 @@ import {
     clearSuccessTemporary,
     clearTemporary,
     deleteTemporary,
-    getProducts,
     getAllSuppliers,
+    getProducts
 } from '../incomingSlice'
-import { ConfirmBtn, SaveBtn } from '../../../Components/Buttons/SaveConfirmBtn'
+import {ConfirmBtn, SaveBtn} from '../../../Components/Buttons/SaveConfirmBtn'
 import UniversalModal from '../../../Components/Modal/UniversalModal'
-import {
-    currentExchangerate,
-    reduceSumm,
-    roundUsd,
-    roundUzs,
-    UsdToUzs,
-    UzsToUsd,
-} from '../../../App/globalFunctions'
-import { useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { filter, map } from 'lodash'
+import {currentExchangerate, reduceSumm, roundUsd, roundUzs, UsdToUzs, UzsToUsd} from '../../../App/globalFunctions'
+import {useNavigate} from 'react-router-dom'
+import {useTranslation} from 'react-i18next'
+import {filter, map} from 'lodash'
 import {
     universalToast,
     warningCurrencyRate,
     warningMorePayment,
-    warningSaleProductsEmpty,
+    warningSaleProductsEmpty
 } from '../../../Components/ToastMessages/ToastMessages'
 import CustomerPayment from '../../../Components/Payment/CustomerPayment.js'
 import Loader from '../../../Components/Loader/Loader'
@@ -115,7 +108,7 @@ const RegisterIncoming = () => {
         ) {
             addIncomingToModal(e.value)
         } else {
-            universalToast("Diqqat mahsulot ro'yxatda mavjud", 'warning')
+            universalToast(t("Diqqat mahsulot ro'yxatda mavjud"), 'warning')
         }
     }
 

@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import TableInput from '../../Inputs/TableInput.js'
-import { useSelector } from 'react-redux'
-import { IoEye, IoEyeOff } from 'react-icons/io5'
-import { useTranslation } from 'react-i18next';
+import {useSelector} from 'react-redux'
+import {IoEye, IoEyeOff} from 'react-icons/io5'
+import {useTranslation} from 'react-i18next'
 
 function Sell({ product, changeProduct, approveFunction, toggleModal }) {
     const { t } = useTranslation(['common'])

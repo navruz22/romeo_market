@@ -1,4 +1,4 @@
-import { t } from 'i18next'
+import {t} from 'i18next'
 import React from 'react'
 import {Link} from 'react-router-dom'
 
@@ -30,11 +30,11 @@ const CardLink = (
 
                 <div className='text-[.875rem] mt-[1rem]'>
                     <div className='numberCard'>
-                        <p className='paragrafCard'>Maxsulot:</p>
+                        <p className='paragrafCard'>{t("Maxsulot")}:</p>
                         <p>{pieces.toLocaleString('ru-Ru')}</p>
                     </div>
                     <div className='numberCard'>
-                        <p className='paragrafCard'> Yetkazuvchilar</p>
+                        <p className='paragrafCard'>{t('Yetkazuvchilar')}</p>
                         <p>{suppliers.toLocaleString('ru-Ru')}</p>
                     </div>
                     <div className='numberCard'>

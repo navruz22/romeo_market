@@ -8,20 +8,20 @@ import {
     clearSearchedProducts,
     getProducts,
     getProductsAll,
-    getProductsByFilter,
+    getProductsByFilter
 } from '../../Products/Create/productSlice.js'
 import {filter, map} from 'lodash'
 import {exportExcel, universalSort} from '../../../App/globalFunctions.js'
 import {universalToast} from '../../../Components/ToastMessages/ToastMessages.js'
 import {useTranslation} from 'react-i18next'
 import Spinner from '../../../Components/Spinner/SmallLoader.js'
+import SmallLoader from '../../../Components/Spinner/SmallLoader.js'
 import NotFind from '../../../Components/NotFind/NotFind.js'
 import Table from '../../../Components/Table/Table.js'
-import SmallLoader from '../../../Components/Spinner/SmallLoader.js'
 import {
     checkShowAllProducts,
     showAllProductsToConnectionMarket,
-    showProductToConnectionMarket,
+    showProductToConnectionMarket
 } from '../connectionSlice.js'
 import ProductCheckbox from '../../../Components/Checkbox/ProductCheckBox.js'
 import {useParams} from 'react-router-dom'

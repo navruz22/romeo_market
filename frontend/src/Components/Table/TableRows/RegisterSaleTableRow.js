@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import TableBtn from '../../Buttons/TableBtn'
 import TableInput from '../../Inputs/TableInput'
-import { filter, map } from 'lodash'
-import { IoAdd, IoEye, IoEyeOff, IoRemove } from 'react-icons/io5'
-import { useSelector } from 'react-redux'
-import SelectInput from '../../SelectInput/SelectInput'
-import Select from 'react-select'
-import { t } from 'i18next'
+import {filter, map} from 'lodash'
+import {IoAdd, IoEye, IoEyeOff, IoRemove} from 'react-icons/io5'
+import {useSelector} from 'react-redux'
+import {t} from 'i18next'
 
 export const RegisterSaleTableRow = (
     {

@@ -11,18 +11,18 @@ import {universalToast} from '../../Components/ToastMessages/ToastMessages'
 import {getMinimumProducts} from './productreportSlice'
 
 const ProductMinimum = () => {
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-        useEffect(() => {
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+    useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
+            setIsMobile(window.innerWidth <= 768)
+        }
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', handleResize)
 
         return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-        }, []);
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
     const dispatch = useDispatch()
     const {currencyType} = useSelector((state) => state.currency)
     const {minimumproducts} = useSelector((state) => state.productReport)
@@ -33,51 +33,51 @@ const ProductMinimum = () => {
     const [sorItem, setSorItem] = useState({
         filter: '',
         sort: '',
-        count: 0,
+        count: 0
     })
 
     const headers = [
         {title: t('№')},
         {
             filter: 'productdata.barcode',
-            title: t('Shtrix kodi'),
+            title: t('Shtrix kodi')
         },
         {
             title: t('Kategoriyasi'),
-            filter: t('category.code'),
+            filter: t('category.code')
         },
         {title: t('Kodi'), filter: 'productdata.code'},
         {title: t('Nomi'), filter: 'productdata.name'},
         {
             title: t('Soni'),
-            filter: 'total',
+            filter: 'total'
         },
         {
             title: t('Olish'),
             filter:
                 currencyType === 'UZS'
                     ? 'price.incomingpriceuzs'
-                    : 'price.incomingprice',
+                    : 'price.incomingprice'
         },
         {
             title: t('Sotish'),
             filter:
                 currencyType === 'UZS'
                     ? 'price.sellingpriceuzs'
-                    : 'price.sellingprice',
+                    : 'price.sellingprice'
         },
         {
             title: t('Optom'),
             filter:
                 currencyType === 'UZS'
                     ? 'price.tradeprice'
-                    : 'price.tradepriceuzs',
+                    : 'price.tradepriceuzs'
         },
         {
             title: t('Minimum qiymat'),
             filter: 'minimumcount',
-            styles: 'w-[5%]',
-        },
+            styles: 'w-[5%]'
+        }
     ]
 
     const exportData = () => {
@@ -89,14 +89,14 @@ const ProductMinimum = () => {
             t('Mahsulot kodi'),
             t('Mahsulot nomi'),
             t('Soni'),
-            t("O'lchov birligi"),
+            t('O\'lchov birligi'),
             t('Kelish narxi USD'),
             t('Kelish narxi UZS'),
             t('Sotish narxi USD'),
             t('Sotish narxi UZS'),
             t('Optom narxi USD'),
             t('Optom narxi UZS'),
-            t('Minimum qiymat'),
+            t('Minimum qiymat')
         ]
         if (minimumproducts?.length > 0) {
             const newData = map(minimumproducts, (item, index) => ({
@@ -113,11 +113,11 @@ const ProductMinimum = () => {
                 sellingpriceuzs: item?.price?.sellingpriceuzs || '',
                 tradeprice: item?.price?.tradeprice || '',
                 tradepriceuzs: item?.price?.tradepriceuzs || '',
-                minimumcount: item?.minimumcount || '',
+                minimumcount: item?.minimumcount || ''
             }))
             exportExcel(newData, fileName, exportHeader)
         } else {
-            universalToast("Jadvalda ma'lumot mavjud emas !", 'warning')
+            universalToast('Jadvalda ma\'lumot mavjud emas !', 'warning')
         }
     }
 
@@ -128,7 +128,7 @@ const ProductMinimum = () => {
                     setSorItem({
                         filter: filterKey,
                         sort: '1',
-                        count: 2,
+                        count: 2
                     })
                     universalSort(
                         currentData,
@@ -142,7 +142,7 @@ const ProductMinimum = () => {
                     setSorItem({
                         filter: filterKey,
                         sort: '',
-                        count: 0,
+                        count: 0
                     })
                     universalSort(
                         currentData,
@@ -156,7 +156,7 @@ const ProductMinimum = () => {
                     setSorItem({
                         filter: filterKey,
                         sort: '-1',
-                        count: 1,
+                        count: 1
                     })
                     universalSort(
                         currentData,
@@ -170,7 +170,7 @@ const ProductMinimum = () => {
             setSorItem({
                 filter: filterKey,
                 sort: '-1',
-                count: 1,
+                count: 1
             })
             universalSort(
                 currentData,
@@ -207,7 +207,7 @@ const ProductMinimum = () => {
             const {category} = product
             const obj = {
                 label: category.code + ' - ' + category.name,
-                value: category._id,
+                value: category._id
             }
             if (categoriesData.length > 0) {
                 if (
@@ -223,61 +223,61 @@ const ProductMinimum = () => {
         })
         setCategories([
             {
-                label: 'Hammasi',
-                value: 'all',
+                label: `${t('Hammasi')}`,
+                value: 'all'
             },
-            ...categoriesData,
+            ...categoriesData
         ])
     }, [minimumproducts])
 
     return minimumproducts.length > 0 ? (
         <div className='pt-[1rem]'>
             <div className='flex items-center justify-center mainPadding'>
-                
+
             </div>
             {currentData.length && (
                 <div className='flex lg:justify-start items-center lg:ps-[20px] justify-evenly gap-3 '>
                     <ExportBtn onClick={exportData} />
                     <span className=''>
                     <SelectInput
-                        placeholder={'Kategoriya'}
+                        placeholder={t('Kategoriya')}
                         options={categories}
                         onSelect={selectCategory}
                     />
                     </span>
                 </div>
             )}
-            
+
             {currentData.length > 0 && (
                 <div className='mt-3 lg:p-4'>{
-                    !isMobile?<Table
-                        currencyType={currencyType}
-                        headers={headers}
-                        page={'product'}
-                        data={currentData}
-                        Sort={filterData}
-                        sortItem={sorItem}
-                        currency={currencyType}
-                        productminimumpage={true}
-                    />:
-                    <TableMobile
-                        currencyType={currencyType}
-                        headers={headers}
-                        page={'productMinimum'}
-                        data={currentData}
-                        Sort={filterData}
-                        sortItem={sorItem}
-                        currency={currencyType}
-                        productminimumpage={true}
-                    />
-                    }
+                    !isMobile ? <Table
+                            currencyType={currencyType}
+                            headers={headers}
+                            page={'product'}
+                            data={currentData}
+                            Sort={filterData}
+                            sortItem={sorItem}
+                            currency={currencyType}
+                            productminimumpage={true}
+                        /> :
+                        <TableMobile
+                            currencyType={currencyType}
+                            headers={headers}
+                            page={'productMinimum'}
+                            data={currentData}
+                            Sort={filterData}
+                            sortItem={sorItem}
+                            currency={currencyType}
+                            productminimumpage={true}
+                        />
+                }
                 </div>
             )}
         </div>
     ) : (
         <div className='flex items-center justify-center pt-[2rem]'>
             <p className='product_name text-center'>
-                Kam qolgan mahsulotlar mavjud emas...
+               `${t("Kam qolgan mahsulotlar mavjud emas...")}`
             </p>
         </div>
     )

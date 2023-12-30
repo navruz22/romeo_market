@@ -12,7 +12,7 @@ import {
     successAddSellerMessage,
     successUpdateSellerMessage,
     universalToast,
-    warningEmptyInput,
+    warningEmptyInput
 } from './../../Components/ToastMessages/ToastMessages'
 import {useTranslation} from 'react-i18next'
 import {
@@ -21,12 +21,11 @@ import {
     clearSuccessAddSeller,
     clearSuccessUpdateSeller,
     getSellers,
-    updateSeller,
+    updateSeller
 } from './sellerSlice'
 import {useNavigate} from 'react-router-dom'
 import SearchForm from '../../Components/SearchForm/SearchForm'
-import { VscChromeClose } from 'react-icons/vsc'
-import SelectForm from '../../Components/Select/SelectForm.js'
+import {VscChromeClose} from 'react-icons/vsc'
 
 function Sellers() {
     const {t} = useTranslation(['common'])
@@ -276,7 +275,7 @@ function Sellers() {
                             setSellerName(e.target.value)
                         }}
                         label={t('Ismi')}
-                        placeholder={t('misol: Jasurbek')}
+                        placeholder={t('Jasurbek')}
                         maxWidth={'w-[21.75rem]'}
                         type={'text'}
                         border={true}
@@ -393,7 +392,7 @@ function Sellers() {
                             setSellerName(e.target.value)
                         }}
                         label={t('Ismi')}
-                        placeholder={t('misol: Jasurbek')}
+                        placeholder={t('Jasurbek')}
                         maxWidth={'w-[90vw]'}
                         type={'text'}
                         border={true}

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import ImageCrop from '../../Components/ImageCrop/ImageCrop.js'
-import { useDispatch, useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import FieldContainer from '../../Components/FieldContainer/FieldContainer.js'
 import BtnAddRemove from '../../Components/Buttons/BtnAddRemove.js'
-import { editProfileImage, editUser } from '../Login/loginSlice.js'
-import { successUploadImage, warningEmptyInput } from '../../Components/ToastMessages/ToastMessages.js'
-import { checkEmptyString } from '../../App/globalFunctions.js'
+import {editProfileImage, editUser} from '../Login/loginSlice.js'
+import {successUploadImage, warningEmptyInput} from '../../Components/ToastMessages/ToastMessages.js'
+import {checkEmptyString} from '../../App/globalFunctions.js'
 import SmallLoader from '../../Components/Spinner/SmallLoader.js'
-import { t } from 'i18next'
+import {t} from 'i18next'
 
 function EditProfile() {
     const dispatch = useDispatch()

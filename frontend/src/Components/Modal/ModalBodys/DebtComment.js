@@ -37,8 +37,8 @@ const DebtComment = ({toggleModal}) => {
                     }
                 >
                     <FieldContainer
-                        placeholder={'Izoh'}
-                        label={'Qarz izohi:'}
+                        placeholder={t('Izoh')}
+                        label={t('Qarz izohi')}
                         value={value}
                         onChange={(e) => setValue(e.target.value)}
                         onKeyUp={(e) => {

@@ -1,9 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import Api from '../../../Config/Api.js'
-import {
-    successSavedTemporary,
-    universalToast,
-} from '../../../Components/ToastMessages/ToastMessages.js'
+import {successSavedTemporary, universalToast} from '../../../Components/ToastMessages/ToastMessages.js'
 
 export const getAllProducts = createAsyncThunk(
     'registerSelling/getAllProducts',

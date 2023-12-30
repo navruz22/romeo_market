@@ -15,7 +15,7 @@ import {
     successAddClientMessage,
     successDeleteClientMessage,
     successUpdateClientMessage,
-    warningEmptyInput,
+    warningEmptyInput
 } from '../../Components/ToastMessages/ToastMessages.js'
 import {
     addClients,
@@ -24,12 +24,12 @@ import {
     getAllPackmans,
     getClients,
     getClientsByFilter,
-    updateClients,
+    updateClients
 } from './clientsSlice'
 import {checkEmptyString} from '../../App/globalFunctions.js'
 import {useTranslation} from 'react-i18next'
-import { VscChromeClose } from 'react-icons/vsc'
-import { FaFilter } from 'react-icons/fa'
+import {VscChromeClose} from 'react-icons/vsc'
+import {FaFilter} from 'react-icons/fa'
 import SelectForm from '../../Components/Select/SelectForm.js'
 
 const ClientsPage = () => {
@@ -43,9 +43,9 @@ const ClientsPage = () => {
         {title: '№', styles: 'w-[8%] text-left'},
         // {title: t('Agent'), styles: 'w-[41%] text-left'},
         {title: t('Mijoz'), styles: 'w-[41%] text-left'},
-        {title: 'Savdo', styles: 'w-[41%] text-left'},
-        {title: 'Sof foyda', styles: 'w-[41%] text-left'},
-        {title: '', styles: 'w-[8%] text-left'},
+        {title: t('Savdo'), styles: 'w-[41%] text-left'},
+        {title: t('Sof foyda'), styles: 'w-[41%] text-left'},
+        {title: '', styles: 'w-[8%] text-left'}
     ]
 
     const [startDate, setStartDate] = useState(
@@ -84,18 +84,18 @@ const ClientsPage = () => {
             setDeletedClients(null)
         }, 500)
     }
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
+            setIsMobile(window.innerWidth <= 768)
+        }
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', handleResize)
 
         return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
 
     // handle change of input
     const handleChangeClientName = (e) => {
@@ -133,8 +133,8 @@ const ClientsPage = () => {
             currentPage,
             countPage: showByTotal,
             search: {
-                client: searchByName.replace(/\s+/g, ' ').trim(),
-            },
+                client: searchByName.replace(/\s+/g, ' ').trim()
+            }
         }
         dispatch(deleteClients(body)).then(({error}) => {
             if (!error) {
@@ -150,8 +150,8 @@ const ClientsPage = () => {
         const {failed, message} = checkEmptyString([
             {
                 value: clientName,
-                message: t('Mijoz ismi'),
-            },
+                message: t('Mijoz ismi')
+            }
         ])
         if (failed) {
             warningEmptyInput(message)
@@ -162,8 +162,8 @@ const ClientsPage = () => {
                 currentPage,
                 countPage: showByTotal,
                 search: {
-                    client: searchByName.replace(/\s+/g, ' ').trim(),
-                },
+                    client: searchByName.replace(/\s+/g, ' ').trim()
+                }
             }
             dispatch(addClients(body)).then(({error}) => {
                 if (!error) {
@@ -179,8 +179,8 @@ const ClientsPage = () => {
         const {failed, message} = checkEmptyString([
             {
                 value: clientName,
-                message: t('Mijoz ismi'),
-            },
+                message: t('Mijoz ismi')
+            }
         ])
         if (failed) {
             warningEmptyInput(message)
@@ -192,8 +192,8 @@ const ClientsPage = () => {
                 currentPage,
                 countPage: showByTotal,
                 search: {
-                    client: searchByName.replace(/\s+/g, ' ').trim(),
-                },
+                    client: searchByName.replace(/\s+/g, ' ').trim()
+                }
             }
             dispatch(updateClients(body)).then(({error}) => {
                 if (!error) {
@@ -247,8 +247,8 @@ const ClientsPage = () => {
                 currentPage,
                 countPage: showByTotal,
                 search: {
-                    client: searchByName.replace(/\s+/g, ' ').trim(),
-                },
+                    client: searchByName.replace(/\s+/g, ' ').trim()
+                }
             }
             dispatch(getClientsByFilter(body))
         }
@@ -270,8 +270,8 @@ const ClientsPage = () => {
             endDate,
             search: {
                 client: searchByName.replace(/\s+/g, ' ').trim(),
-                packman: packmanId,
-            },
+                packman: packmanId
+            }
         }
         dispatch(getClients(body))
         //    eslint-disable-next-line react-hooks/exhaustive-deps
@@ -300,7 +300,7 @@ const ClientsPage = () => {
             exit='collapsed'
             variants={{
                 open: {opacity: 1, height: 'auto'},
-                collapsed: {opacity: 0, height: 0},
+                collapsed: {opacity: 0, height: 0}
             }}
             transition={{duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98]}}
         >
@@ -325,7 +325,7 @@ const ClientsPage = () => {
                         value={packman}
                         onChange={handleChangeOptions}
                         label={t('Agentni tanlang')}
-                        placeholder={t('misol: Dilso`z')}
+                        placeholder={t('Dilso`z')}
                         select={true}
                         options={packmanOptions}
                         maxWidth={'lg:w-[21rem] w-[90vw]'}
@@ -356,50 +356,56 @@ const ClientsPage = () => {
                 </div>
             </form>
             <div className='flex ps-[10px] pe-[20px] lg:justify-start gap-2 items-center justify-between mb-4'>
-            <SelectForm  key={'total_1'}  onSelect={filterByTotal}/>
-            <button onClick={() => {
-                      setModalOpen(true);
-                      
-                    }}  className='d-block  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[150px] h-[40px] createElement '><FaFilter   /> {t('izlash')}</button>
+                <SelectForm key={'total_1'} onSelect={filterByTotal} />
+                <button onClick={() => {
+                    setModalOpen(true)
+
+                }}
+                        className='d-block  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[150px] h-[40px] createElement '>
+                    <FaFilter /> {t('izlash')}</button>
             </div>
             {
-                modalOpen?<div className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap    top-0	left-0 z-50 bg-[white]	'>
-                <VscChromeClose  onClick={()=>setModalOpen(false)} className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer'/>
-                <div className='mt-[10px] flex flex-wrap justify-center items-center'>
-                <SearchForm
-                    filterBy={[
-                        'total',
-                        'startDate',
-                        'endDate',
-                        'clientName',
-                        'select',
-                    ]}
-                    filterByPackman={filterByPackman}
-                    filterByTotal={filterByTotal}
-                    filterByClientNameWhenPressEnter={filterByNameWhenPressEnter}
-                    filterByDelivererNameWhenPressEnter={filterByNameWhenPressEnter}
-                    searchByClientName={searchByName}
-                    filterByClientName={filterByClientName}
-                    startDate={startDate}
-                    endDate={new Date(endDate)}
-                    setStartDate={setStartDate}
-                    setEndDate={setEndDate}
-                    searchByPackmans={[
-                        {
-                            label: 'Barchasi',
-                            value: null,
-                        },
-                        ...packmanOptions,
-                    ]}
-                />
-                <button onClick={() => {
-                      setModalOpen(false);
-                      
-                    }}  className='d-block  hover:bg-blue-200  bg-blue-400  lg:mt-[25px]  focus-visible:outline-none w-[150px] h-[40px] createElement '><FaFilter   /> {t('izlash')}</button>
-                </div>
-                </div>:null
+                modalOpen ? <div
+                    className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap    top-0	left-0 z-50 bg-[white]	'>
+                    <VscChromeClose onClick={() => setModalOpen(false)}
+                                    className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
+                    <div className='mt-[10px] flex flex-wrap justify-center items-center'>
+                        <SearchForm
+                            filterBy={[
+                                'total',
+                                'startDate',
+                                'endDate',
+                                'clientName',
+                                'select'
+                            ]}
+                            filterByPackman={filterByPackman}
+                            filterByTotal={filterByTotal}
+                            filterByClientNameWhenPressEnter={filterByNameWhenPressEnter}
+                            filterByDelivererNameWhenPressEnter={filterByNameWhenPressEnter}
+                            searchByClientName={searchByName}
+                            filterByClientName={filterByClientName}
+                            startDate={startDate}
+                            endDate={new Date(endDate)}
+                            setStartDate={setStartDate}
+                            setEndDate={setEndDate}
+                            searchByPackmans={[
+                                {
+                                    label: 'Barchasi',
+                                    value: null
+                                },
+                                ...packmanOptions
+                            ]}
+                        />
+                        <button onClick={() => {
+                            setModalOpen(false)
+
+                        }}
+                                className='d-block  hover:bg-blue-200  bg-blue-400  lg:mt-[25px]  focus-visible:outline-none w-[150px] h-[40px] createElement '>
+                            <FaFilter /> {t('izlash')}</button>
+                    </div>
+                </div> : null
             }
-            
+
 
             <div className='lg:tableContainerPadding'>
                 {loading ? (
@@ -407,27 +413,27 @@ const ClientsPage = () => {
                 ) : data.length === 0 && searchedData.length === 0 ? (
                     <NotFind text={t('Mijozlar mavjud emas')} />
                 ) : (
-                    !isMobile?
-                    <Table
-                        data={searchedData.length > 0 ? searchedData : data}
-                        page={'client'}
-                        currentPage={currentPage}
-                        countPage={showByTotal}
-                        headers={headers}
-                        Edit={handleEditClients}
-                        Delete={handleDeleteClient}
-                        Print={handlePrint}
-                    />:
-                    <TableMobile
-                        data={searchedData.length > 0 ? searchedData : data}
-                        page={'client'}
-                        currentPage={currentPage}
-                        countPage={showByTotal}
-                        headers={headers}
-                        Edit={handleEditClients}
-                        Delete={handleDeleteClient}
-                        Print={handlePrint}
-                    />
+                    !isMobile ?
+                        <Table
+                            data={searchedData.length > 0 ? searchedData : data}
+                            page={'client'}
+                            currentPage={currentPage}
+                            countPage={showByTotal}
+                            headers={headers}
+                            Edit={handleEditClients}
+                            Delete={handleDeleteClient}
+                            Print={handlePrint}
+                        /> :
+                        <TableMobile
+                            data={searchedData.length > 0 ? searchedData : data}
+                            page={'client'}
+                            currentPage={currentPage}
+                            countPage={showByTotal}
+                            headers={headers}
+                            Edit={handleEditClients}
+                            Delete={handleDeleteClient}
+                            Print={handlePrint}
+                        />
                 )}
             </div>
             <div className='pagination-supplier flex justify-center mt-[30px] mb-[30px] '>

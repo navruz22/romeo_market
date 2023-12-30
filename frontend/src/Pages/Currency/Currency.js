@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import FieldContainer from '../../Components/FieldContainer/FieldContainer.js'
 import Button from '../../Components/Buttons/BtnAddRemove.js'
 import Table from '../../Components/Table/Table.js'
 import TableMobile from '../../Components/Table/TableMobile.js'
-import { useDispatch, useSelector } from 'react-redux'
-import { motion } from 'framer-motion'
-import {
-    addExchangerate,
-    deleteExchangerate,
-    getCurrencies,
-    updateExchangerate,
-    updateProductPrices,
-} from './currencySlice.js'
+import {useDispatch, useSelector} from 'react-redux'
+import {motion} from 'framer-motion'
+import {addExchangerate, deleteExchangerate, getCurrencies, updateExchangerate} from './currencySlice.js'
 import UniversalModal from '../../Components/Modal/UniversalModal.js'
 import Spinner from '../../Components/Spinner/SmallLoader.js'
-import NotFind from '../../Components/NotFind/NotFind.js'
-import { checkEmptyString } from '../../App/globalFunctions.js'
-import { universalToast } from '../../Components/ToastMessages/ToastMessages.js'
-import { useTranslation } from 'react-i18next'
 import SmallLoader from '../../Components/Spinner/SmallLoader.js'
+import NotFind from '../../Components/NotFind/NotFind.js'
+import {checkEmptyString} from '../../App/globalFunctions.js'
+import {universalToast} from '../../Components/ToastMessages/ToastMessages.js'
+import {useTranslation} from 'react-i18next'
 import Checkbox from '../../Components/Checkbox/Checkbox.js'
 
 const Currency = () => {
@@ -182,7 +176,7 @@ const Currency = () => {
             <UniversalModal
                 headerText={
                     newExchange
-                        ? "Diqqat! Barcha mahsulotlar narxi valyuta kursiga nisbatan o'zgarishini xohlaysizmi?"
+                        ? `${t("Diqqat! Barcha mahsulotlar narxi valyuta kursiga nisbatan o'zgarishini xohlaysizmi?")}`
                         : `${deletedExchange && deletedExchange.exchangerate
                         } ${t("kurs narxini o'chirishni tasdiqlaysizmi?")}`
                 }
@@ -210,7 +204,7 @@ const Currency = () => {
                         value={exchangeName}
                         onChange={handleChangeExchangeName}
                         label={t('Kurs narxi')}
-                        placeholder={t('misol: 11 000 UZS')}
+                        placeholder={"11 000 UZS"}
                         maxWidth={'w-[30.75rem]'}
                         type={'number'}
                         border={true}

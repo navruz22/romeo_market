@@ -11,7 +11,7 @@ import {
     clearSearchedProducts,
     getProducts,
     getProductsAll,
-    getProductsByFilter,
+    getProductsByFilter
 } from '../Products/Create/productSlice.js'
 import {useReactToPrint} from 'react-to-print'
 import {BarCode} from '../../Components/BarCode/BarCode.js'
@@ -448,7 +448,7 @@ const Labels = ({id}) => {
                         headers={headers}
                         Sort={filterData}
                         sortItem={sorItem}
-                        placeholder={'misol : 10'}
+                        placeholder={`${t('misol')} : 10`}
                         changeHandler={handleChequeCount}
                         Print={handlePrintToProduct}
                         printedData={printedData}

@@ -2,6 +2,7 @@ import React from 'react'
 import {IoArrowRedoCircleSharp} from 'react-icons/io5'
 import {map, uniqueId} from 'lodash'
 import {Link} from 'react-router-dom'
+
 export const FilialShopTableRow = ({
     data,
     currentPage,

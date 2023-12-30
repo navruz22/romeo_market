@@ -12,7 +12,7 @@ import NotFind from '../../NotFind/NotFind.js'
 import Pagination from '../../Pagination/Pagination.js'
 import AdminProductCard from '../../AdminProductCard/AdminProductCard.js'
 import BtnAddRemove from '../../Buttons/BtnAddRemove.js'
-import {map, filter} from 'lodash'
+import {filter, map} from 'lodash'
 
 function AdminMarkets({product, approveFunction}) {
     const dispatch = useDispatch()

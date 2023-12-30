@@ -1,13 +1,7 @@
-import { t } from 'i18next'
+import {t} from 'i18next'
 import React from 'react'
 
-import {
-    IoArrowForward,
-    IoClose,
-    IoAdd,
-    IoCheckmark,
-    IoArrowBack,
-} from 'react-icons/io5'
+import {IoAdd, IoArrowBack, IoArrowForward, IoCheckmark, IoClose} from 'react-icons/io5'
 
 function Exchanges({
     dataObject,

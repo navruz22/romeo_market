@@ -10,17 +10,17 @@ import {motion} from 'framer-motion'
 import {VscChromeClose} from 'react-icons/vsc'
 
 import {
+    addClient,
     clearSearchedSellings,
-    getSellings,
-    getSellingsByFilter,
     excelAllSellings,
-    addClient
+    getSellings,
+    getSellingsByFilter
 } from '../Slices/sellingsSlice.js'
 import {regexForTypeNumber} from '../../../Components/RegularExpressions/RegularExpressions.js'
 import UniversalModal from '../../../Components/Modal/UniversalModal.js'
 import {useTranslation} from 'react-i18next'
 import {filter, map} from 'lodash'
-import {universalSort, exportExcel} from './../../../App/globalFunctions'
+import {exportExcel, universalSort} from './../../../App/globalFunctions'
 import {universalToast} from '../../../Components/ToastMessages/ToastMessages.js'
 import socket from '../../../Config/socket.js'
 import {setAllProductsBySocket} from '../Slices/registerSellingSlice.js'
@@ -491,7 +491,7 @@ const Sellings = ({id}) => {
                 {getSellingsLoading ? (
                     <Spinner />
                 ) : data.length === 0 && searchedData.length === 0 ? (
-                    <NotFind text={'Ro\'yxat mavjud emas...'} />
+                    <NotFind text={`${t("Ro'yxat mavjud emas")}`} />
                 ) : (
                     !isMobile ? <Table
                         data={searchedData.length > 0 ? searchedData : data}

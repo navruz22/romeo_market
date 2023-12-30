@@ -1,6 +1,7 @@
-import React from "react";
+import React from 'react'
 import Table from '../../../../Components/Table/Table'
-import { t } from "i18next";
+import {t} from 'i18next'
+
 function SavedOrders() {
     const data = [
         {

@@ -15,10 +15,11 @@ import {
     getMarketByInn,
     getNewRequestsToConnection,
     incomingRequestsToConnection,
-    sendingRequestsToConnection,
+    sendingRequestsToConnection
 } from './connectionSlice.js'
 import SearchForm from '../../Components/SearchForm/SearchForm.js'
-import {map, uniqueId, filter} from 'lodash'
+import {filter, map, uniqueId} from 'lodash'
+
 function Connection() {
     const {t} = useTranslation(['common'])
     const dispatch = useDispatch()

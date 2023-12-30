@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import FieldContainer from '../../../../Components/FieldContainer/FieldContainer'
 import Table from '../../../../Components/Table/Table'
-import {useSelector, useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import SearchInput from '../../../../Components/Inputs/SearchInput.js'
 import Spinner from '../../../../Components/Spinner/SmallLoader.js'
 import {filter, map} from 'lodash'
@@ -14,22 +14,19 @@ import socket from '../../../../Config/socket.js'
 import {
     universalToast,
     warningCurrencyRate,
-    warningSaleProductsEmpty,
+    warningSaleProductsEmpty
 } from '../../../../Components/ToastMessages/ToastMessages.js'
 import {
     createOrder,
     deliveredOrder,
     setAllProductsPartner,
     setCategoriesPartner,
-    updateOrder,
+    updateOrder
 } from '../Slices/registerOrdersSlice.js'
 import {roundUsd, roundUzs} from '../../../../App/globalFunctions.js'
 import UniversalModal from '../../../../Components/Modal/UniversalModal.js'
 import {useLocation, useNavigate} from 'react-router-dom'
-import {
-    createTemporaryOrder,
-    deleteSavedOrder,
-} from '../Slices/savedOrdersSlice.js'
+import {createTemporaryOrder, deleteSavedOrder} from '../Slices/savedOrdersSlice.js'
 
 function RegisterOrders() {
     const {t} = useTranslation(['common'])
@@ -447,7 +444,7 @@ function RegisterOrders() {
                 <div className='mainPadding flex flex gap-[1.25rem]'>
                     <FieldContainer
                         select={true}
-                        placeholder={'misol: Alo24'}
+                        placeholder={''}
                         value={currentPartner || ''}
                         label={t('Do`kon nomi')}
                         onChange={(e) => setCurrentPartner(e)}
@@ -470,7 +467,7 @@ function RegisterOrders() {
                 <div className='tableContainerPadding'>
                     {!tableProducts.length ? (
                         <NotFind
-                            text={t("Buyurtmaga mahsulotlar qo'shilmagan!")}
+                            text={t("Buyurtmaga mahsulotlar qo'shilmagan!...")}
                         />
                     ) : (
                         <Table

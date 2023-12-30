@@ -1,18 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import Table from '../../../../Components/Table/Table'
-import {useSelector, useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import Pagination from '../../../../Components/Pagination/Pagination'
 import SearchForm from '../../../../Components/SearchForm/SearchForm'
-import {
-    clearSearchedOrders,
-    getOrders,
-    getOrdersByFilter,
-    updateOrderPosition,
-} from '../Slices/ordersSlice.js'
+import {clearSearchedOrders, getOrders, getOrdersByFilter, updateOrderPosition} from '../Slices/ordersSlice.js'
 import Spinner from '../../../../Components/Spinner/SmallLoader.js'
 import NotFind from '../../../../Components/NotFind/NotFind.js'
 import {filter} from 'lodash'
 import UniversalModal from '../../../../Components/Modal/UniversalModal.js'
+import {t} from 'i18next'
 
 function Orders() {
     const {currencyType} = useSelector((state) => state.currency)
@@ -26,23 +22,23 @@ function Orders() {
         {title: '№'},
         {title: 'Sana'},
         {
-            title: "Do'kon nomi",
+            title: 'Do\'kon nomi'
         },
         {
             title: 'INN',
-            filter: '',
+            filter: ''
         },
         {title: 'ID', filter: ''},
         {title: 'Maxsulot turi', filter: ''},
         {
             title: 'Umumiy narxi',
-            filter: '',
+            filter: ''
         },
         {title: 'Check'},
         {
             title: 'Holati',
-            filter: '',
-        },
+            filter: ''
+        }
     ]
     const [filteredDataTotal, setFilteredDataTotal] = useState(count)
     const [searchedData, setSearchedData] = useState(searchedOrders)
@@ -75,7 +71,7 @@ function Orders() {
         let valForSearch = val.toLowerCase().replace(/\s+/g, ' ').trim()
         setSearchByName(val)
         ;(searchedData.length > 0 || searchedtotal > 0) &&
-            dispatch(clearSearchedOrders())
+        dispatch(clearSearchedOrders())
         if (valForSearch === '') {
             setData(orders)
             setFilteredDataTotal(count)
@@ -92,7 +88,7 @@ function Orders() {
         let valForSearch = val.toLowerCase().replace(/\s+/g, ' ').trim()
         setSearchById(val)
         ;(searchedData.length > 0 || searchedtotal > 0) &&
-            dispatch(clearSearchedOrders())
+        dispatch(clearSearchedOrders())
         if (valForSearch === '') {
             setData(orders)
             setFilteredDataTotal(count)
@@ -116,8 +112,8 @@ function Orders() {
                 search: {
                     id: searchById,
                     inn: '',
-                    name: searchByName,
-                },
+                    name: searchByName
+                }
             }
             dispatch(getOrdersByFilter(body))
         }
@@ -155,8 +151,8 @@ function Orders() {
             search: {
                 id: '',
                 inn: '',
-                name: '',
-            },
+                name: ''
+            }
         }
         dispatch(getOrders(body))
     }, [currentPage, showByTotal, startDate, endDate, dispatch])
@@ -176,7 +172,7 @@ function Orders() {
     return (
         <section>
             <div className='pagination mainPadding'>
-                <p className='flex items-center'>Ro'yxatlar</p>
+                <p className='flex items-center'>{t("Ro'yxatlar")}</p>
                 {(filteredDataTotal !== 0 || searchedtotal !== 0) && (
                     <Pagination
                         countPage={Number(showByTotal)}
@@ -213,7 +209,7 @@ function Orders() {
                 {loading ? (
                     <Spinner />
                 ) : data.length === 0 && searchedData.length === 0 ? (
-                    <NotFind text={"Ro'yxat mavjud emas..."} />
+                    <NotFind text={`${t("Ro'yxat mavjud emas...")}`} />
                 ) : (
                     <Table
                         data={searchedData.length > 0 ? searchedData : data}

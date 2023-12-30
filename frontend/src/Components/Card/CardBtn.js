@@ -1,4 +1,4 @@
-import { t } from 'i18next'
+import {t} from 'i18next'
 import React from 'react'
 import {useSelector} from 'react-redux'
 

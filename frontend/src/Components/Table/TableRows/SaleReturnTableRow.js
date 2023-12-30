@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import TableInput from '../../Inputs/TableInput'
 import {map} from 'lodash'
-import { t } from 'i18next';
+import {t} from 'i18next'
+
 export const SaleReturnTableRow = ({
                                        data,
                                        changeHandler,

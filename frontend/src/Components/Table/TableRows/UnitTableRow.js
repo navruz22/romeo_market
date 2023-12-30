@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import TableBtn from '../../Buttons/TableBtn'
 import {map} from 'lodash'
+
 export const UnitTableRow = ({data, currentPage, countPage, Edit, Delete}) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     useEffect(() => {

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Table from '../../../../Components/Table/Table'
 import {useDispatch, useSelector} from 'react-redux'
-import {getSavedOrders, deleteSavedOrder} from '../Slices/savedOrdersSlice.js'
+import {deleteSavedOrder, getSavedOrders} from '../Slices/savedOrdersSlice.js'
 import NotFind from '../../../../Components/NotFind/NotFind.js'
 import SmallLoader from '../../../../Components/Spinner/SmallLoader.js'
 import {useTranslation} from 'react-i18next'

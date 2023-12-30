@@ -1,4 +1,4 @@
-import {uniqueId, map} from 'lodash'
+import {map, uniqueId} from 'lodash'
 import React, {useEffect, useState} from 'react'
 import {roundUsd} from '../../../App/globalFunctions'
 import TableBtn from '../../Buttons/TableBtn'

@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { UsdToUzs, UzsToUsd } from '../../App/globalFunctions'
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {UsdToUzs, UzsToUsd} from '../../App/globalFunctions'
 import UniversalModal from '../../Components/Modal/UniversalModal'
 import CustomerPayment from '../../Components/Payment/CustomerPayment'
 import SearchForm from '../../Components/SearchForm/SearchForm'
 import Table from '../../Components/Table/Table'
-import {
-    warningMoreDiscount,
-    warningMorePayment,
-} from '../../Components/ToastMessages/ToastMessages'
-import { getDebts, payDebt } from '../Reports/reportsSlice'
-import { filter } from 'lodash'
+import {warningMoreDiscount, warningMorePayment} from '../../Components/ToastMessages/ToastMessages'
+import {getDebts, payDebt} from '../Reports/reportsSlice'
+import {filter} from 'lodash'
+
 const PayDebts = () => {
     const dispatch = useDispatch()
 

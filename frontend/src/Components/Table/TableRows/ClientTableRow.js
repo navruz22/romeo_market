@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import TableBtn from '../../Buttons/TableBtn'
 import {map} from 'lodash'
 import {universalToast} from '../../ToastMessages/ToastMessages'
 import {roundUsd, roundUzs} from '../../../App/globalFunctions'
 import {useSelector} from 'react-redux'
-import { t } from 'i18next'
+import {t} from 'i18next'
+
 export const ClientTableRow = ({
     data,
     currentPage,

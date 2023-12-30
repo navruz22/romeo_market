@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Table from '../../Components/Table/Table'
 import {useDispatch, useSelector} from 'react-redux'
-import {
-    getFilialIdProducts,
-    getExchangesFilter,
-    clearSearchedExchanges,
-} from './productIdExchangesSlice.js'
+import {clearSearchedExchanges, getExchangesFilter, getFilialIdProducts} from './productIdExchangesSlice.js'
 import {motion} from 'framer-motion'
 import SearchForm from '../../Components/SearchForm/SearchForm'
 import ExportBtn from '../../Components/Buttons/ExportBtn'
@@ -17,6 +13,8 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import {exportExcel} from '../../App/globalFunctions'
 import {universalToast} from '../../Components/ToastMessages/ToastMessages'
 import {IoChevronBack} from 'react-icons/io5'
+import {t} from 'i18next'
+
 function ProductIdExchanges({currency}) {
     const navigate = useNavigate()
     const location = useLocation()
@@ -241,7 +239,7 @@ function ProductIdExchanges({currency}) {
                 {loading ? (
                     <SmallLoader />
                 ) : data.length === 0 ? (
-                    <NotFind text={'Tovarlar mavjud emas'} />
+                    <NotFind text={`${t("Tovarlar mavjud emas")}`} />
                 ) : (
                     <Table
                         data={data}

@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Table from '../../../Components/Table/Table'
 import TableMobile from '../../../Components/Table/TableMobile'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-    deleteSavedPayment,
-    getSavedPayments,
-} from '../Slices/savedSellingsSlice.js'
+import {useDispatch, useSelector} from 'react-redux'
+import {deleteSavedPayment, getSavedPayments} from '../Slices/savedSellingsSlice.js'
 import NotFind from '../../../Components/NotFind/NotFind.js'
 import SmallLoader from '../../../Components/Spinner/SmallLoader.js'
-import { universalToast } from '../../../Components/ToastMessages/ToastMessages.js'
+import {universalToast} from '../../../Components/ToastMessages/ToastMessages.js'
 import UniversalModal from '../../../Components/Modal/UniversalModal.js'
-import { useTranslation } from 'react-i18next'
-import { universalSort } from './../../../App/globalFunctions';
+import {useTranslation} from 'react-i18next'
+import {universalSort} from './../../../App/globalFunctions'
 
 const SavedSellings = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);

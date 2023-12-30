@@ -9,7 +9,8 @@ import TableMobile from '../../Components/Table/TableMobile'
 import {getSellerReports} from './sellerSlice'
 import {filter, reduce} from 'lodash'
 import UniversalModal from '../../Components/Modal/UniversalModal.js'
-import { t } from 'i18next'
+import {t} from 'i18next'
+
 const SellersReport = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     useEffect(() => {

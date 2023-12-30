@@ -1,8 +1,9 @@
 import React from 'react'
 import PrintBtn from '../../Buttons/PrintBtn'
 import BtnAddRemove from '../../Buttons/BtnAddRemove'
-import { useTranslation } from 'react-i18next';
-import {uniqueId, map} from 'lodash'
+import {useTranslation} from 'react-i18next'
+import {map, uniqueId} from 'lodash'
+
 function SavedChecks() {
 
     const { t } = useTranslation(['common'])

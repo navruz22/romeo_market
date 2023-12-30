@@ -2,6 +2,7 @@ import React from 'react'
 import TableBtn from '../../Buttons/TableBtn'
 import TableInput from '../../Inputs/TableInput'
 import {map} from 'lodash'
+
 export const InventoryTableRow = ({
                                       data,
                                       currentPage,

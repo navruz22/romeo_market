@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Filial from '../../Components/Filial/Filial'
-import {uniqueId, map} from 'lodash'
+import {map, uniqueId} from 'lodash'
 import {motion} from 'framer-motion'
 import SmallLoader from '../../Components/Spinner/SmallLoader'
 import socket from '../../Config/socket.js'

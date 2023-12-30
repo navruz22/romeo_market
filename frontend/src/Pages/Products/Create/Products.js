@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import ExportBtn from '../../../Components/Buttons/ExportBtn'
 import ImportBtn from '../../../Components/Buttons/ImportBtn'
 import * as XLSX from 'xlsx'
 import Pagination from '../../../Components/Pagination/Pagination'
 import Table from '../../../Components/Table/Table'
-import { useDispatch, useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import Spinner from '../../../Components/Spinner/SmallLoader'
 import SmallLoader from '../../../Components/Spinner/SmallLoader'
 import NotFind from '../../../Components/NotFind/NotFind'
-import { motion } from 'framer-motion'
-import { VscChromeClose } from "react-icons/vsc";
+import {motion} from 'framer-motion'
+import {VscChromeClose} from 'react-icons/vsc'
 
 import {
     addProduct,
@@ -20,18 +20,14 @@ import {
     getProducts,
     getProductsAll,
     getProductsByFilter,
-    updateProduct,
+    updateProduct
 } from './productSlice'
-import { getUnits } from '../../Units/unitsSlice'
-import {
-    universalToast,
-    warningCurrencyRate,
-    warningEmptyInput,
-} from '../../../Components/ToastMessages/ToastMessages'
-import { regexForTypeNumber } from '../../../Components/RegularExpressions/RegularExpressions'
+import {getUnits} from '../../Units/unitsSlice'
+import {universalToast, warningCurrencyRate, warningEmptyInput} from '../../../Components/ToastMessages/ToastMessages'
+import {regexForTypeNumber} from '../../../Components/RegularExpressions/RegularExpressions'
 import UniversalModal from '../../../Components/Modal/UniversalModal'
 import CreateProductForm from '../../../Components/CreateProductForm/CreateProductForm'
-import { getAllCategories } from '../../Category/categorySlice'
+import {getAllCategories} from '../../Category/categorySlice'
 import {
     checkEmptyString,
     exportExcel,
@@ -39,28 +35,28 @@ import {
     roundUzs,
     universalSort,
     UsdToUzs,
-    UzsToUsd,
+    UzsToUsd
 } from '../../../App/globalFunctions'
 import SearchForm from '../../../Components/SearchForm/SearchForm'
 import BarcodeReader from 'react-barcode-reader'
-import { getBarcode } from '../../Barcode/barcodeSlice.js'
-import { getCurrency } from '../../Currency/currencySlice.js'
-import { useTranslation } from 'react-i18next'
-import { filter, map } from 'lodash'
-import { getAllProducts } from '../../Sale/Slices/registerSellingSlice.js'
-import { FaFilter } from 'react-icons/fa'
+import {getBarcode} from '../../Barcode/barcodeSlice.js'
+import {getCurrency} from '../../Currency/currencySlice.js'
+import {useTranslation} from 'react-i18next'
+import {filter, map} from 'lodash'
+import {getAllProducts} from '../../Sale/Slices/registerSellingSlice.js'
+import {FaFilter} from 'react-icons/fa'
 import TableMobile from '../../../Components/Table/TableMobile.js'
 import SelectForm from '../../../Components/Select/SelectForm.js'
 
 function Products() {
-    const { t } = useTranslation(['common'])
+    const {t} = useTranslation(['common'])
     const dispatch = useDispatch()
     const {
-        market: { _id },
+        market: {_id}
     } = useSelector((state) => state.login)
-    const { units } = useSelector((state) => state.units)
-    const { allcategories } = useSelector((state) => state.category)
-    const { currency, currencyType } = useSelector((state) => state.currency)
+    const {units} = useSelector((state) => state.units)
+    const {allcategories} = useSelector((state) => state.category)
+    const {currency, currencyType} = useSelector((state) => state.currency)
     const {
         products,
         total,
@@ -68,9 +64,9 @@ function Products() {
         lastProductCode,
         searchedProducts,
         totalSearched,
-        loadingExcel,
+        loadingExcel
     } = useSelector((state) => state.products)
-    const { barcode } = useSelector((state) => state.barcode)
+    const {barcode} = useSelector((state) => state.barcode)
     const [data, setData] = useState(products)
     const [searchedData, setSearchedData] = useState(searchedProducts)
     const [checkOfProduct, setCheckOfProduct] = useState('')
@@ -103,94 +99,94 @@ function Products() {
     const [sorItem, setSorItem] = useState({
         filter: '',
         sort: '',
-        count: 0,
+        count: 0
     })
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     const [importLoading, setImportLoading] = useState(false)
     const [minimumCount, setMinimumCount] = useState('')
     const [tradePrice, setTradePrice] = useState('')
     const [tradePriceUzs, setTradePriceUzs] = useState('')
-    const [tradePriceProcient, setTradePriceProcient] = useState('');
+    const [tradePriceProcient, setTradePriceProcient] = useState('')
 
     const [tableRowId, setTableRowId] = useState('')
-    const [modalOpen, setModalOpen]=useState(false)
-    const [filterModal,setFilterModal]=useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [filterModal, setFilterModal] = useState(false)
 
     // modal toggle
     const toggleModal = () => setModalVisible(!modalVisible)
 
     // table headers
     const headers = [
-        { title: t('№') },
+        {title: t('№')},
         {
             filter: 'productdata.barcode',
-            title: t('Shtrix kodi'),
+            title: t('Shtrix kodi')
         },
         {
             title: t('Kategoriyasi'),
-            filter: t('category.code'),
+            filter: t('category.code')
         },
-        { title: t('Kodi'), filter: 'productdata.code' },
-        { title: t('Nomi'), filter: 'productdata.name' },
+        {title: t('Kodi'), filter: 'productdata.code'},
+        {title: t('Nomi'), filter: 'productdata.name'},
         {
             title: t('Soni'),
-            filter: 'total',
+            filter: 'total'
         },
         {
             title: t('Olish'),
             filter:
                 currencyType === 'UZS'
                     ? 'price.incomingpriceuzs'
-                    : 'price.incomingprice',
+                    : 'price.incomingprice'
         },
         {
             title: t('Sotish'),
             filter:
                 currencyType === 'UZS'
                     ? 'price.sellingpriceuzs'
-                    : 'price.sellingprice',
+                    : 'price.sellingprice'
         },
         {
             title: t('Optom'),
             filter:
                 currencyType === 'UZS'
                     ? 'price.tradeprice'
-                    : 'price.tradepriceuzs',
+                    : 'price.tradepriceuzs'
         },
         {
             title: t('Minimum qiymat'),
             filter: 'minimumcount',
-            styles: 'w-[5%]',
+            styles: 'w-[5%]'
         },
-        { title: '' },
+        {title: ''}
     ]
 
     const importHeaders = [
-        { name: 'Shtrix kodi', value: 'barcode' },
-        { name: 'Kategoriyasi', value: 'category' },
-        { name: 'Kodi', value: 'code' },
-        { name: 'Nomi', value: 'name' },
-        { name: 'Soni', value: 'total' },
-        { name: "O'lchov birligi", value: 'unit' },
-        { name: 'Kelish narxi USD', value: 'incomingprice' },
-        { name: 'Kelish narxi UZS', value: 'incomingpriceuzs' },
-        { name: 'Sotish narxi USD', value: 'sellingprice' },
-        { name: 'Sotish narxi UZS', value: 'sellingpriceuzs' },
-        { name: 'Optom narxi USD', value: 'tradeprice' },
-        { name: 'Optom narxi UZS', value: 'tradepriceuzs' },
-        { name: 'Minimum qiymat', value: 'minimumcount' },
+        {name: 'Shtrix kodi', value: 'barcode'},
+        {name: 'Kategoriyasi', value: 'category'},
+        {name: 'Kodi', value: 'code'},
+        {name: 'Nomi', value: 'name'},
+        {name: 'Soni', value: 'total'},
+        {name: 'O\'lchov birligi', value: 'unit'},
+        {name: 'Kelish narxi USD', value: 'incomingprice'},
+        {name: 'Kelish narxi UZS', value: 'incomingpriceuzs'},
+        {name: 'Sotish narxi USD', value: 'sellingprice'},
+        {name: 'Sotish narxi UZS', value: 'sellingpriceuzs'},
+        {name: 'Optom narxi USD', value: 'tradeprice'},
+        {name: 'Optom narxi UZS', value: 'tradepriceuzs'},
+        {name: 'Minimum qiymat', value: 'minimumcount'}
     ]
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
+            setIsMobile(window.innerWidth <= 768)
+        }
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', handleResize)
 
         return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
     // handle change of inputs
     const handleChangeCheckOfProduct = (e) => {
         let val = e.target.value
@@ -288,7 +284,7 @@ function Products() {
     const handleChangeCategoryOfProduct = (option) => {
         setCategoryOfProduct(option)
         const body = {
-            categoryId: option.value,
+            categoryId: option.value
         }
         dispatch(getCodeOfCategory(body))
     }
@@ -324,8 +320,8 @@ function Products() {
         let val = e.target.value
         let valForSearch = val.replace(/\s+/g, ' ').trim()
         setSearchByCode(val)
-            ; (searchedData.length > 0 || totalSearched > 0) &&
-                dispatch(clearSearchedProducts())
+        ;(searchedData.length > 0 || totalSearched > 0) &&
+        dispatch(clearSearchedProducts())
         if (valForSearch === '') {
             setData(products)
             setFilteredDataTotal(total)
@@ -342,8 +338,8 @@ function Products() {
         let val = e.target.value
         let valForSearch = val.replace(/\s+/g, ' ').trim()
         setBarCode(val)
-            ; (searchedData.length > 0 || totalSearched > 0) &&
-                dispatch(clearSearchedProducts())
+        ;(searchedData.length > 0 || totalSearched > 0) &&
+        dispatch(clearSearchedProducts())
         if (valForSearch === '') {
             setData(products)
             setFilteredDataTotal(total)
@@ -360,8 +356,8 @@ function Products() {
         let val = e.target.value
         let valForSearch = val.replace(/\s+/g, ' ').trim()
         setSearchByCategory(val)
-            ; (searchedData.length > 0 || totalSearched > 0) &&
-                dispatch(clearSearchedProducts())
+        ;(searchedData.length > 0 || totalSearched > 0) &&
+        dispatch(clearSearchedProducts())
         if (valForSearch === '') {
             setData(products)
             setFilteredDataTotal(total)
@@ -377,8 +373,8 @@ function Products() {
         let val = e.target.value
         let valForSearch = val.toLowerCase().replace(/\s+/g, ' ').trim()
         setSearchByName(val)
-            ; (searchedData.length > 0 || totalSearched > 0) &&
-                dispatch(clearSearchedProducts())
+        ;(searchedData.length > 0 || totalSearched > 0) &&
+        dispatch(clearSearchedProducts())
         if (valForSearch === '') {
             setData(products)
             setFilteredDataTotal(total)
@@ -401,14 +397,14 @@ function Products() {
                 search: {
                     name: searchByName.replace(/\s+/g, ' ').trim(),
                     code: searchByCode.replace(/\s+/g, ' ').trim(),
-                    category: searchByCategory.replace(/\s+/g, ' ').trim(),
+                    category: searchByCategory.replace(/\s+/g, ' ').trim()
                 },
                 product: {
                     code: codeOfProduct,
                     name: nameOfProduct.replace(/\s+/g, ' ').trim(),
                     unit: unitOfProduct.value,
-                    market: _id,
-                },
+                    market: _id
+                }
             }
             dispatch(getProductsByFilter(body))
         }
@@ -421,21 +417,21 @@ function Products() {
                 currentPage: 0,
                 countPage: showByTotal,
                 search: {
-                    barcode: barCode.replace(/\s+/g, ' ').trim(),
+                    barcode: barCode.replace(/\s+/g, ' ').trim()
                 },
                 product: {
                     code: codeOfProduct,
                     name: nameOfProduct.replace(/\s+/g, ' ').trim(),
                     unit: unitOfProduct.value,
-                    market: _id,
-                },
+                    market: _id
+                }
             }
             dispatch(getProductsByFilter(body))
         }
     }
 
     // filter by total
-    const filterByTotal = ({ value }) => {
+    const filterByTotal = ({value}) => {
         setShowByTotal(value)
         setCurrentPage(0)
     }
@@ -444,7 +440,7 @@ function Products() {
     const searchBarcode = (e) => {
         if (e.key === 'Enter') {
             const body = {
-                code: e.target.value,
+                code: e.target.value
             }
             dispatch(getBarcode(body))
         }
@@ -453,43 +449,43 @@ function Products() {
     const addNewProduct = (e) => {
         e.preventDefault()
         if (currency) {
-            const { failed, message } = checkEmptyString([
+            const {failed, message} = checkEmptyString([
                 {
                     value: checkOfProduct,
-                    message: t('Maxsulot shtrix kodi'),
+                    message: t('Maxsulot shtrix kodi')
                 },
                 {
                     value: codeOfProduct,
-                    message: t('Maxsulot kodi'),
+                    message: t('Maxsulot kodi')
                 },
                 {
                     value: nameOfProduct,
-                    message: t('Maxsulot nomi'),
+                    message: t('Maxsulot nomi')
                 },
                 {
                     value: unitOfProduct,
-                    message: t("Maxsulot o'lchov birligi"),
+                    message: t('Maxsulot o\'lchov birligi')
                 },
                 {
                     value: categoryOfProduct,
-                    message: t('Maxsulot kategoriyasi'),
+                    message: t('Maxsulot kategoriyasi')
                 },
                 {
                     value: priceOfProduct,
-                    message: t('Maxsulot kelish narxi'),
+                    message: t('Maxsulot kelish narxi')
                 },
                 {
                     value: sellingPriceOfProduct,
-                    message: t('Maxsulot sotish narxi'),
+                    message: t('Maxsulot sotish narxi')
                 },
                 {
                     value: tradePrice,
-                    message: t('Maxsulot optom narxi'),
+                    message: t('Maxsulot optom narxi')
                 },
                 {
                     value: minimumCount,
-                    message: t('Maxsulot minimal miqdori'),
-                },
+                    message: t('Maxsulot minimal miqdori')
+                }
             ])
             if (failed) {
                 warningEmptyInput(message)
@@ -501,7 +497,7 @@ function Products() {
                     search: {
                         name: searchByName.replace(/\s+/g, ' ').trim(),
                         code: searchByCode.replace(/\s+/g, ' ').trim(),
-                        category: searchByCategory.replace(/\s+/g, ' ').trim(),
+                        category: searchByCategory.replace(/\s+/g, ' ').trim()
                     },
                     product: {
                         code: codeOfProduct,
@@ -517,10 +513,10 @@ function Products() {
                         barcode: checkOfProduct,
                         tradeprice: tradePrice,
                         tradepriceuzs: tradePriceUzs,
-                        minimumcount: minimumCount,
-                    },
+                        minimumcount: minimumCount
+                    }
                 }
-                dispatch(addProduct(body)).then(({ error }) => {
+                dispatch(addProduct(body)).then(({error}) => {
                     if (!error) {
                         clearForm()
                         handleClickCancelToImport()
@@ -554,43 +550,43 @@ function Products() {
     }
     const handleEdit = (e) => {
         e.preventDefault()
-        const { failed, message } = checkEmptyString([
+        const {failed, message} = checkEmptyString([
             {
                 value: checkOfProduct,
-                message: t('Maxsulot shtrix kodi'),
+                message: t('Maxsulot shtrix kodi')
             },
             {
                 value: codeOfProduct,
-                message: t('Maxsulot kodi'),
+                message: t('Maxsulot kodi')
             },
             {
                 value: nameOfProduct,
-                message: t('Maxsulot nomi'),
+                message: t('Maxsulot nomi')
             },
             {
                 value: unitOfProduct,
-                message: t("Maxsulot o'lchov birligi"),
+                message: t('Maxsulot o\'lchov birligi')
             },
             {
                 value: categoryOfProduct,
-                message: t('Maxsulot kategoriyasi'),
+                message: t('Maxsulot kategoriyasi')
             },
             {
                 value: priceOfProduct,
-                message: t('Maxsulot kelish narxi'),
+                message: t('Maxsulot kelish narxi')
             },
             {
                 value: sellingPriceOfProduct,
-                message: t('Maxsulot sotish narxi'),
+                message: t('Maxsulot sotish narxi')
             },
             {
                 value: tradePrice,
-                message: t('Maxsulot optom narxi'),
+                message: t('Maxsulot optom narxi')
             },
             {
                 value: minimumCount,
-                message: t('Maxsulot minimal miqdori'),
-            },
+                message: t('Maxsulot minimal miqdori')
+            }
         ])
         if (failed) {
             warningEmptyInput(message)
@@ -612,17 +608,17 @@ function Products() {
                     barcode: checkOfProduct,
                     tradeprice: tradePrice,
                     tradepriceuzs: tradePriceUzs,
-                    minimumcount: minimumCount,
+                    minimumcount: minimumCount
                 },
                 currentPage,
                 countPage: showByTotal,
                 search: {
                     name: searchByName.replace(/\s+/g, ' ').trim(),
                     code: searchByCode.replace(/\s+/g, ' ').trim(),
-                    category: searchByCategory.replace(/\s+/g, ' ').trim(),
-                },
+                    category: searchByCategory.replace(/\s+/g, ' ').trim()
+                }
             }
-            dispatch(updateProduct(body)).then(({ error }) => {
+            dispatch(updateProduct(body)).then(({error}) => {
                 if (!error) {
                     clearForm()
                     setStickyForm(false)
@@ -634,13 +630,13 @@ function Products() {
                             code: searchByCode.replace(/\s+/g, ' ').trim(),
                             category: searchByCategory
                                 .replace(/\s+/g, ' ')
-                                .trim(),
-                        },
+                                .trim()
+                        }
                     }
                     dispatch(getProducts(body)).then(() => {
                         document
                             .querySelector(`#${tableRowId}`)
-                            .scrollIntoView({ block: 'center' })
+                            .scrollIntoView({block: 'center'})
                     })
                 }
             })
@@ -660,7 +656,7 @@ function Products() {
                     const bufferArray = e.target.result
 
                     const wb = XLSX.read(bufferArray, {
-                        type: 'buffer',
+                        type: 'buffer'
                     })
 
                     const wsname = wb.SheetNames[0]
@@ -687,7 +683,7 @@ function Products() {
                 setImportLoading(false)
             })
         } else {
-            universalToast("Fayl formati noto'g'ri", 'error')
+            universalToast('Fayl formati noto\'g\'ri', 'error')
         }
     }
 
@@ -705,17 +701,17 @@ function Products() {
             search: {
                 name: searchByName.replace(/\s+/g, ' ').trim(),
                 code: searchByCode.replace(/\s+/g, ' ').trim(),
-                category: searchByCategory.replace(/\s+/g, ' ').trim(),
+                category: searchByCategory.replace(/\s+/g, ' ').trim()
             },
             name: nameOfProduct.replace(/\s+/g, ' ').trim(),
-            productdata: product.productdata._id,
+            productdata: product.productdata._id
         }
         setDeletedProduct(body)
         setModalBody('approve')
         toggleModal()
     }
     const handleClickApproveToDelete = () => {
-        dispatch(deleteProduct(deletedProduct)).then(({ error }) => {
+        dispatch(deleteProduct(deletedProduct)).then(({error}) => {
             if (!error) {
                 handleClickCancelToDelete()
                 const body = {
@@ -724,8 +720,8 @@ function Products() {
                     search: {
                         name: searchByName.replace(/\s+/g, ' ').trim(),
                         code: searchByCode.replace(/\s+/g, ' ').trim(),
-                        category: searchByCategory.replace(/\s+/g, ' ').trim(),
-                    },
+                        category: searchByCategory.replace(/\s+/g, ' ').trim()
+                    }
                 }
                 dispatch(getProducts(body))
             }
@@ -759,10 +755,10 @@ function Products() {
             search: {
                 name: searchByName.replace(/\s+/g, ' ').trim(),
                 code: searchByCode.replace(/\s+/g, ' ').trim(),
-                category: searchByCategory.replace(/\s+/g, ' ').trim(),
-            },
+                category: searchByCategory.replace(/\s+/g, ' ').trim()
+            }
         }
-        dispatch(addProductsFromExcel(body)).then(({ error }) => {
+        dispatch(addProductsFromExcel(body)).then(({error}) => {
             if (!error) {
                 handleClickCancelToImport()
                 dispatch(getAllProducts())
@@ -782,7 +778,7 @@ function Products() {
                     setSorItem({
                         filter: filterKey,
                         sort: '1',
-                        count: 2,
+                        count: 2
                     })
                     universalSort(
                         searchedData.length > 0 ? searchedData : data,
@@ -796,7 +792,7 @@ function Products() {
                     setSorItem({
                         filter: filterKey,
                         sort: '',
-                        count: 0,
+                        count: 0
                     })
                     universalSort(
                         searchedData.length > 0 ? searchedData : data,
@@ -810,7 +806,7 @@ function Products() {
                     setSorItem({
                         filter: filterKey,
                         sort: '-1',
-                        count: 1,
+                        count: 1
                     })
                     universalSort(
                         searchedData.length > 0 ? searchedData : data,
@@ -824,7 +820,7 @@ function Products() {
             setSorItem({
                 filter: filterKey,
                 sort: '-1',
-                count: 1,
+                count: 1
             })
             universalSort(
                 searchedData.length > 0 ? searchedData : data,
@@ -838,14 +834,14 @@ function Products() {
     }
 
     const handleError = () => {
-        universalToast("Mahsulot kodi o'qilmadi!", 'warning')
+        universalToast(`${t('Mahsulot kodi o\'qilmadi!')}`, 'warning')
     }
     const handleScan = (data) => {
         setCheckOfProduct(data.toString())
         const body = {
-            code: data,
+            code: data
         }
-        dispatch(getBarcode(body)).then(({ error }) => {
+        dispatch(getBarcode(body)).then(({error}) => {
             if (error) {
                 return setNameOfProduct('')
             }
@@ -861,7 +857,7 @@ function Products() {
             t('Mahsulot kodi'),
             t('Mahsulot nomi'),
             t('Soni'),
-            t("O'lchov birligi"),
+            t('O\'lchov birligi'),
             t('Kelish narxi USD'),
             t('Kelish narxi UZS'),
             t('Sotish narxi USD'),
@@ -869,16 +865,16 @@ function Products() {
             t('Optom narxi USD'),
             t('Optom narxi UZS'),
             t('Minimum qiymat'),
-            t('ID'),
+            t('ID')
         ]
         const body = {
             search: {
                 name: searchByName.replace(/\s+/g, ' ').trim(),
                 code: searchByCode.replace(/\s+/g, ' ').trim(),
-                category: searchByCategory.replace(/\s+/g, ' ').trim(),
-            },
+                category: searchByCategory.replace(/\s+/g, ' ').trim()
+            }
         }
-        dispatch(getProductsAll(body)).then(({ error, payload }) => {
+        dispatch(getProductsAll(body)).then(({error, payload}) => {
             if (!error) {
                 if (payload?.length > 0) {
                     const newData = map(payload, (item, index) => ({
@@ -896,11 +892,11 @@ function Products() {
                         tradeprice: item?.price?.tradeprice || '',
                         tradepriceuzs: item?.price?.tradepriceuzs || '',
                         minimumcount: item?.minimumcount || '',
-                        id: item?._id || '',
+                        id: item?._id || ''
                     }))
                     exportExcel(newData, fileName, exportHeader)
                 } else {
-                    universalToast("Jadvalda ma'lumot mavjud emas !", 'warning')
+                    universalToast('Jadvalda ma\'lumot mavjud emas !', 'warning')
                 }
             }
         })
@@ -913,8 +909,8 @@ function Products() {
             search: {
                 name: searchByName.replace(/\s+/g, ' ').trim(),
                 code: searchByCode.replace(/\s+/g, ' ').trim(),
-                category: searchByCategory.replace(/\s+/g, ' ').trim(),
-            },
+                category: searchByCategory.replace(/\s+/g, ' ').trim()
+            }
         }
         dispatch(getProducts(body))
         //    eslint-disable-next-line react-hooks/exhaustive-deps
@@ -934,7 +930,7 @@ function Products() {
     useEffect(() => {
         if (currentProduct) {
             const {
-                productdata: { name, code, barcode },
+                productdata: {name, code, barcode},
                 unit,
                 total,
                 category,
@@ -945,19 +941,19 @@ function Products() {
                     sellingpriceuzs,
                     incomingpriceuzs,
                     tradeprice,
-                    tradepriceuzs,
-                },
+                    tradepriceuzs
+                }
             } = currentProduct
             setCodeOfProduct(code)
             setNameOfProduct(name)
             setNumberOfProduct(total)
             setUnitOfProduct({
                 value: unit._id,
-                label: unit.name,
+                label: unit.name
             })
             setCategoryOfProduct({
                 value: category._id,
-                label: `${category.code} - ${category.name}`,
+                label: `${category.code} - ${category.name}`
             })
             setPriceOfProduct(incomingpriceuzs)
             setSellingPriceOfProduct(sellingpriceuzs)
@@ -973,7 +969,7 @@ function Products() {
         setUnitOptions(
             map(units, (unit) => ({
                 value: unit._id,
-                label: unit.name,
+                label: unit.name
             }))
         )
     }, [units])
@@ -983,7 +979,7 @@ function Products() {
                 value: category._id,
                 label:
                     category.code +
-                    `${category.name ? ` - ${category.name}` : ''}`,
+                    `${category.name ? ` - ${category.name}` : ''}`
             }))
         )
     }, [allcategories])
@@ -992,11 +988,11 @@ function Products() {
             setCodeOfProduct(lastProductCode)
             if (checkOfProduct.length === 0)
                 categoryOfProduct?.label &&
-                    setCheckOfProduct(
-                        '47800' +
-                        categoryOfProduct.label.slice(0, 3) +
-                        lastProductCode
-                    )
+                setCheckOfProduct(
+                    '47800' +
+                    categoryOfProduct.label.slice(0, 3) +
+                    lastProductCode
+                )
         }
         //    eslint-disable-next-line react-hooks/exhaustive-deps
     }, [lastProductCode])
@@ -1015,18 +1011,20 @@ function Products() {
             animate='open'
             exit='collapsed'
             variants={{
-                open: { opacity: 1, height: 'auto' },
-                collapsed: { opacity: 0, height: 0 },
+                open: {opacity: 1, height: 'auto'},
+                collapsed: {opacity: 0, height: 0}
             }}
-            transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+            transition={{duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98]}}
         >
             {importLoading && (
-                <div className='fixed backdrop-blur-[2px] z-[50] top-0 left-0 right-0 bottom-0 bg-white-700 flex flex-col items-center justify-center w-full'>
+                <div
+                    className='fixed backdrop-blur-[2px] z-[50] top-0 left-0 right-0 bottom-0 bg-white-700 flex flex-col items-center justify-center w-full'>
                     <SmallLoader />
                 </div>
             )}
             {loadingExcel && (
-                <div className='fixed backdrop-blur-[2px] z-[100] left-0 top-0 right-0 bottom-0 bg-white-700 flex flex-col items-center justify-center w-full h-full'>
+                <div
+                    className='fixed backdrop-blur-[2px] z-[100] left-0 top-0 right-0 bottom-0 bg-white-700 flex flex-col items-center justify-center w-full h-full'>
                     <SmallLoader />
                 </div>
             )}
@@ -1058,182 +1056,189 @@ function Products() {
                 createdData={createdData}
                 setCreatedData={setCreatedData}
             />
-            <button onClick={()=>setModalOpen(true)} className='hover:bg-green-200 lg:ms-[20px] lg:mt-[10px] lg:mb-[60px] mt-[60px] bg-green-300 focus-visible:outline-none w-[90%]  m-auto lg:w-[200px] lg:h-[33px] h=[40px] createElement'>{t('Yangi maxsulot qo\'shish')}</button>
+            <button onClick={() => setModalOpen(true)}
+                    className='hover:bg-green-200 lg:ms-[20px] lg:mt-[10px] lg:mb-[60px] mt-[60px] bg-green-300 focus-visible:outline-none w-[90%]  m-auto lg:w-[200px] lg:h-[33px] h=[40px] createElement'>{t('Yangi maxsulot qo\'shish')}</button>
             {/* Form */}
             {
-                modalOpen?<section className='absolute lg:h-[100vh]  w-[100%] bg-[white] z-50 top-0 left-0'>
-                <div className='flex justify-end p-[25px]'><VscChromeClose onClick={()=>setModalOpen(false)} className='cursor-pointer text-3xl'/></div>
-                <CreateProductForm
-                    nameOfProduct={nameOfProduct}
-                    unitOfProduct={unitOfProduct}
-                    categoryOfProduct={categoryOfProduct}
-                    codeOfProduct={codeOfProduct}
-                    checkOfProduct={checkOfProduct}
-                    tradePriceProcient={tradePriceProcient}
-                    handleChangeTradePriceProcient={handleChangeTradePriceProcient}
-                    handleChangeCheckOfProduct={handleChangeCheckOfProduct}
-                    priceOfProduct={
-                        currencyType === 'UZS' ? priceOfProduct : priceOfProductUsd
-                    }
-                    sellingPriceOfProduct={
-                        currencyType === 'UZS'
-                            ? sellingPriceOfProduct
-                            : sellingPriceOfProductUsd
-                    }
-                    sellingPriceOfProcient={sellingPriceOfProcient}
-                    numberOfProduct={numberOfProduct}
-                    handleChangeSellingPriceOfProduct={
-                        handleChangeSellingPriceOfProduct
-                    }
-                    handleChangeSellingPriceOfProcient={
-                        handleChangeSellingPriceOfProcient
-                    }
-                    handleChangePriceOfProduct={handleChangePriceOfProduct}
-                    handleChangeNumberOfProduct={handleChangeNumberOfProduct}
-                    stickyForm={stickyForm}
-                    clearForm={clearForm}
-                    handleEdit={handleEdit}
-                    addNewProduct={addNewProduct}
-                    handleChangeCodeOfProduct={handleChangeCodeOfProduct}
-                    handleChangeNameOfProduct={handleChangeNameOfProduct}
-                    handleChangeUnitOfProduct={handleChangeUnitOfProduct}
-                    handleChangeCategoryOfProduct={handleChangeCategoryOfProduct}
-                    pageName={'products'}
-                    unitOptions={unitOptions}
-                    categoryOptions={categoryOptions}
-                    searchBarcode={searchBarcode}
-                    minimumCount={minimumCount}
-                    handleChangeMinimumCount={handleChangeMinimumCount}
-                    tradePrice={currencyType === 'USD' ? tradePrice : tradePriceUzs}
-                    handleChangeTradePrice={handleChangeTradePrice}
-                />
-                </section>:null
+                modalOpen ? <section className='absolute lg:h-[100vh]  w-[100%] bg-[white] z-50 top-0 left-0'>
+                    <div className='flex justify-end p-[25px]'><VscChromeClose onClick={() => setModalOpen(false)}
+                                                                               className='cursor-pointer text-3xl' />
+                    </div>
+                    <CreateProductForm
+                        nameOfProduct={nameOfProduct}
+                        unitOfProduct={unitOfProduct}
+                        categoryOfProduct={categoryOfProduct}
+                        codeOfProduct={codeOfProduct}
+                        checkOfProduct={checkOfProduct}
+                        tradePriceProcient={tradePriceProcient}
+                        handleChangeTradePriceProcient={handleChangeTradePriceProcient}
+                        handleChangeCheckOfProduct={handleChangeCheckOfProduct}
+                        priceOfProduct={
+                            currencyType === 'UZS' ? priceOfProduct : priceOfProductUsd
+                        }
+                        sellingPriceOfProduct={
+                            currencyType === 'UZS'
+                                ? sellingPriceOfProduct
+                                : sellingPriceOfProductUsd
+                        }
+                        sellingPriceOfProcient={sellingPriceOfProcient}
+                        numberOfProduct={numberOfProduct}
+                        handleChangeSellingPriceOfProduct={
+                            handleChangeSellingPriceOfProduct
+                        }
+                        handleChangeSellingPriceOfProcient={
+                            handleChangeSellingPriceOfProcient
+                        }
+                        handleChangePriceOfProduct={handleChangePriceOfProduct}
+                        handleChangeNumberOfProduct={handleChangeNumberOfProduct}
+                        stickyForm={stickyForm}
+                        clearForm={clearForm}
+                        handleEdit={handleEdit}
+                        addNewProduct={addNewProduct}
+                        handleChangeCodeOfProduct={handleChangeCodeOfProduct}
+                        handleChangeNameOfProduct={handleChangeNameOfProduct}
+                        handleChangeUnitOfProduct={handleChangeUnitOfProduct}
+                        handleChangeCategoryOfProduct={handleChangeCategoryOfProduct}
+                        pageName={'products'}
+                        unitOptions={unitOptions}
+                        categoryOptions={categoryOptions}
+                        searchBarcode={searchBarcode}
+                        minimumCount={minimumCount}
+                        handleChangeMinimumCount={handleChangeMinimumCount}
+                        tradePrice={currencyType === 'USD' ? tradePrice : tradePriceUzs}
+                        handleChangeTradePrice={handleChangeTradePrice}
+                    />
+                </section> : null
             }
 
-            <div className={'flex lg:mt-[-113px] pl-[20px] mt-0 flex-wrap lg:justify-start justify-center lg:ms-[200px] items-center mainPadding'}>
-                
+            <div
+                className={'flex lg:mt-[-113px] pl-[20px] mt-0 flex-wrap lg:justify-start justify-center lg:ms-[200px] items-center mainPadding'}>
+
                 <div className={'flex gap-[1rem] ms-[1rem]  mb-[15px] '}>
-                    
+
                     <ExportBtn onClick={exportData} />
                     <ImportBtn readExcel={readExcel} />
                     {
-                        isMobile?<button onClick={()=>setFilterModal(true)} className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[90px] h-[33px]  createElement'><FaFilter   /> {t('izlash')}</button>:null
+                        isMobile ? <button onClick={() => setFilterModal(true)}
+                                           className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[90px] h-[33px]  createElement'>
+                            <FaFilter /> {t('izlash')}</button> : null
                     }
-                    
-                </div>
-                
-            
-                
 
-                
-                
+                </div>
+
+
             </div>
             {
-                filterModal?<div className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap items-center  top-0	left-0 z-50 bg-[white]	'>
-                <VscChromeClose  onClick={()=>setFilterModal(false)} className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer'/>
-        <SearchForm
-            filterBy={[
-                'total',
-                'barcode',
-                'category',
-                'code',
-                'name',
-                'doubleDate',
-            ]}
-            filterByCode={filterByCode}
-            filterByCodeAndNameAndCategoryWhenPressEnter={
-                filterByCodeAndNameAndCategoryWhenPressEnter
-            }
-            filterByName={filterByName}
-            filterByTotal={filterByTotal}
-            searchByCode={searchByCode}
-            searchByName={searchByName}
-            searchByCategory={searchByCategory}
-            filterByCategory={filterByCategory}
-            barCode={barCode}
-            filterByBarcode={filterByBarcode}
-            filterByBarcodeWhenPressEnter={filterByBarcodeWhenPressEnter}
-        />
-        <button onClick={() => {
-              setFilterModal(false);
-              
-            }}  className='d-block  hover:bg-green-200  bg-green-400 mt-[-200px] lg:mt-[25px] focus-visible:outline-none w-[150px] h-[40px] createElement '><FaFilter /> {t('izlash')}</button>
-        </div>:null
+                filterModal ? <div
+                    className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap items-center  top-0	left-0 z-50 bg-[white]	'>
+                    <VscChromeClose onClick={() => setFilterModal(false)}
+                                    className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
+                    <SearchForm
+                        filterBy={[
+                            'total',
+                            'barcode',
+                            'category',
+                            'code',
+                            'name',
+                            'doubleDate'
+                        ]}
+                        filterByCode={filterByCode}
+                        filterByCodeAndNameAndCategoryWhenPressEnter={
+                            filterByCodeAndNameAndCategoryWhenPressEnter
+                        }
+                        filterByName={filterByName}
+                        filterByTotal={filterByTotal}
+                        searchByCode={searchByCode}
+                        searchByName={searchByName}
+                        searchByCategory={searchByCategory}
+                        filterByCategory={filterByCategory}
+                        barCode={barCode}
+                        filterByBarcode={filterByBarcode}
+                        filterByBarcodeWhenPressEnter={filterByBarcodeWhenPressEnter}
+                    />
+                    <button onClick={() => {
+                        setFilterModal(false)
+
+                    }}
+                            className='d-block  hover:bg-green-200  bg-green-400 mt-[-200px] lg:mt-[25px] focus-visible:outline-none w-[150px] h-[40px] createElement '>
+                        <FaFilter /> {t('izlash')}</button>
+                </div> : null
             }
             <span className='flex items-center  mb-3 ml-2 '>
             <div className='lg:mt-[30px]'>
-            <SelectForm  label={'mas'}  key={'total_1'}  onSelect={filterByTotal}/>
+            <SelectForm label={'mas'} key={'total_1'} onSelect={filterByTotal} />
             </div>
-            {
-                !isMobile?<SearchForm
-                filterBy={[
-                    'total',
-                    'barcode',
-                    'category',
-                    'code',
-                    'name',
-                    'doubleDate',
-                ]}
-                filterByCode={filterByCode}
-                filterByCodeAndNameAndCategoryWhenPressEnter={
-                    filterByCodeAndNameAndCategoryWhenPressEnter
+                {
+                    !isMobile ? <SearchForm
+                        filterBy={[
+                            'total',
+                            'barcode',
+                            'category',
+                            'code',
+                            'name',
+                            'doubleDate'
+                        ]}
+                        filterByCode={filterByCode}
+                        filterByCodeAndNameAndCategoryWhenPressEnter={
+                            filterByCodeAndNameAndCategoryWhenPressEnter
+                        }
+                        filterByName={filterByName}
+                        filterByTotal={filterByTotal}
+                        searchByCode={searchByCode}
+                        searchByName={searchByName}
+                        searchByCategory={searchByCategory}
+                        filterByCategory={filterByCategory}
+                        barCode={barCode}
+                        filterByBarcode={filterByBarcode}
+                        filterByBarcodeWhenPressEnter={filterByBarcodeWhenPressEnter}
+                    /> : null
                 }
-                filterByName={filterByName}
-                filterByTotal={filterByTotal}
-                searchByCode={searchByCode}
-                searchByName={searchByName}
-                searchByCategory={searchByCategory}
-                filterByCategory={filterByCategory}
-                barCode={barCode}
-                filterByBarcode={filterByBarcode}
-                filterByBarcodeWhenPressEnter={filterByBarcodeWhenPressEnter}
-                />:null
-            }
             </span>
-            
+
             <div className='lg:p-[20px] p-0'>
                 {loading ? (
                     <Spinner />
                 ) : data.length === 0 && searchedData.length === 0 ? (
                     <NotFind text={'Maxsulot mavjud emas'} />
                 ) : (
-                    isMobile?<TableMobile
-                    currencyType={currencyType}
-                    headers={headers}
-                    Edit={handleEditProduct}
-                    Delete={handleDeleteProduct}
-                    page={'product'}
-                    data={searchedData.length > 0 ? searchedData : data}
-                    Sort={filterData}
-                    sortItem={sorItem}
-                    currentPage={currentPage}
-                    countPage={showByTotal}
-                    currency={currencyType}
-                    modalOpen={setModalOpen}
-                />:<Table
-                    currencyType={currencyType}
-                    headers={headers}
-                    Edit={handleEditProduct}
-                    Delete={handleDeleteProduct}
-                    page={'product'}
-                    data={searchedData.length > 0 ? searchedData : data}
-                    Sort={filterData}
-                    sortItem={sorItem}
-                    currentPage={currentPage}
-                    countPage={showByTotal}
-                    currency={currencyType}
-                    modalOpen={setModalOpen}
-                />
+                    isMobile ? <TableMobile
+                        currencyType={currencyType}
+                        headers={headers}
+                        Edit={handleEditProduct}
+                        Delete={handleDeleteProduct}
+                        page={'product'}
+                        data={searchedData.length > 0 ? searchedData : data}
+                        Sort={filterData}
+                        sortItem={sorItem}
+                        currentPage={currentPage}
+                        countPage={showByTotal}
+                        currency={currencyType}
+                        modalOpen={setModalOpen}
+                    /> : <Table
+                        currencyType={currencyType}
+                        headers={headers}
+                        Edit={handleEditProduct}
+                        Delete={handleDeleteProduct}
+                        page={'product'}
+                        data={searchedData.length > 0 ? searchedData : data}
+                        Sort={filterData}
+                        sortItem={sorItem}
+                        currentPage={currentPage}
+                        countPage={showByTotal}
+                        currency={currencyType}
+                        modalOpen={setModalOpen}
+                    />
                 )}
             </div>
-            <div className='flex justify-center mb-[10px] mt-[20px]'>{(filteredDataTotal !== 0 || totalSearched !== 0) && (
-                    <Pagination
-                        countPage={Number(showByTotal)}
-                        totalDatas={totalSearched || filteredDataTotal}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                    />
-                )}</div>
+            <div
+                className='flex justify-center mb-[10px] mt-[20px]'>{(filteredDataTotal !== 0 || totalSearched !== 0) && (
+                <Pagination
+                    countPage={Number(showByTotal)}
+                    totalDatas={totalSearched || filteredDataTotal}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                />
+            )}</div>
             <BarcodeReader onError={handleError} onScan={handleScan} />
         </motion.section>
     )

@@ -12,7 +12,7 @@ import {
     productNumberExchanges,
     productNumberMinusExchanges,
     universalToast,
-    warningSellingExchanges,
+    warningSellingExchanges
 } from '../../Components/ToastMessages/ToastMessages'
 import {sendingFilial, setFilialDatas} from './productExchangesSlice'
 import {useDispatch, useSelector} from 'react-redux'
@@ -21,7 +21,7 @@ import SmallLoader from '../../Components/Spinner/SmallLoader'
 import {motion} from 'framer-motion'
 import socket from '../../Config/socket.js'
 import SelectInput from '../../Components/SelectInput/SelectInput'
-import { t } from 'i18next'
+import {t} from 'i18next'
 
 function ProductExchanges() {
     const dispatch = useDispatch()
@@ -47,10 +47,10 @@ function ProductExchanges() {
     const [arrAdded, setArrAdded] = useState([])
     const [approveModal, setApproveModal] = useState('')
     const [filteredFilials, setFilteredFilials] = useState([
-        ...sellingProductData,
+        ...sellingProductData
     ])
     const [filteredFilialNames, setFilteredFilialNames] = useState([
-        ...filialData,
+        ...filialData
     ])
     const [selectProductValue, setSelectProductValue] = useState('')
 
@@ -65,7 +65,7 @@ function ProductExchanges() {
         let obj = {...e}
         setSelectProductValue({
             label: e.label,
-            value: e.label,
+            value: e.label
         })
         setApproveModal('modal1')
         delete obj.label
@@ -93,7 +93,7 @@ function ProductExchanges() {
                         if (obj.id === e.id && numberError) {
                             return {
                                 ...obj,
-                                number: obj.number - Number(e.number),
+                                number: obj.number - Number(e.number)
                             }
                         }
                         return obj
@@ -133,7 +133,7 @@ function ProductExchanges() {
                             sell: e.sell,
                             number: obj.number + Number(e.number),
                             getUSD: e.getUSD,
-                            sellUSD: e.sellUSD,
+                            sellUSD: e.sellUSD
                         }
                     }
                     return obj
@@ -151,7 +151,7 @@ function ProductExchanges() {
                     if (obj.id === e.id) {
                         return {
                             ...obj,
-                            number: obj.number + Number(e.number),
+                            number: obj.number + Number(e.number)
                         }
                     }
                     return obj
@@ -176,7 +176,7 @@ function ProductExchanges() {
                         if (obj.id === e.id && numberError) {
                             return {
                                 ...obj,
-                                number: obj.number + Number(e.number),
+                                number: obj.number + Number(e.number)
                             }
                         }
                         return obj
@@ -201,7 +201,7 @@ function ProductExchanges() {
                             getUSD: e.getUSD,
                             sell: e.sell,
                             sellUSD: e.sellUSD,
-                            number: obj.number - Number(e.number),
+                            number: obj.number - Number(e.number)
                         }
                     }
                     return obj
@@ -297,15 +297,15 @@ function ProductExchanges() {
                         _id: item.productDataId,
                         name: item.name,
                         code: item.code,
-                        barcode: item.barcode,
+                        barcode: item.barcode
                     },
                     unit: {
                         _id: item.unidId,
-                        name: item.unitName,
+                        name: item.unitName
                     },
                     category: {
                         _id: item.categoryId,
-                        code: item.categoryCode,
+                        code: item.categoryCode
                     },
                     price: {
                         incomingprice: item.getUSD,
@@ -313,19 +313,19 @@ function ProductExchanges() {
                         sellingprice: item.sellUSD,
                         sellingpriceuzs: item.sell,
                         tradeprice: item.tradeprice,
-                        tradepriceuzs: item.tradepriceuzs,
-                    },
+                        tradepriceuzs: item.tradepriceuzs
+                    }
                 }
             })
         const body = {
             filial: filialInformation.id,
-            products: sendData,
+            products: sendData
         }
         if (filialInformation && sendData.length > 0) {
             dispatch(sendingFilial(body)).then((data) => {
                 if (data.meta.requestStatus === 'fulfilled') {
                     universalToast(
-                        "Maxsulot muvaffaqiyatli o'tkazildi!",
+                        'Maxsulot muvaffaqiyatli o\'tkazildi!',
                         'success'
                     )
                     setSellingProductData([])
@@ -341,17 +341,17 @@ function ProductExchanges() {
     }
     useEffect(() => {
         market &&
-            socket.emit('getAllFilials', {
-                market: market._id,
-            })
+        socket.emit('getAllFilials', {
+            market: market._id
+        })
         market &&
-            socket.on('getAllFilials', ({id, filials}) => {
-                id === market._id && dispatch(setFilialDatas(filials))
-            })
+        socket.on('getAllFilials', ({id, filials}) => {
+            id === market._id && dispatch(setFilialDatas(filials))
+        })
         market &&
-            socket.on('error', ({id, err}) => {
-                id === market._id && universalToast(err.message, 'error')
-            })
+        socket.on('error', ({id, err}) => {
+            id === market._id && universalToast(err.message, 'error')
+        })
     }, [market, dispatch])
     useEffect(() => {
         dispatch(getProducts())
@@ -380,7 +380,7 @@ function ProductExchanges() {
                     barcode: item.productdata?.barcode,
                     tradeprice: item.price?.tradeprice || 0,
                     tradepriceuzs: item.price?.tradepriceuzs || 0,
-                    minimumcount: item.minimumcount || 0,
+                    minimumcount: item.minimumcount || 0
                 }
             })
         setProductData(newUpdateProduct)
@@ -395,7 +395,7 @@ function ProductExchanges() {
                 image: obj?.image,
                 filialName: obj?.name,
                 directorName: obj?.director?.firstname,
-                directorLastName: obj?.director?.lastname,
+                directorLastName: obj?.director?.lastname
             }
         })
         setFilialData(newUpdateFilialProduct)
@@ -417,15 +417,16 @@ function ProductExchanges() {
                     approveModal === 'modal1'
                         ? approveFilialData
                         : approveModal === 'modal2'
-                        ? returnedDatas
-                        : ''
+                            ? returnedDatas
+                            : ''
                 }
                 closeModal={handleClickCancelToDelete}
                 isOpen={modalVisible}
                 dataObject={dataObject}
             />
             {loading && (
-                <div className='fixed backdrop-blur-[2px] z-[100] left-0 top-0 right-0 bottom-0 bg-white-700 flex flex-col items-center justify-center w-full h-full'>
+                <div
+                    className='fixed backdrop-blur-[2px] z-[100] left-0 top-0 right-0 bottom-0 bg-white-700 flex flex-col items-center justify-center w-full h-full'>
                     <SmallLoader />
                 </div>
             )}
@@ -440,9 +441,10 @@ function ProductExchanges() {
                         />
                     </div>
                     <div className='grow relative'>
-                        <div className='absolute left-0 right-0 top-0 bottom-[1rem] overflow-auto pl-[2.5rem] pr-[1.25rem] pt-[1.25rem]'>
+                        <div
+                            className='absolute left-0 right-0 top-0 bottom-[1rem] overflow-auto pl-[2.5rem] pr-[1.25rem] pt-[1.25rem]'>
                             {filteredFilialNames.length === 0 ? (
-                                <NotFind text='Filiallar mavjud emas!' />
+                                <NotFind text={`${t('Filiallar mavjud emas!')}`} />
                             ) : (
                                 map(filteredFilialNames, (item, index) => {
                                     return (
@@ -451,7 +453,7 @@ function ProductExchanges() {
                                             animate={{y: '0%'}}
                                             transition={{
                                                 delay: 0,
-                                                ease: 'linear',
+                                                ease: 'linear'
                                             }}
                                             key={index}
                                             className='pb-[0.675rem] '
@@ -472,8 +474,8 @@ function ProductExchanges() {
                     <div className='p-[1.25rem]'>
                         <div className='mb-[1.25rem] pt-[0.5rem]'>
                             <SelectInput
-                                label={'Mahsulotlar'}
-                                placeholder={'Mahsulotlar'}
+                                label={t('Mahsulotlar')}
+                                placeholder={t('Mahsulotlar')}
                                 options={productData}
                                 onSelect={productModal}
                                 value={selectProductValue}
@@ -482,8 +484,8 @@ function ProductExchanges() {
                         <div className='flex justify-between gap-[1.25rem]'>
                             <div className='w-full'>
                                 <LabelSearchInput
-                                    labelText={`Kodi`}
-                                    placeholder='qidirish...'
+                                    labelText={t(`Kodi`)}
+                                    placeholder={t('qidirish...')}
                                     value={filialProductCodeSearch}
                                     onChange={(e) =>
                                         filterFilialProducts(
@@ -495,8 +497,8 @@ function ProductExchanges() {
                             </div>
                             <div className='w-full'>
                                 <LabelSearchInput
-                                    labelText={`Nomi`}
-                                    placeholder='qidirish...'
+                                    labelText={t(`Nomi`)}
+                                    placeholder={t('qidirish...')}
                                     value={filialProductNameSearch}
                                     onChange={(e) =>
                                         filterFilialProducts(
@@ -509,9 +511,10 @@ function ProductExchanges() {
                         </div>
                     </div>
                     <div className='grow relative'>
-                        <div className='absolute left-0 right-0 top-0 bottom-[1rem] pl-[2rem] pr-[2rem] pb-[0.25rem] pt-[1.25rem] overflow-auto'>
+                        <div
+                            className='absolute left-0 right-0 top-0 bottom-[1rem] pl-[2rem] pr-[2rem] pb-[0.25rem] pt-[1.25rem] overflow-auto'>
                             {filteredFilials.length === 0 ? (
-                                <NotFind text="Maxsulot o'tkazilmagan" />
+                                <NotFind text={`${t('Maxsulot o\'tkazilmagan')}`} />
                             ) : (
                                 map(filteredFilials, (item, index) => {
                                     return (
@@ -549,7 +552,7 @@ function ProductExchanges() {
                                     size={'1.5rem'}
                                     className='text-white-900 mr-[0.675rem]'
                                 />
-                                Jo'natish
+                                {t("Jo'natish")}
                             </button>
                             {/* <button
                                 type={'button'}

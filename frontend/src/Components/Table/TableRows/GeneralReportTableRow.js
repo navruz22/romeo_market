@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import {uniqueId} from 'lodash'
-import { t } from 'i18next';
+import {t} from 'i18next'
 
 export const GeneralReportTableRow = ({data, currency}) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);

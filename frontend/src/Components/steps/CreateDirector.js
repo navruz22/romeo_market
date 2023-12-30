@@ -78,7 +78,7 @@ function CreateDirector({handleClickFinish, director}) {
                 <FieldContainer
                     label={`Ismi`}
                     maxWidth={'grow'}
-                    placeholder={'misol : Jasubrek'}
+                    placeholder={'Jasubrek'}
                     type='text'
                     value={directorName}
                     onChange={e => setDirectorName(e.target.value)}
@@ -87,7 +87,7 @@ function CreateDirector({handleClickFinish, director}) {
                 <FieldContainer
                     label={'Familiyasi'}
                     maxWidth={'grow'}
-                    placeholder={'misol : Toshev'}
+                    placeholder={'Toshev'}
                     type='text'
                     value={directorSurname}
                     star={true}
@@ -96,7 +96,7 @@ function CreateDirector({handleClickFinish, director}) {
                 <FieldContainer
                     label={'Otasining ismi'}
                     maxWidth={'grow'}
-                    placeholder={'misol: Normurod'}
+                    placeholder={'Normurod'}
                     type='text'
                     value={directorFatherName}
                     onChange={e => setDirectorFatherName(e.target.value)}
@@ -104,7 +104,7 @@ function CreateDirector({handleClickFinish, director}) {
                 <FieldContainer
                     label={`Telefon raqami`}
                     maxWidth={'grow'}
-                    placeholder={'misol: 99 123 45 67'}
+                    placeholder={'99 123 45 67'}
                     type='text'
                     value={directorPhone}
                     star={true}
@@ -115,7 +115,7 @@ function CreateDirector({handleClickFinish, director}) {
                 <FieldContainer
                     label={`Login`}
                     maxWidth={'grow'}
-                    placeholder={'misol: admin5'}
+                    placeholder={'admin5'}
                     type='text'
                     value={login}
                     star={true}
@@ -124,7 +124,7 @@ function CreateDirector({handleClickFinish, director}) {
                 <FieldContainer
                     label={'Parol'}
                     maxWidth={'grow'}
-                    placeholder={'misol: Jas12345'}
+                    placeholder={'Jas12345'}
                     type='password'
                     value={password}
                     star={true}
@@ -134,7 +134,7 @@ function CreateDirector({handleClickFinish, director}) {
                 <FieldContainer
                     label={'Parol takroriy'}
                     maxWidth={'grow'}
-                    placeholder={'misol: Jas12345'}
+                    placeholder={'Jas12345'}
                     type='password'
                     value={repeatPassword}
                     star={true}

@@ -10,59 +10,59 @@ import {map} from 'lodash'
 import SelectInput from '../SelectInput/SelectInput.js'
 
 function SearchForm({
-    filterByPackman,
-    searchByPackmans,
-    filterByTotal,
-    searchByCode,
-    searchById,
-    searchByDelivererName,
-    filterByDelivererName,
-    filterByDelivererNameWhenPressEnter,
-    searchByClientName,
-    filterByClientName,
-    filterByClientNameWhenPressEnter,
-    filterById,
-    filterByIdWhenPressEnter,
-    filterByCode,
-    filterByCodeAndNameAndCategoryWhenPressEnter,
-    searchByName,
-    filterByName,
-    filterBy,
-    searchByCategory,
-    filterByCategory,
-    numberOfChecks,
-    setNumberOfChecks,
-    clickPrintBtn,
-    startDate,
-    endDate,
-    setStartDate,
-    setEndDate,
-    date,
-    setDate,
-    clickConfirmBtn,
-    barcode,
-    filterByBarcode,
-    filterByBarcodeWhenPressEnter,
-    searchByDirectorName,
-    filterByDirectorName,
-    filterByDirectorNameWhenPressEnter,
-    searchByMarketName,
-    filterByMarketName,
-    searchBySellerName,
-    filterBySellerName,
-    filterBySellerNameWhenPressEnter,
-    searchByMarketInn,
-    filterByMarketInn,
-    filterByMarketInnWhenPressEnter,
-    filterByMarketNameWhenPressEnter,
-}) {
+                        filterByPackman,
+                        searchByPackmans,
+                        filterByTotal,
+                        searchByCode,
+                        searchById,
+                        searchByDelivererName,
+                        filterByDelivererName,
+                        filterByDelivererNameWhenPressEnter,
+                        searchByClientName,
+                        filterByClientName,
+                        filterByClientNameWhenPressEnter,
+                        filterById,
+                        filterByIdWhenPressEnter,
+                        filterByCode,
+                        filterByCodeAndNameAndCategoryWhenPressEnter,
+                        searchByName,
+                        filterByName,
+                        filterBy,
+                        searchByCategory,
+                        filterByCategory,
+                        numberOfChecks,
+                        setNumberOfChecks,
+                        clickPrintBtn,
+                        startDate,
+                        endDate,
+                        setStartDate,
+                        setEndDate,
+                        date,
+                        setDate,
+                        clickConfirmBtn,
+                        barcode,
+                        filterByBarcode,
+                        filterByBarcodeWhenPressEnter,
+                        searchByDirectorName,
+                        filterByDirectorName,
+                        filterByDirectorNameWhenPressEnter,
+                        searchByMarketName,
+                        filterByMarketName,
+                        searchBySellerName,
+                        filterBySellerName,
+                        filterBySellerNameWhenPressEnter,
+                        searchByMarketInn,
+                        filterByMarketInn,
+                        filterByMarketInnWhenPressEnter,
+                        filterByMarketNameWhenPressEnter
+                    }) {
     const {t} = useTranslation(['common'])
     const chooseComponent = (key) => {
         switch (key) {
             case 'category':
                 return (
                     <FilterButtons
-                    
+
                         key={'category_1'}
                         label={t('Kategoriya')}
                         element={
@@ -130,7 +130,7 @@ function SearchForm({
                 return (
                     <SearchInput
                         key={'yetkazuvchi_ismi_1'}
-                        placeholder={t('yetkazuvchi ismi...')}
+                        placeholder={t('Yetkazuvchi ismi')}
                         someClasses={'grow'}
                         value={searchByDelivererName}
                         onChange={filterByDelivererName}
@@ -264,7 +264,7 @@ function SearchForm({
                         key={'market_name_1'}
                         value={searchByMarketName}
                         onChange={filterByMarketName}
-                        placeholder={"Do'kon nomi..."}
+                        placeholder={`${t('Do\'kon nomi...')}`}
                         someClasses={'grow'}
                         onKeyUp={filterByMarketNameWhenPressEnter}
                     />
@@ -275,7 +275,7 @@ function SearchForm({
                         key={'market_inn_1'}
                         value={searchByMarketInn}
                         onChange={filterByMarketInn}
-                        placeholder={"Do'kon INN si..."}
+                        placeholder={'Do\'kon INN si...'}
                         someClasses={'grow'}
                         onKeyUp={filterByMarketInnWhenPressEnter}
                     />

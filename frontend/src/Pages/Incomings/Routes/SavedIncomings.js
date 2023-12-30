@@ -4,11 +4,7 @@ import {useNavigate} from 'react-router-dom'
 import Table from '../../../Components/Table/Table'
 import {universalSort} from './../../../App/globalFunctions'
 import {useTranslation} from 'react-i18next'
-import {
-    deleteTemporary,
-    getTemporary,
-    setTemporaryRegister,
-} from '../incomingSlice'
+import {deleteTemporary, getTemporary, setTemporaryRegister} from '../incomingSlice'
 import {filter, map} from 'lodash'
 import NotFind from '../../../Components/NotFind/NotFind.js'
 import UniversalModal from '../../../Components/Modal/UniversalModal.js'

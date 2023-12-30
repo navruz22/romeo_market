@@ -1,11 +1,11 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import Api from '../../Config/Api'
-import {map, filter} from 'lodash'
+import {filter, map} from 'lodash'
 import {
     successAddExchangeMessage,
     successDeleteExchangeMessage,
     successUpdateExchangeMessage,
-    universalToast,
+    universalToast
 } from '../../Components/ToastMessages/ToastMessages.js'
 
 export const getCurrency = createAsyncThunk(

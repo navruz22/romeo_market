@@ -76,12 +76,12 @@ export const SaleCheck = forwardRef((props, ref) => {
                     <thead>
                         <tr className={'break-inside-avoid break-after-auto'}>
                             <td className='check-table-rtr'>№</td>
-                            <td className='check-table-rtr'>Kodi</td>
-                            <td className='check-table-rtr'>Maxsulot</td>
-                            <td className='check-table-rtr'>Soni</td>
-                            {product?.products.some(el => el.fromFilial > 0) && <td style={{ backgroundColor: "grey" }} className='check-table-rtr'>Ombordan</td>}
-                            <td className='check-table-rtr'>Narxi (dona)</td>
-                            <td className='check-table-rtr'>Jami</td>
+                            <td className='check-table-rtr'>{t("Kodi")}</td>
+                            <td className='check-table-rtr'>{t("Maxsulot")}</td>
+                            <td className='check-table-rtr'>{t("Soni")}</td>
+                            {product?.products.some(el => el.fromFilial > 0) && <td style={{ backgroundColor: "grey" }} className='check-table-rtr'>{t("Ombordan")}</td>}
+                            <td className='check-table-rtr'>{t('Narxi')} ({t('dona')})</td>
+                            <td className='check-table-rtr'>{t("Jami")}</td>
                         </tr>
                     </thead>
                     <tbody>

@@ -1,7 +1,8 @@
 import React from 'react'
 import TableBtn from '../../Buttons/TableBtn'
-import { map } from 'lodash'
-import { t } from 'i18next'
+import {map} from 'lodash'
+import {t} from 'i18next'
+
 export const ProductMobileTableRow = ({
     currentPage,
     countPage,
