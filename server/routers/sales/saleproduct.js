@@ -670,8 +670,8 @@ module.exports.getsaleconnectors = async (req, res) => {
         populate: {
           path: "product",
           select: "productdata",
-          populate: { 
-            path: "productdata", 
+          populate: {
+            path: "productdata",
             select: "name code",
             // match: {name: product}
           },
@@ -707,11 +707,14 @@ module.exports.getsaleconnectors = async (req, res) => {
             ((search.client.length > 0 &&
               connector.client !== null &&
               connector.client) ||
-            search.client.length === 0) && connector.products.some(item => search.product ? item.product.productdata.name === search.product : item.product.productdata.name)
+              search.client.length === 0) && connector.products.some(item => search.product ? item.product.productdata.name === search.product : item.product.productdata.name)
         );
       });
 
-    const filteredProductsSale = saleconnectors.map((connector) => {
+
+    let filteredProductsSale = []
+    // saleconnectors.map(async (connector) => 
+    for (const connector of saleconnectors) {
       const filterProducts = connector.products.filter((product) => {
         return (
           new Date(product.createdAt) > new Date(startDate) &&
@@ -730,7 +733,24 @@ module.exports.getsaleconnectors = async (req, res) => {
           new Date(discount.createdAt) < new Date(endDate)
         );
       });
-      return {
+
+      const products = await SaleProduct.find({ saleconnector: connector._id }).lean()
+      const productstotalusd = [...products].reduce((prev, el) => prev + el.totalprice, 0)
+      const productstotaluzs = [...products].reduce((prev, el) => prev + el.totalpriceuzs, 0)
+      console.log(products);
+      const payments = await Payment.find({ saleconnector: connector._id }).lean()
+      const paymentstotalusd = [...payments].reduce((prev, el) => prev + el.payment, 0)
+      const paymentstotaluzs = [...payments].reduce((prev, el) => prev + el.paymentuzs, 0)
+
+      const discounts = await Discount.find({ saleconnector: connector._id }).lean()
+      const discountstotalusd = [...discounts].reduce((prev, el) => prev + el.discount, 0)
+      const discountstotaluzs = [...discounts].reduce((prev, el) => prev + el.discountuzs, 0)
+
+
+      const totaldebtusd = productstotalusd - paymentstotalusd - discountstotalusd
+      const totaldebtuzs = productstotaluzs - paymentstotaluzs - discountstotaluzs
+
+      filteredProductsSale.push({
         _id: connector._id,
         dailyconnectors: connector.dailyconnectors,
         discounts: filterDiscount,
@@ -743,8 +763,10 @@ module.exports.getsaleconnectors = async (req, res) => {
         products: filterProducts,
         payments: filterPayment,
         saleconnector: connector,
-      };
-    });
+        totaldebtusd: totaldebtusd,
+        totaldebtuzs: totaldebtuzs
+      })
+    }
 
     const count = filteredProductsSale.length;
 
@@ -1146,16 +1168,16 @@ module.exports.getreportproducts = async (req, res) => {
         filter(saleproducts, (saleproduct) =>
           search.nameofclient.length > 0
             ? saleproduct.product.productdata &&
-              saleproduct.product.productdata !== null &&
-              saleproduct.user &&
-              saleproduct.user !== null &&
-              saleproduct.saleconnector &&
-              saleproduct.saleconnector.client &&
-              saleproduct.saleconnector.client !== null
+            saleproduct.product.productdata !== null &&
+            saleproduct.user &&
+            saleproduct.user !== null &&
+            saleproduct.saleconnector &&
+            saleproduct.saleconnector.client &&
+            saleproduct.saleconnector.client !== null
             : saleproduct.product.productdata &&
-              saleproduct.product.productdata !== null &&
-              saleproduct.user &&
-              saleproduct.user !== null
+            saleproduct.product.productdata !== null &&
+            saleproduct.user &&
+            saleproduct.user !== null
         )
       );
 
@@ -1197,16 +1219,16 @@ module.exports.getreportproducts = async (req, res) => {
         filter(saleproducts, (saleproduct) =>
           search.nameofclient.length > 0
             ? saleproduct.product.productdata &&
-              saleproduct.product.productdata !== null &&
-              saleproduct.user &&
-              saleproduct.user !== null &&
-              saleproduct.saleconnector &&
-              saleproduct.saleconnector.client &&
-              saleproduct.saleconnector.client !== null
+            saleproduct.product.productdata !== null &&
+            saleproduct.user &&
+            saleproduct.user !== null &&
+            saleproduct.saleconnector &&
+            saleproduct.saleconnector.client &&
+            saleproduct.saleconnector.client !== null
             : saleproduct.product.productdata &&
-              saleproduct.product.productdata !== null &&
-              saleproduct.user &&
-              saleproduct.user !== null
+            saleproduct.product.productdata !== null &&
+            saleproduct.user &&
+            saleproduct.user !== null
         )
       );
 
@@ -1286,16 +1308,16 @@ module.exports.getexcelreportproducts = async (req, res) => {
         filter(saleproducts, (saleproduct) =>
           search.nameofclient.length > 0
             ? saleproduct.product.productdata &&
-              saleproduct.product.productdata !== null &&
-              saleproduct.user &&
-              saleproduct.user !== null &&
-              saleproduct.saleconnector &&
-              saleproduct.saleconnector.client &&
-              saleproduct.saleconnector.client !== null
+            saleproduct.product.productdata !== null &&
+            saleproduct.user &&
+            saleproduct.user !== null &&
+            saleproduct.saleconnector &&
+            saleproduct.saleconnector.client &&
+            saleproduct.saleconnector.client !== null
             : saleproduct.product.productdata &&
-              saleproduct.product.productdata !== null &&
-              saleproduct.user &&
-              saleproduct.user !== null
+            saleproduct.product.productdata !== null &&
+            saleproduct.user &&
+            saleproduct.user !== null
         )
       );
 

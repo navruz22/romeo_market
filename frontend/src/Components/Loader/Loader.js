@@ -14,8 +14,8 @@ const Loader = () => {
             }}
             transition={{ repeat: Infinity, duration: 1 }}
         >
-            <div className='animation'>
-                
+            <div className='animation lg:w-full w-[50%]'>
+
                 <img src={Logo} alt="logo" />
             </div>
         </motion.div>

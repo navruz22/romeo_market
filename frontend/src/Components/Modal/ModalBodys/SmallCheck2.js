@@ -14,7 +14,7 @@ export const SmallCheck2 = forwardRef((props, ref) => {
         return (total - payment - discount).toLocaleString('ru-Ru')
     }
     return (
-        <div ref={ref} className={']'}>
+        <div ref={ref} className={'px-2'}>
             <div className='flex pb-2 flex-col text-center justify-center border-b-[0.8px] border-black-700'>
                 <div >
                     <img src={market?.image} alt="logo" />
@@ -33,7 +33,7 @@ export const SmallCheck2 = forwardRef((props, ref) => {
                     </span>
                 </div>
                 <div className='flex justify-between items-center py-1 text-[12px] font-bold'>
-                {t('Sana')}:
+                    {t('Sana')}:
                     <span className='text-[12px] text-black-900 font-bold'>
                         {new Date(product?.createdAt).toLocaleDateString()}
                         {/* <span className='ml-3 font-bold'>
@@ -44,7 +44,7 @@ export const SmallCheck2 = forwardRef((props, ref) => {
                     </span>
                 </div>
                 <div className='flex justify-between items-center py-1 text-[12px] font-bold'>
-                {t('Mijoz')}:{' '}
+                    {t('Mijoz')}:{' '}
                     <span className='text-[12px] text-black-900 font-bold'>
                         {product?.client?.name ||
                             product?.packman?.name ||
@@ -52,13 +52,13 @@ export const SmallCheck2 = forwardRef((props, ref) => {
                     </span>
                 </div>
                 <div className={'flex justify-between items-center py-1 text-[12px] font-bold'}>
-                {t('Sotuv')}{' '}
+                    {t('Sotuv')}{' '}
                     <span className='text-[12px] text-black-900 font-bold'>
                         {product?.id}
                     </span>
                 </div>
                 <div className={'flex justify-between items-center py-1 text-[12px] font-bold'}>
-                {t('Sotuvchi')}:{' '}
+                    {t('Sotuvchi')}:{' '}
                     <span className='text-[12px] text-black-900 font-bold'>
                         {product?.saleconnector?.id}
                     </span>
@@ -67,7 +67,7 @@ export const SmallCheck2 = forwardRef((props, ref) => {
             {product?.products.length > 0 && (
                 <div className='mt-5'>
                     <h3 className='text-[14px] text-black-900 mb-5 font-bold'>
-                    {t('Sotilganlar')} :
+                        {t('Sotilganlar')} :
                     </h3>
                     <div>
                         {map(product?.products, (item, index) => (
@@ -86,7 +86,7 @@ export const SmallCheck2 = forwardRef((props, ref) => {
             )}
             <div className='border-t-[0.8px] border-black-700 w-full mt-4 mb-4 text-left'>
                 <h3 style={{ fontWeight: "bolder" }} className='text-black-900 text-[12px] font-bold pt-4'>
-                {t('Jami')} :{' '}
+                    {t('Jami')} :{' '}
                     <span style={{ fontWeight: "bolder" }} className='text-black-900 text-[12px] font-bold'>
                         {currencyType === 'USD'
                             ? product?.payment?.totalprice

@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Checkbox from '../../../Components/Checkbox/Checkbox.js'
 import FieldContainer from '../../../Components/FieldContainer/FieldContainer.js'
 import Table from '../../../Components/Table/Table.js'
-import {useDispatch, useSelector} from 'react-redux'
-import {IoAttach} from 'react-icons/io5'
+import { useDispatch, useSelector } from 'react-redux'
+import { IoAttach } from 'react-icons/io5'
 import CategoryCard from '../../../Components/CategoryCard/CategoryCard.js'
 import NotFind from '../../../Components/NotFind/NotFind.js'
 import Spinner from '../../../Components/Spinner/SmallLoader.js'
 import SmallLoader from '../../../Components/Spinner/SmallLoader.js'
-import {RegisteredSaleModal} from '../../../Components/Modal/RegisteredSaleModal.js'
+import { RegisteredSaleModal } from '../../../Components/Modal/RegisteredSaleModal.js'
 import {
     addPayment,
     getClients,
@@ -18,11 +18,11 @@ import {
     savePayment,
     setAllProductsBySocket,
 } from '../Slices/registerSellingSlice.js'
-import {deleteSavedPayment} from '../Slices/savedSellingsSlice.js'
-import {getAllPackmans} from '../../Clients/clientsSlice.js'
+import { deleteSavedPayment } from '../Slices/savedSellingsSlice.js'
+import { getAllPackmans } from '../../Clients/clientsSlice.js'
 import SearchInput from '../../../Components/Inputs/SearchInput.js'
 import UniversalModal from '../../../Components/Modal/UniversalModal.js'
-import {UsdToUzs, UzsToUsd} from '../../../App/globalFunctions.js'
+import { UsdToUzs, UzsToUsd } from '../../../App/globalFunctions.js'
 import {
     universalToast,
     warningCountSellPayment,
@@ -34,12 +34,12 @@ import {
     warningSaleProductsEmpty,
 } from '../../../Components/ToastMessages/ToastMessages.js'
 import CustomerPayment from '../../../Components/Payment/CustomerPayment.js'
-import {useLocation, useNavigate} from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import BarcodeReader from 'react-barcode-reader'
-import {useTranslation} from 'react-i18next'
-import {filter, map} from 'lodash'
+import { useTranslation } from 'react-i18next'
+import { filter, map } from 'lodash'
 import socket from '../../../Config/socket.js'
-import {setAllCategories} from '../../Category/categorySlice.js'
+import { setAllCategories } from '../../Category/categorySlice.js'
 import Api from '../../../Config/Api.js'
 import TableMobile from '../../../Components/Table/TableMobile.js'
 import { FaFilter, FaRegUser } from 'react-icons/fa'
@@ -47,20 +47,20 @@ import { MdCategory } from 'react-icons/md'
 import { VscChromeClose } from "react-icons/vsc";
 
 const RegisterSelling = () => {
-    const [productAddModal, setProductAddModal]=useState(false)
-    const {t} = useTranslation(['common'])
+    const [productAddModal, setProductAddModal] = useState(false)
+    const { t } = useTranslation(['common'])
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
-    const {user, market} = useSelector((state) => state.login)
-    const [modalOpen,setModalOpen]= useState(false)
-    const [categoryModal,setCategoryModal]=useState(false)
-    const {currencyType, currency} = useSelector((state) => state.currency)
-    const {allcategories, loading} = useSelector((state) => state.category)
+    const { user, market } = useSelector((state) => state.login)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [categoryModal, setCategoryModal] = useState(false)
+    const { currencyType, currency } = useSelector((state) => state.currency)
+    const { allcategories, loading } = useSelector((state) => state.category)
     const { filials } = useSelector((state) => state.registerSelling)
-    const {allProducts, clients, loadingMakePayment, lastPayments} =
+    const { allProducts, clients, loadingMakePayment, lastPayments } =
         useSelector((state) => state.registerSelling)
-    const {packmans} = useSelector((state) => state.clients)
+    const { packmans } = useSelector((state) => state.clients)
     const [filteredProducts, setFilteredProducts] = useState([])
     const [selectedProduct, setSelectedProduct] = useState('')
     const [checked, setChecked] = useState(false)
@@ -133,38 +133,38 @@ const RegisterSelling = () => {
     let delay = null
 
     const headers = [
-        {title: '№'},
-        {title: t('Filial')},
-        {title: t('Qoldiq')},
-        {title: t('Nomi')},
-        {title: t('Soni')},
-        {title: 'Ombordan'},
-        {title: t('Narxi')},
-        {title: t('Jami'), styles: 'w-[8rem]'},
-        {title: ''},
-        {title: ''},
+        { title: '№' },
+        { title: t('Filial') },
+        { title: t('Qoldiq') },
+        { title: t('Nomi') },
+        { title: t('Soni') },
+        { title: 'Ombordan' },
+        { title: t('Narxi') },
+        { title: t('Jami'), styles: 'w-[8rem]' },
+        { title: '' },
+        { title: '' },
     ]
     const headers2 = [
-        {title: '№'},
+        { title: '№' },
         // {title: t('Filial')},
-        {title: t('Qoldiq')},
-        {title: t('Nomi')},
-        {title: t('Soni')},
+        { title: t('Qoldiq') },
+        { title: t('Nomi') },
+        { title: t('Soni') },
         // {title: 'Ombordan'},
-        {title: t('Narxi')},
-        {title: t('Jami'), styles: 'w-[8rem]'},
-        {title: ''},
-        {title: ''},
+        { title: t('Narxi') },
+        { title: t('Jami'), styles: 'w-[8rem]' },
+        { title: '' },
+        { title: '' },
     ]
 
     const headerReturn = [
-        {title: '№'},
-        {title: t('Kodi')},
-        {title: t('Nomi')},
-        {title: t('Soni')},
-        {title: t('Jami')},
-        {title: t('Soni')},
-        {title: t('Jami')},
+        { title: '№' },
+        { title: t('Kodi') },
+        { title: t('Nomi') },
+        { title: t('Soni') },
+        { title: t('Jami') },
+        { title: t('Soni') },
+        { title: t('Jami') },
     ]
 
     // payment
@@ -179,7 +179,7 @@ const RegisterSelling = () => {
         setPaymentDiscountPercent('')
         setPaymentDebt(0)
         setPaymentDebtUzs(0)
-        setDiscountSelectOption({label: '%', value: '%'})
+        setDiscountSelectOption({ label: '%', value: '%' })
     }
 
     const toggleCheckModal = () => {
@@ -666,13 +666,7 @@ const RegisterSelling = () => {
     }
 
     const handleClickPay = () => {
-        if (delay === null) {
-            delay = window.setTimeout(() => {
-                delay = null
-                setModalBody('complete')
-                setModalVisible(true)
-            }, 300)
-        }
+        handleApprovePay()
     }
 
     const handleDoubleClick = () => {
@@ -688,7 +682,10 @@ const RegisterSelling = () => {
         }, 500)
     }
 
+    const [clickdelay, setClickDelay] = useState(false)
+
     const handleApprovePay = () => {
+        setClickDelay(true)
         handleClosePay()
         const body = {
             saleproducts: map(tableProducts, (product) => {
@@ -722,9 +719,9 @@ const RegisterSelling = () => {
             },
             packman: packmanValue
                 ? {
-                      _id: packmanValue.value,
-                      name: packmanValue.label,
-                  }
+                    _id: packmanValue.value,
+                    name: packmanValue.label,
+                }
                 : null,
             discount: {
                 discount: Number(paymentDiscount),
@@ -755,7 +752,7 @@ const RegisterSelling = () => {
             comment: saleComment,
         }
         dispatch(saleConnectorId ? addPayment(body) : makePayment(body)).then(
-            ({payload, error}) => {
+            ({ payload, error }) => {
                 if (!error) {
                     setModalData(payload)
                     setWholesale(false)
@@ -765,9 +762,12 @@ const RegisterSelling = () => {
                         clearAll()
                     }, 500)
                     if (temporary) {
-                        dispatch(deleteSavedPayment({_id: temporary._id}))
+                        dispatch(deleteSavedPayment({ _id: temporary._id }))
                         setTemporary(null)
                     }
+                    setTimeout(() => {
+                        setClickDelay(false)
+                    }, 10000);
                 }
             }
         )
@@ -811,7 +811,7 @@ const RegisterSelling = () => {
             saleconnectorid: saleConnectorId,
             comment: saleComment,
         }
-        dispatch(returnSaleProducts(body)).then(({payload, error}) => {
+        dispatch(returnSaleProducts(body)).then(({ payload, error }) => {
             if (!error) {
                 setModalData(payload)
                 setTimeout(() => {
@@ -844,14 +844,14 @@ const RegisterSelling = () => {
                 },
                 user: user._id,
             }
-            dispatch(savePayment(body)).then(({error}) => {
+            dispatch(savePayment(body)).then(({ error }) => {
                 if (!error) {
                     clearAll(false)
                     navigate('/sotuv/saqlanganlar')
                 }
             })
             if (temporary) {
-                dispatch(deleteSavedPayment({_id: temporary._id}))
+                dispatch(deleteSavedPayment({ _id: temporary._id }))
                 setTemporary(null)
             }
         }
@@ -910,7 +910,7 @@ const RegisterSelling = () => {
         const filterData = filter(allcategories, (obj) =>
             obj.name
                 ? obj.name.toLowerCase().includes(searchedStr) ||
-                  obj.code.includes(searchedStr)
+                obj.code.includes(searchedStr)
                 : obj.code.includes(searchedStr)
         )
         setFilteredCategories(str !== '' ? filterData : allcategories)
@@ -919,17 +919,17 @@ const RegisterSelling = () => {
     const handleChangeSelectedProduct = (option) => {
         const hasProduct = option.barcode
             ? filter(
-                  tableProducts,
-                  (obj) => obj.product.barcode === option.barcode
-              ).length > 0
+                tableProducts,
+                (obj) => obj.product.barcode === option.barcode
+            ).length > 0
             : filter(tableProducts, (obj) => obj.product._id === option.value)
-                  .length > 0
+                .length > 0
         if (!hasProduct) {
             !option.barcode && setSelectedProduct(option)
             const product = option.barcode
                 ? allProducts.find(
-                      (obj) => obj.productdata.barcode === option.barcode
-                  )
+                    (obj) => obj.productdata.barcode === option.barcode
+                )
                 : allProducts.find((obj) => obj._id === option.value)
             const currentProduct = {
                 total: product.total,
@@ -958,7 +958,7 @@ const RegisterSelling = () => {
                     currentProduct.incomingprice <= currentProduct.unitprice) ||
                 (currencyType === 'UZS' &&
                     currentProduct.incomingpriceuzs <=
-                        currentProduct.unitpriceuzs)
+                    currentProduct.unitpriceuzs)
             ) {
                 setTableProducts([...tableProducts, currentProduct])
                 setSelectedProduct('')
@@ -1000,7 +1000,7 @@ const RegisterSelling = () => {
         setUserValue('')
     }
 
-    const handleClickPrint = () => {}
+    const handleClickPrint = () => { }
 
     const handleChangeClientValue = (option) => {
         setClientValue(option)
@@ -1052,75 +1052,75 @@ const RegisterSelling = () => {
     const handleChangeProductUnitPriceTable = (id, value) => {
         const newRelease = !wholesale
             ? map(tableProducts, (prevProduct) =>
-                  prevProduct.product._id === id
-                      ? {
-                            ...prevProduct,
-                            unitprice:
-                                currencyType === 'USD'
-                                    ? value
-                                    : UzsToUsd(value, exchangerate),
-                            unitpriceuzs:
-                                currencyType === 'UZS'
-                                    ? value
-                                    : UsdToUzs(value, exchangerate),
-                            totalprice:
-                                currencyType === 'USD'
-                                    ? value *
-                                      (Number(prevProduct.pieces) +
-                                          Number(prevProduct.fromFilial))
-                                    : UzsToUsd(
-                                          value *
-                                              (Number(prevProduct.pieces) +
-                                                  Number(
-                                                      prevProduct.fromFilial
-                                                  )),
-                                          exchangerate
-                                      ),
-                            totalpriceuzs:
-                                currencyType === 'UZS'
-                                    ? value *
-                                      (Number(prevProduct.pieces) +
-                                          Number(prevProduct.fromFilial))
-                                    : UsdToUzs(
-                                          value *
-                                              (Number(prevProduct.pieces) +
-                                                  Number(
-                                                      prevProduct.fromFilial
-                                                  )),
-                                          exchangerate
-                                      ),
-                        }
-                      : prevProduct
-              )
+                prevProduct.product._id === id
+                    ? {
+                        ...prevProduct,
+                        unitprice:
+                            currencyType === 'USD'
+                                ? value
+                                : UzsToUsd(value, exchangerate),
+                        unitpriceuzs:
+                            currencyType === 'UZS'
+                                ? value
+                                : UsdToUzs(value, exchangerate),
+                        totalprice:
+                            currencyType === 'USD'
+                                ? value *
+                                (Number(prevProduct.pieces) +
+                                    Number(prevProduct.fromFilial))
+                                : UzsToUsd(
+                                    value *
+                                    (Number(prevProduct.pieces) +
+                                        Number(
+                                            prevProduct.fromFilial
+                                        )),
+                                    exchangerate
+                                ),
+                        totalpriceuzs:
+                            currencyType === 'UZS'
+                                ? value *
+                                (Number(prevProduct.pieces) +
+                                    Number(prevProduct.fromFilial))
+                                : UsdToUzs(
+                                    value *
+                                    (Number(prevProduct.pieces) +
+                                        Number(
+                                            prevProduct.fromFilial
+                                        )),
+                                    exchangerate
+                                ),
+                    }
+                    : prevProduct
+            )
             : map(tableProducts, (prevProduct) =>
-                  prevProduct.product._id === id
-                      ? {
-                            ...prevProduct,
-                            tradeprice:
-                                currencyType === 'USD'
-                                    ? value
-                                    : UzsToUsd(value, exchangerate),
-                            tradepriceuzs:
-                                currencyType === 'UZS'
-                                    ? value
-                                    : UsdToUzs(value, exchangerate),
-                            totalprice:
-                                currencyType === 'USD'
-                                    ? value * prevProduct.pieces
-                                    : UzsToUsd(
-                                          value * prevProduct.pieces,
-                                          exchangerate
-                                      ),
-                            totalpriceuzs:
-                                currencyType === 'UZS'
-                                    ? value * prevProduct.pieces
-                                    : UsdToUzs(
-                                          value * prevProduct.pieces,
-                                          exchangerate
-                                      ),
-                        }
-                      : prevProduct
-              )
+                prevProduct.product._id === id
+                    ? {
+                        ...prevProduct,
+                        tradeprice:
+                            currencyType === 'USD'
+                                ? value
+                                : UzsToUsd(value, exchangerate),
+                        tradepriceuzs:
+                            currencyType === 'UZS'
+                                ? value
+                                : UsdToUzs(value, exchangerate),
+                        totalprice:
+                            currencyType === 'USD'
+                                ? value * prevProduct.pieces
+                                : UzsToUsd(
+                                    value * prevProduct.pieces,
+                                    exchangerate
+                                ),
+                        totalpriceuzs:
+                            currencyType === 'UZS'
+                                ? value * prevProduct.pieces
+                                : UsdToUzs(
+                                    value * prevProduct.pieces,
+                                    exchangerate
+                                ),
+                    }
+                    : prevProduct
+            )
         setTableProducts(newRelease)
     }
 
@@ -1128,23 +1128,23 @@ const RegisterSelling = () => {
         const newRelease = map(tableProducts, (prevProduct) =>
             prevProduct.product._id === id
                 ? {
-                      ...prevProduct,
-                      pieces: Number(value),
-                      totalprice: convertToUsd(
-                          (Number(value) + Number(prevProduct.fromFilial)) *
-                              (wholesale
-                                  ? prevProduct.tradeprice ||
-                                    prevProduct.unitprice
-                                  : prevProduct.unitprice)
-                      ),
-                      totalpriceuzs: convertToUzs(
-                          (Number(value) + Number(prevProduct.fromFilial)) *
-                              (wholesale
-                                  ? prevProduct.tradepriceuzs ||
-                                    prevProduct.unitpriceuzs
-                                  : prevProduct.unitpriceuzs)
-                      ),
-                  }
+                    ...prevProduct,
+                    pieces: Number(value),
+                    totalprice: convertToUsd(
+                        (Number(value) + Number(prevProduct.fromFilial)) *
+                        (wholesale
+                            ? prevProduct.tradeprice ||
+                            prevProduct.unitprice
+                            : prevProduct.unitprice)
+                    ),
+                    totalpriceuzs: convertToUzs(
+                        (Number(value) + Number(prevProduct.fromFilial)) *
+                        (wholesale
+                            ? prevProduct.tradepriceuzs ||
+                            prevProduct.unitpriceuzs
+                            : prevProduct.unitpriceuzs)
+                    ),
+                }
                 : prevProduct
         )
         setTableProducts(newRelease)
@@ -1154,23 +1154,23 @@ const RegisterSelling = () => {
         const newRelease = map(tableProducts, (prevProduct) =>
             prevProduct.product._id === id
                 ? {
-                      ...prevProduct,
-                      fromFilial: Number(value),
-                      totalprice: convertToUsd(
-                          (Number(value) + Number(prevProduct.pieces)) *
-                              (wholesale
-                                  ? prevProduct.tradeprice ||
-                                    prevProduct.unitprice
-                                  : prevProduct.unitprice)
-                      ),
-                      totalpriceuzs: convertToUzs(
-                          (Number(value) + Number(prevProduct.pieces)) *
-                              (wholesale
-                                  ? prevProduct.tradepriceuzs ||
-                                    prevProduct.unitpriceuzs
-                                  : prevProduct.unitpriceuzs)
-                      ),
-                  }
+                    ...prevProduct,
+                    fromFilial: Number(value),
+                    totalprice: convertToUsd(
+                        (Number(value) + Number(prevProduct.pieces)) *
+                        (wholesale
+                            ? prevProduct.tradeprice ||
+                            prevProduct.unitprice
+                            : prevProduct.unitprice)
+                    ),
+                    totalpriceuzs: convertToUzs(
+                        (Number(value) + Number(prevProduct.pieces)) *
+                        (wholesale
+                            ? prevProduct.tradepriceuzs ||
+                            prevProduct.unitpriceuzs
+                            : prevProduct.unitpriceuzs)
+                    ),
+                }
                 : prevProduct
         )
         setTableProducts(newRelease)
@@ -1194,27 +1194,27 @@ const RegisterSelling = () => {
         const newRelease = map(tableProducts, (prevProduct) =>
             prevProduct.product._id === id
                 ? {
-                      ...prevProduct,
-                      pieces: Number(prevProduct.pieces) + 1,
-                      totalprice: convertToUsd(
-                          (Number(prevProduct.pieces) +
-                              Number(prevProduct.fromFilial) +
-                              1) *
-                              (wholesale
-                                  ? prevProduct.tradeprice ||
-                                    prevProduct.unitprice
-                                  : prevProduct.unitprice)
-                      ),
-                      totalpriceuzs: convertToUzs(
-                          (Number(prevProduct.pieces) +
-                              Number(prevProduct.fromFilial) +
-                              1) *
-                              (wholesale
-                                  ? prevProduct.tradepriceuzs ||
-                                    prevProduct.unitpriceuzs
-                                  : prevProduct.unitpriceuzs)
-                      ),
-                  }
+                    ...prevProduct,
+                    pieces: Number(prevProduct.pieces) + 1,
+                    totalprice: convertToUsd(
+                        (Number(prevProduct.pieces) +
+                            Number(prevProduct.fromFilial) +
+                            1) *
+                        (wholesale
+                            ? prevProduct.tradeprice ||
+                            prevProduct.unitprice
+                            : prevProduct.unitprice)
+                    ),
+                    totalpriceuzs: convertToUzs(
+                        (Number(prevProduct.pieces) +
+                            Number(prevProduct.fromFilial) +
+                            1) *
+                        (wholesale
+                            ? prevProduct.tradepriceuzs ||
+                            prevProduct.unitpriceuzs
+                            : prevProduct.unitpriceuzs)
+                    ),
+                }
                 : prevProduct
         )
         setTableProducts(newRelease)
@@ -1223,34 +1223,34 @@ const RegisterSelling = () => {
         const newRelease = map(tableProducts, (prevProduct) =>
             prevProduct.product._id === id
                 ? {
-                      ...prevProduct,
-                      pieces:
-                          Number(prevProduct.pieces) > 1
-                              ? Number(prevProduct.pieces) - 1
-                              : 1,
-                      totalprice: convertToUsd(
-                          (Number(prevProduct.pieces) > 1
-                              ? Number(prevProduct.pieces) -
-                                1 +
-                                Number(prevProduct.fromFilial)
-                              : 1) *
-                              (wholesale
-                                  ? prevProduct.tradeprice ||
-                                    prevProduct.unitprice
-                                  : prevProduct.unitprice)
-                      ),
-                      totalpriceuzs: convertToUzs(
-                          (Number(prevProduct.pieces) > 1
-                              ? Number(prevProduct.pieces) -
-                                1 +
-                                Number(prevProduct.fromFilial)
-                              : 1) *
-                              (wholesale
-                                  ? prevProduct.tradepriceuzs ||
-                                    prevProduct.unitpriceuzs
-                                  : prevProduct.unitpriceuzs)
-                      ),
-                  }
+                    ...prevProduct,
+                    pieces:
+                        Number(prevProduct.pieces) > 1
+                            ? Number(prevProduct.pieces) - 1
+                            : 1,
+                    totalprice: convertToUsd(
+                        (Number(prevProduct.pieces) > 1
+                            ? Number(prevProduct.pieces) -
+                            1 +
+                            Number(prevProduct.fromFilial)
+                            : 1) *
+                        (wholesale
+                            ? prevProduct.tradeprice ||
+                            prevProduct.unitprice
+                            : prevProduct.unitprice)
+                    ),
+                    totalpriceuzs: convertToUzs(
+                        (Number(prevProduct.pieces) > 1
+                            ? Number(prevProduct.pieces) -
+                            1 +
+                            Number(prevProduct.fromFilial)
+                            : 1) *
+                        (wholesale
+                            ? prevProduct.tradepriceuzs ||
+                            prevProduct.unitpriceuzs
+                            : prevProduct.unitpriceuzs)
+                    ),
+                }
                 : prevProduct
         )
         setTableProducts(newRelease)
@@ -1265,7 +1265,7 @@ const RegisterSelling = () => {
     }
 
     const handleScan = (data) => {
-        handleChangeSelectedProduct({barcode: data})
+        handleChangeSelectedProduct({ barcode: data })
     }
 
     const handleChangeReturnProduct = (value, id, index) => {
@@ -1279,13 +1279,13 @@ const RegisterSelling = () => {
         const newRelease = map(returnProducts, (prevProduct) =>
             prevProduct._id === id
                 ? {
-                      ...prevProduct,
-                      pieces: value,
-                      totalprice: convertToUsd(value * prevProduct.unitprice),
-                      totalpriceuzs: convertToUzs(
-                          value * prevProduct.unitpriceuzs
-                      ),
-                  }
+                    ...prevProduct,
+                    pieces: value,
+                    totalprice: convertToUsd(value * prevProduct.unitprice),
+                    totalpriceuzs: convertToUzs(
+                        value * prevProduct.unitpriceuzs
+                    ),
+                }
                 : prevProduct
         )
         setReturnProducts(newRelease)
@@ -1303,34 +1303,34 @@ const RegisterSelling = () => {
             )
 
             const newRelease = discounts.map((discount) => {
-                let newDiscount = {...discount}
+                let newDiscount = { ...discount }
                 map(returnProducts, (product) => {
                     if (discount._id === product.product?.discount) {
                         newDiscount = {
                             ...discount,
                             discount: convertToUsd(
                                 newDiscount.discount -
-                                    (product.totalprice * discount.procient) /
-                                        100
+                                (product.totalprice * discount.procient) /
+                                100
                             ),
                             discountuzs: convertToUzs(
                                 newDiscount.discountuzs -
-                                    (product.totalpriceuzs *
-                                        discount.procient) /
-                                        100
+                                (product.totalpriceuzs *
+                                    discount.procient) /
+                                100
                             ),
                             totalprice: convertToUsd(
                                 newDiscount.totalprice - product.totalprice
                             ),
                             totalpriceuzs: convertToUzs(
                                 newDiscount.totalpriceuzs -
-                                    product.totalpriceuzs
+                                product.totalpriceuzs
                             ),
                         }
                     }
                     return ''
                 })
-                return {...newDiscount}
+                return { ...newDiscount }
             })
             const totalDiscountsUsd = newRelease.reduce(
                 (summ, discount) => summ + discount.discount,
@@ -1382,15 +1382,15 @@ const RegisterSelling = () => {
                         ...product,
                         totalprice: product.tradeprice
                             ? convertToUsd(
-                                  Number(product.pieces + product.fromFilial) *
-                                      product.tradeprice
-                              )
+                                Number(product.pieces + product.fromFilial) *
+                                product.tradeprice
+                            )
                             : product.totalprice,
                         totalpriceuzs: product.tradepriceuzs
                             ? convertToUzs(
-                                  Number(product.pieces + product.fromFilial) *
-                                      product.tradepriceuzs
-                              )
+                                Number(product.pieces + product.fromFilial) *
+                                product.tradepriceuzs
+                            )
                             : product.totalpriceuzs,
                     }))
                 )
@@ -1400,15 +1400,15 @@ const RegisterSelling = () => {
                         ...product,
                         totalprice: product.unitprice
                             ? convertToUsd(
-                                  Number(product.pieces + product.fromFilial) *
-                                      product.unitprice
-                              )
+                                Number(product.pieces + product.fromFilial) *
+                                product.unitprice
+                            )
                             : product.totalprice,
                         totalpriceuzs: product.unitpriceuzs
                             ? convertToUzs(
-                                  Number(product.pieces + product.fromFilial) *
-                                      product.unitpriceuzs
-                              )
+                                Number(product.pieces + product.fromFilial) *
+                                product.unitpriceuzs
+                            )
                             : product.totalpriceuzs,
                     }))
                 )
@@ -1430,16 +1430,16 @@ const RegisterSelling = () => {
                                 prod.fromFilial = 0
                                 prod.totalprice = convertToUsd(
                                     Number(prod.pieces) *
-                                        (wholesale
-                                            ? prod.tradeprice || prod.unitprice
-                                            : prod.unitprice)
+                                    (wholesale
+                                        ? prod.tradeprice || prod.unitprice
+                                        : prod.unitprice)
                                 )
                                 prod.totalpriceuzs = convertToUzs(
                                     Number(prod.pieces) *
-                                        (wholesale
-                                            ? prod.tradepriceuzs ||
-                                              prod.unitpriceuzs
-                                            : prod.unitpriceuzs)
+                                    (wholesale
+                                        ? prod.tradepriceuzs ||
+                                        prod.unitpriceuzs
+                                        : prod.unitpriceuzs)
                                 )
                             }
                         }
@@ -1451,7 +1451,7 @@ const RegisterSelling = () => {
     }
 
     const getFilialProducts = async (value) => {
-        const {data} = await Api.post('/filials/products/get', value)
+        const { data } = await Api.post('/filials/products/get', value)
         return data
     }
 
@@ -1463,29 +1463,26 @@ const RegisterSelling = () => {
                 market: market._id,
             })
         market &&
-            socket.on('categories', ({id, categories}) => {
+            socket.on('categories', ({ id, categories }) => {
                 id === market._id && dispatch(setAllCategories(categories))
             })
         market &&
-            socket.on('getProductsOfCount', ({id, products}) => {
+            socket.on('getProductsOfCount', ({ id, products }) => {
                 if (id === market._id) {
                     productsForSearch = [
                         ...productsForSearch,
                         ...map(products, (product) => ({
                             value: product._id,
-                            label: `(${product.total}) ${
-                                product.category.code
-                            }${product.productdata.code} - ${
-                                product.productdata.name
-                            } -------- (${
-                                currencyType === 'USD'
+                            label: `(${product.total}) ${product.category.code
+                                }${product.productdata.code} - ${product.productdata.name
+                                } -------- (${currencyType === 'USD'
                                     ? (product?.price?.sellingprice).toLocaleString(
-                                          'ru-RU'
-                                      )
+                                        'ru-RU'
+                                    )
                                     : (product?.price?.sellingpriceuzs).toLocaleString(
-                                          'ru-RU'
-                                      )
-                            } ${currencyType})`,
+                                        'ru-RU'
+                                    )
+                                } ${currencyType})`,
                         })),
                     ]
                     setFilteredProducts(productsForSearch)
@@ -1494,7 +1491,7 @@ const RegisterSelling = () => {
                 }
             })
         market &&
-            socket.on('error', ({id, message}) => {
+            socket.on('error', ({ id, message }) => {
                 id === market._id && universalToast(message, 'error')
             })
 
@@ -1527,7 +1524,7 @@ const RegisterSelling = () => {
     useEffect(() => {
         dispatch(getAllPackmans())
         dispatch(getClients())
-        dispatch(getFilials({marketData: market}))
+        dispatch(getFilials({ marketData: market }))
     }, [dispatch, market])
 
     useEffect(() => {
@@ -1560,7 +1557,7 @@ const RegisterSelling = () => {
             })),
         ])
     }, [clients, t])
-    
+
     useEffect(() => {
         const data = location.state
 
@@ -1611,8 +1608,8 @@ const RegisterSelling = () => {
                         totalprice: 0,
                         unitprice: saleProduct.unitprice,
                         unitpriceuzs: saleProduct.unitpriceuzs,
-                        product: {...sale},
-                        productdata: {...saleProduct.product.productdata},
+                        product: { ...sale },
+                        productdata: { ...saleProduct.product.productdata },
                         _id: saleProduct._id,
                     })
                 return ''
@@ -1625,11 +1622,11 @@ const RegisterSelling = () => {
             const totalSumm = (datas, property, type) => {
                 return type === 'uzs'
                     ? convertToUzs(
-                          datas.reduce((summ, data) => summ + data[property], 0)
-                      )
+                        datas.reduce((summ, data) => summ + data[property], 0)
+                    )
                     : convertToUsd(
-                          datas.reduce((summ, data) => summ + data[property], 0)
-                      )
+                        datas.reduce((summ, data) => summ + data[property], 0)
+                    )
             }
             setTotalPaymentsUsd(
                 totalSumm(data.saleconnector.products, 'totalprice', 'usd')
@@ -1654,6 +1651,7 @@ const RegisterSelling = () => {
                 </div>
             )}
             <CustomerPayment
+                clickdelay={clickdelay}
                 returned={!!returnProducts.length}
                 type={paymentType}
                 active={paymentModalVisible}
@@ -1671,8 +1669,8 @@ const RegisterSelling = () => {
                             ? paymentDiscount
                             : paymentDiscountPercent
                         : discountSelectOption.value === 'UZS'
-                        ? paymentDiscountUzs
-                        : paymentDiscountPercent
+                            ? paymentDiscountUzs
+                            : paymentDiscountPercent
                 }
                 handleChangeDiscount={handleChangeDiscount}
                 hasDiscount={hasDiscount}
@@ -1692,7 +1690,7 @@ const RegisterSelling = () => {
                 saleComment={saleComment}
                 onDoubleClick={handleDoubleClick}
             />
-            
+
             <UniversalModal
                 body={modalBody}
                 toggleModal={
@@ -1722,92 +1720,114 @@ const RegisterSelling = () => {
             />
 
             {
-                !isMobile?
-                <div className='flex flex-col grow gap-[1.25rem] overflow-auto'>
-                <div className={'mainPadding flex flex-col gap-[1.25rem]'}>
-                    <div>
-                        <Checkbox
-                            id={'register-selling'}
-                            onChange={handleChangeChecked}
-                            value={checked}
-                            label={t('Mijoz')}
-                        />
-                        <div className={'flex gap-[1.25rem] mt-[1rem]'}>
-                            <FieldContainer
-                                placeholder={t('Santexniklar')}
-                                maxWidth={'w-[14.676875rem]'}
-                                disabled={!checked}
-                                border={true}
-                                select={true}
-                                value={packmanValue}
-                                options={optionPackman}
-                                onChange={handleChangePackmanValue}
-                            />
-                            <FieldContainer
-                                placeholder={t('Xaridor')}
-                                maxWidth={'w-[14.676875rem]'}
-                                disabled={!checked}
-                                border={true}
-                                select={true}
-                                value={clientValue}
-                                options={optionClient}
-                                onChange={handleChangeClientValue}
-                            />
-                            <FieldContainer
-                                placeholder={t('Amaldagi xaridor')}
-                                disabled={!checked}
-                                value={userValue}
-                                onChange={handleChangeUserValue}
-                            />
-                        </div>
-                    </div>
-                    {!returnProducts.length && (
-                        <div className={'flex flex-col gap-[1.25rem]'}>
-                            <FieldContainer
-                                select={true}
-                                placeholder={t('misol: kompyuter')}
-                                value={selectedProduct}
-                                label={t('Maxsulotlar')}
-                                onChange={handleChangeSelectedProduct}
-                                   
-                                  
-                                options={filteredProducts}
-                            />
-                            <div className={'flex justify-end items-start'}>
-                                <div className='checkbox-card sale-toggle-container'>
-                                    <p className={'toggleText'}>
-                                        {t('Optom narxida hisoblash')} :
-                                    </p>
-                                    <input
-                                        type='checkbox'
-                                        checked={wholesale}
-                                        onChange={toggleSalePrice}
+                !isMobile ?
+                    <div className='flex flex-col grow gap-[1.25rem] overflow-auto'>
+                        <div className={'mainPadding flex flex-col gap-[1.25rem]'}>
+                            <div>
+                                <Checkbox
+                                    id={'register-selling'}
+                                    onChange={handleChangeChecked}
+                                    value={checked}
+                                    label={t('Mijoz')}
+                                />
+                                <div className={'flex gap-[1.25rem] mt-[1rem]'}>
+                                    <FieldContainer
+                                        placeholder={t('Santexniklar')}
+                                        maxWidth={'w-[14.676875rem]'}
+                                        disabled={!checked}
+                                        border={true}
+                                        select={true}
+                                        value={packmanValue}
+                                        options={optionPackman}
+                                        onChange={handleChangePackmanValue}
+                                    />
+                                    <FieldContainer
+                                        placeholder={t('Xaridor')}
+                                        maxWidth={'w-[14.676875rem]'}
+                                        disabled={!checked}
+                                        border={true}
+                                        select={true}
+                                        value={clientValue}
+                                        options={optionClient}
+                                        onChange={handleChangeClientValue}
+                                    />
+                                    <FieldContainer
+                                        placeholder={t('Amaldagi xaridor')}
+                                        disabled={!checked}
+                                        value={userValue}
+                                        onChange={handleChangeUserValue}
                                     />
                                 </div>
                             </div>
+                            {!returnProducts.length && (
+                                <div className={'flex flex-col gap-[1.25rem]'}>
+                                    <FieldContainer
+                                        select={true}
+                                        placeholder={t('misol: kompyuter')}
+                                        value={selectedProduct}
+                                        label={t('Maxsulotlar')}
+                                        onChange={handleChangeSelectedProduct}
+
+
+                                        options={filteredProducts}
+                                    />
+                                    <div className={'flex justify-end items-start'}>
+                                        <div className='checkbox-card sale-toggle-container'>
+                                            <p className={'toggleText'}>
+                                                {t('Optom narxida hisoblash')} :
+                                            </p>
+                                            <input
+                                                type='checkbox'
+                                                checked={wholesale}
+                                                onChange={toggleSalePrice}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
-                <div className={'tableContainerPadding mt-[-20px]'}>
-                    {returnProducts.length ? (
-                        <Table
-                            page={'backproduct'}
-                            data={returnProducts}
-                            headers={headerReturn}
-                            currency={currencyType}
-                            changeHandler={handleChangeReturnProduct}
-                        />
-                    ) : !tableProducts.length ? (
-                        <NotFind
-                            text={t("Sotuvda mahsulotlar qo'shilmagan!")}
-                        />
-                    ) : (
-                        <Table
-                            page={'registersale'}
+                        <div className={'tableContainerPadding mt-[-20px]'}>
+                            {returnProducts.length ? (
+                                <Table
+                                    page={'backproduct'}
+                                    data={returnProducts}
+                                    headers={headerReturn}
+                                    currency={currencyType}
+                                    changeHandler={handleChangeReturnProduct}
+                                />
+                            ) : !tableProducts.length ? (
+                                <NotFind
+                                    text={t("Sotuvda mahsulotlar qo'shilmagan!")}
+                                />
+                            ) : (
+                                <Table
+                                    page={'registersale'}
+                                    data={tableProducts}
+                                    headers={filials.length > 1 ? headers : headers2}
+                                    currency={currencyType}
+                                    Delete={handleDelete}
+                                    changeHandler={handleChange}
+                                    footer={'registersale'}
+                                    increment={increment}
+                                    decrement={decrement}
+                                    lowUnitpriceProducts={lowUnitpriceProducts}
+                                    wholeSale={wholesale}
+                                    selectedFilial={selectedFilial}
+                                />
+                            )}
+                        </div>
+                    </div> : null
+            }
+            {
+                isMobile && productAddModal ?
+                    <div className='fixed w-[100%] h-[100vh] bg-[white] top-0 right-0 z-[60] '>
+                        <RegisteredSaleModal
                             data={tableProducts}
                             headers={filials.length > 1 ? headers : headers2}
                             currency={currencyType}
+                            productId={productId}
                             Delete={handleDelete}
+                            productModal={setProductAddModal}
                             changeHandler={handleChange}
                             footer={'registersale'}
                             increment={increment}
@@ -1816,213 +1836,191 @@ const RegisterSelling = () => {
                             wholeSale={wholesale}
                             selectedFilial={selectedFilial}
                         />
-                    )}
-                </div>
-            </div>:null
+                    </div>
+                    : null
             }
             {
-                isMobile && productAddModal?
-                <div className='fixed w-[100%] h-[100vh] bg-[white] top-0 right-0 z-[60] '>
-                 <RegisteredSaleModal
-                    data={tableProducts}
-                    headers={filials.length > 1 ? headers : headers2}
-                    currency={currencyType}
-                    productId={productId}
-                    Delete={handleDelete}
-                    productModal={setProductAddModal}
-                    changeHandler={handleChange}
-                    footer={'registersale'}
-                    increment={increment}
-                    decrement={decrement}
-                    lowUnitpriceProducts={lowUnitpriceProducts}
-                    wholeSale={wholesale}
-                    selectedFilial={selectedFilial}
-                 />
-                </div>
-                :null
-            }
-            {
-                isMobile?
-                <div className='flex mt-[-20px] flex-col grow gap-[1.25rem] overflow-auto'>
-            <div className='flex gap-2 p-4 lg:justify-start mt-4 justify-evenly'>
-            {isMobile?<button onClick={()=>setModalOpen(true)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '><FaRegUser />{t('Mijoz')}</button>:null}
+                isMobile ?
+                    <div className='flex mt-[-20px] flex-col grow gap-[1.25rem] overflow-auto'>
+                        <div className='flex gap-2 p-4 lg:justify-start mt-4 justify-evenly'>
+                            {isMobile ? <button onClick={() => setModalOpen(true)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '><FaRegUser />{t('Mijoz')}</button> : null}
 
-            {isMobile?<button onClick={()=>setCategoryModal(true)}  className=' hover:bg-green-200  bg-green-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '><MdCategory /> {t('Kategoriya')}</button>:null}
+                            {isMobile ? <button onClick={() => setCategoryModal(true)} className=' hover:bg-green-200  bg-green-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '><MdCategory /> {t('Kategoriya')}</button> : null}
 
-            </div>
-            <div className=' flex justify-center'>
-            {!returnProducts.length && (
-                        <div className={'flex flex-col w-[90vw] gap-[1.25rem]'}>
-                            <FieldContainer
-                                select={true}
-                                placeholder={t('misol: kompyuter')}
-                                value={selectedProduct}
-                                onChange={(event) => {
-                                    handleChangeSelectedProduct(event);
-                                    setProductAddModal(true);
-                                    setProductId(event.value)
-                                  }}
-                                  
-                                  
-                                  
-                                options={filteredProducts}
-                            />
-                            
                         </div>
-                    )}
-            </div>
-            <div className='ml-[20px] mb-[-20px] flex justify-between mr-[20px]'>
-            
-                <div className={'flex justify-end items-start'}>
+                        <div className=' flex justify-center'>
+                            {!returnProducts.length && (
+                                <div className={'flex flex-col w-[90vw] gap-[1.25rem]'}>
+                                    <FieldContainer
+                                        select={true}
+                                        placeholder={t('misol: kompyuter')}
+                                        value={selectedProduct}
+                                        onChange={(event) => {
+                                            handleChangeSelectedProduct(event);
+                                            setProductAddModal(true);
+                                            setProductId(event.value)
+                                        }}
+
+
+
+                                        options={filteredProducts}
+                                    />
+
+                                </div>
+                            )}
+                        </div>
+                        <div className='ml-[20px] mb-[-20px] flex justify-between mr-[20px]'>
+
+                            <div className={'flex justify-end items-start'}>
                                 <div className='checkbox-card  sale-toggle-container'>
                                     <p className={'toggleText '}>
                                         {t('Optom narxida hisoblash')} :
                                     </p>
                                     <input
-                                    className='z-0'
+                                        className='z-0'
                                         type='checkbox'
                                         checked={wholesale}
                                         onChange={toggleSalePrice}
                                     />
                                 </div>
                             </div>
-            </div>
-            
-            {modalOpen?<div className='fixed w-[100%] h-[100vh] bg-[white] top-0 right-0 z-50 '>
-                <VscChromeClose onClick={()=>setModalOpen(false)}  className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer'/>
-                    <div className={'mainPadding ps-[20px] mt-[50px] flex flex-col gap-[1.25rem]'}>
-                    <div>
-                        
-                        <div className={'flex flex-wrap gap-[1.25rem] mt-[1rem]'}>
-                        <Checkbox
-                    id={'register-selling'}
-                    onChange={handleChangeChecked}
-                    value={checked}
-                    label={t('Mijoz')}
-                />
-                            <FieldContainer
-                                placeholder={t('Santexniklar')}
-                                maxWidth={'lg:w-[14.676875rem] w-[90vw]'}
-                                disabled={!checked}
-                                border={true}
-                                select={true}
-                                value={packmanValue}
-                                options={optionPackman}
-                                onChange={handleChangePackmanValue}
-                            />
-                            <FieldContainer
-                                placeholder={t('Xaridor')}
-                                maxWidth={'lg:w-[14.676875rem] w-[90vw]'}
-                                disabled={!checked}
-                                border={true}
-                                select={true}
-                                value={clientValue}
-                                options={optionClient}
-                                onChange={handleChangeClientValue}
-                            />
-                            <FieldContainer
-                                placeholder={t('Amaldagi xaridor')}
-                                disabled={!checked}
-                                value={userValue}
-                                onChange={handleChangeUserValue}
-                            />
                         </div>
 
-                    </div>
-                    
-                    <div className='flex mt-[30px] justify-center '>
-                    <button onClick={()=>setModalOpen(false)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '><FaFilter   /> {t('izlash')}</button>
-                    </div>
-                </div>
-                </div>:null}
-                <div className={'mb-[100px] mt-[20px]'}>
-                    {returnProducts.length ? (
-                        !isMobile?<Table
-                            page={'backproduct'}
-                            data={returnProducts}
-                            headers={headerReturn}
-                            currency={currencyType}
-                            changeHandler={handleChangeReturnProduct}
-                        />:<TableMobile
-                        page={'backproduct'}
-                        data={returnProducts}
-                        headers={headerReturn}
-                        currency={currencyType}
-                        changeHandler={handleChangeReturnProduct}
-                    />
+                        {modalOpen ? <div className='fixed w-[100%] h-[100vh] bg-[white] top-0 right-0 z-50 '>
+                            <VscChromeClose onClick={() => setModalOpen(false)} className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
+                            <div className={'mainPadding ps-[20px] mt-[50px] flex flex-col gap-[1.25rem]'}>
+                                <div>
 
-                    ) : !tableProducts.length ? (
-                        <NotFind
-                            text={t("Sotuvda mahsulotlar qo'shilmagan!")}
-                        />
-                    ) : (
-                        !isMobile?<Table
-                            page={'registersale'}
-                            data={tableProducts}
-                            headers={filials.length > 1 ? headers : headers2}
-                            currency={currencyType}
-                            Delete={handleDelete}
-                            changeHandler={handleChange}
-                            footer={'registersale'}
-                            increment={increment}
-                            decrement={decrement}
-                            lowUnitpriceProducts={lowUnitpriceProducts}
-                            wholeSale={wholesale}
-                            selectedFilial={selectedFilial}
-                        />:
-                        <TableMobile
-                            page={'registersale'}
-                            productModal={setProductAddModal}
-                            productId={setProductId}
-                            data={tableProducts}
-                            headers={filials.length > 1 ? headers : headers2}
-                            currency={currencyType}
-                            Delete={handleDelete}
-                            changeHandler={handleChange}
-                            footer={'registersale'}
-                            increment={increment}
-                            decrement={decrement}
-                            lowUnitpriceProducts={lowUnitpriceProducts}
-                            wholeSale={wholesale}
-                            selectedFilial={selectedFilial}
-                        />
-                        )}
-                </div>
-                {
-                    isMobile?<div className='flex justify-center p-[5vw] gap-1 fixed bottom-0 left-0'>
-                    <button
-                        type={'button'}
-                        className={'lg:w-[200px] lg:ms-4 w-[70vw] register-selling-right-accept-btn'}
-                        onClick={
-                            returnProducts.length
-                                ? handleClickReturnPayment
-                                : handleClickPayment
+                                    <div className={'flex flex-wrap gap-[1.25rem] mt-[1rem]'}>
+                                        <Checkbox
+                                            id={'register-selling'}
+                                            onChange={handleChangeChecked}
+                                            value={checked}
+                                            label={t('Mijoz')}
+                                        />
+                                        <FieldContainer
+                                            placeholder={t('Santexniklar')}
+                                            maxWidth={'lg:w-[14.676875rem] w-[90vw]'}
+                                            disabled={!checked}
+                                            border={true}
+                                            select={true}
+                                            value={packmanValue}
+                                            options={optionPackman}
+                                            onChange={handleChangePackmanValue}
+                                        />
+                                        <FieldContainer
+                                            placeholder={t('Xaridor')}
+                                            maxWidth={'lg:w-[14.676875rem] w-[90vw]'}
+                                            disabled={!checked}
+                                            border={true}
+                                            select={true}
+                                            value={clientValue}
+                                            options={optionClient}
+                                            onChange={handleChangeClientValue}
+                                        />
+                                        <FieldContainer
+                                            placeholder={t('Amaldagi xaridor')}
+                                            disabled={!checked}
+                                            value={userValue}
+                                            onChange={handleChangeUserValue}
+                                        />
+                                    </div>
+
+                                </div>
+
+                                <div className='flex mt-[30px] justify-center '>
+                                    <button onClick={() => setModalOpen(false)} className=' hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] lg:h-[33px] h=[40px] createElement '><FaFilter /> {t('izlash')}</button>
+                                </div>
+                            </div>
+                        </div> : null}
+                        <div className={'mb-[100px] mt-[20px]'}>
+                            {returnProducts.length ? (
+                                !isMobile ? <Table
+                                    page={'backproduct'}
+                                    data={returnProducts}
+                                    headers={headerReturn}
+                                    currency={currencyType}
+                                    changeHandler={handleChangeReturnProduct}
+                                /> : <TableMobile
+                                    page={'backproduct'}
+                                    data={returnProducts}
+                                    headers={headerReturn}
+                                    currency={currencyType}
+                                    changeHandler={handleChangeReturnProduct}
+                                />
+
+                            ) : !tableProducts.length ? (
+                                <NotFind
+                                    text={t("Sotuvda mahsulotlar qo'shilmagan!")}
+                                />
+                            ) : (
+                                !isMobile ? <Table
+                                    page={'registersale'}
+                                    data={tableProducts}
+                                    headers={filials.length > 1 ? headers : headers2}
+                                    currency={currencyType}
+                                    Delete={handleDelete}
+                                    changeHandler={handleChange}
+                                    footer={'registersale'}
+                                    increment={increment}
+                                    decrement={decrement}
+                                    lowUnitpriceProducts={lowUnitpriceProducts}
+                                    wholeSale={wholesale}
+                                    selectedFilial={selectedFilial}
+                                /> :
+                                    <TableMobile
+                                        page={'registersale'}
+                                        productModal={setProductAddModal}
+                                        productId={setProductId}
+                                        data={tableProducts}
+                                        headers={filials.length > 1 ? headers : headers2}
+                                        currency={currencyType}
+                                        Delete={handleDelete}
+                                        changeHandler={handleChange}
+                                        footer={'registersale'}
+                                        increment={increment}
+                                        decrement={decrement}
+                                        lowUnitpriceProducts={lowUnitpriceProducts}
+                                        wholeSale={wholesale}
+                                        selectedFilial={selectedFilial}
+                                    />
+                            )}
+                        </div>
+                        {
+                            isMobile ? <div className='flex justify-center p-[5vw] gap-1 fixed bottom-0 left-0'>
+                                <button
+                                    type={'button'}
+                                    className={'lg:w-[200px] lg:ms-4 w-[70vw] register-selling-right-accept-btn'}
+                                    onClick={
+                                        returnProducts.length
+                                            ? handleClickReturnPayment
+                                            : handleClickPayment
+                                    }
+                                >
+                                    {t("To'lov")}
+                                </button>
+                                {!returnProducts.length && (
+                                    <button
+                                        type={'button'}
+                                        onClick={handleClickSave}
+                                        className={'lg:w-[50px] flex justify-center w-[20vw] register-selling-right-deny-btn'}
+                                    >
+                                        <IoAttach size={'1.5rem'} />
+                                    </button>
+                                )}
+                            </div> : null
                         }
-                    >
-                        {t("To'lov")}
-                    </button>
-                    {!returnProducts.length && (
-                        <button
-                            type={'button'}
-                            onClick={handleClickSave}
-                            className={'lg:w-[50px] flex justify-center w-[20vw] register-selling-right-deny-btn'}
-                        >
-                            <IoAttach size={'1.5rem'} />
-                        </button>
-                    )}
-            </div>:null
-                }
-            </div>:null
+                    </div> : null
             }
-                {
-                    categoryModal?<div className='fixed w-[100%] h-[100vh] bg-[white] top-0 right-0 z-50 register-selling-right min-w-[20.25rem] bg-white-400 backdrop-blur-[3.125rem] rounded-[0.25rem] flex flex-col gap-[1.25rem]'>
-                    <VscChromeClose onClick={()=>setCategoryModal(false)}  className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer'/>
+            {
+                categoryModal ? <div className='fixed w-[100%] h-[100vh] bg-[white] top-0 right-0 z-50 register-selling-right min-w-[20.25rem] bg-white-400 backdrop-blur-[3.125rem] rounded-[0.25rem] flex flex-col gap-[1.25rem]'>
+                    <VscChromeClose onClick={() => setCategoryModal(false)} className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
                     <div className='flex mt-[50px] flex-col grow gap-[1.25rem]'>
                         <SearchInput
                             placeholder={t('kategoriyani qidirish...')}
                             value={searchCategory}
                             onChange={handleSearchCategory}
-                            onKeyUp={() => {}}
+                            onKeyUp={() => { }}
                         />
                         <div className='grow relative overflow-auto'>
                             <div className='cards-container absolute left-0 right-[0.125rem] top-0 bottom-0'>
@@ -2055,76 +2053,76 @@ const RegisterSelling = () => {
                             type={'button'}
                             className={'register-selling-right-accept-btn'}
                             onClick={
-                                ()=>setCategoryModal(false)
+                                () => setCategoryModal(false)
                             }
                         >
                             {t("Saqlash")}
                         </button>
-                        
-                    </div>
-                </div>:null
-                }
 
-                {
-                    !isMobile?
+                    </div>
+                </div> : null
+            }
+
+            {
+                !isMobile ?
                     <div className='register-selling-right min-w-[20.25rem] bg-white-400 backdrop-blur-[3.125rem] rounded-[0.25rem] flex flex-col gap-[1.25rem]'>
-                <div className='flex flex-col grow gap-[1.25rem]'>
-                    <SearchInput
-                        placeholder={t('kategoriyani qidirish...')}
-                        value={searchCategory}
-                        onChange={handleSearchCategory}
-                        onKeyUp={() => {}}
-                    />
-                    <div className='grow relative overflow-auto'>
-                        <div className='cards-container absolute left-0 right-[0.125rem] top-0 bottom-0'>
-                            {loading ? (
-                                <div className='tableContainerPadding'>
-                                    <Spinner />
+                        <div className='flex flex-col grow gap-[1.25rem]'>
+                            <SearchInput
+                                placeholder={t('kategoriyani qidirish...')}
+                                value={searchCategory}
+                                onChange={handleSearchCategory}
+                                onKeyUp={() => { }}
+                            />
+                            <div className='grow relative overflow-auto'>
+                                <div className='cards-container absolute left-0 right-[0.125rem] top-0 bottom-0'>
+                                    {loading ? (
+                                        <div className='tableContainerPadding'>
+                                            <Spinner />
+                                        </div>
+                                    ) : filteredCategories.length > 0 ? (
+                                        map(filteredCategories, (category) => (
+                                            <CategoryCard
+                                                key={category._id}
+                                                id={category._id}
+                                                activeCategory={
+                                                    category._id === activeCategory
+                                                }
+                                                title={category.name}
+                                                code={category.code}
+                                                products={category.products.length}
+                                                onClick={handleClickCategory}
+                                            />
+                                        ))
+                                    ) : (
+                                        <NotFind text={t('Kategoriya mavjud emas')} />
+                                    )}
                                 </div>
-                            ) : filteredCategories.length > 0 ? (
-                                map(filteredCategories, (category) => (
-                                    <CategoryCard
-                                        key={category._id}
-                                        id={category._id}
-                                        activeCategory={
-                                            category._id === activeCategory
-                                        }
-                                        title={category.name}
-                                        code={category.code}
-                                        products={category.products.length}
-                                        onClick={handleClickCategory}
-                                    />
-                                ))
-                            ) : (
-                                <NotFind text={t('Kategoriya mavjud emas')} />
+                            </div>
+                        </div>
+                        <div className={'flex gap-[0.625rem]'}>
+                            <button
+                                type={'button'}
+                                className={'register-selling-right-accept-btn'}
+                                onClick={
+                                    returnProducts.length
+                                        ? handleClickReturnPayment
+                                        : handleClickPayment
+                                }
+                            >
+                                {t("To'lov")}
+                            </button>
+                            {!returnProducts.length && (
+                                <button
+                                    type={'button'}
+                                    onClick={handleClickSave}
+                                    className={'register-selling-right-deny-btn'}
+                                >
+                                    <IoAttach size={'1.5rem'} />
+                                </button>
                             )}
                         </div>
-                    </div>
-                </div>
-                <div className={'flex gap-[0.625rem]'}>
-                    <button
-                        type={'button'}
-                        className={'register-selling-right-accept-btn'}
-                        onClick={
-                            returnProducts.length
-                                ? handleClickReturnPayment
-                                : handleClickPayment
-                        }
-                    >
-                        {t("To'lov")}
-                    </button>
-                    {!returnProducts.length && (
-                        <button
-                            type={'button'}
-                            onClick={handleClickSave}
-                            className={'register-selling-right-deny-btn'}
-                        >
-                            <IoAttach size={'1.5rem'} />
-                        </button>
-                    )}
-                </div>
-            </div>:null
-                }
+                    </div> : null
+            }
             <BarcodeReader onError={handleError} onScan={handleScan} />
         </div>
     )

@@ -357,6 +357,14 @@ export const SaleCheckAll = forwardRef((props, ref) => {
                         {currencyType}
                     </span>
                 </li>
+                <li className='text-black-900 check-ul-li-foot'>
+                    {' '}
+                    {t('Umumiy qarz')}:{' '}
+                    <span className=' text-black-900 font-bold'>
+                        {currencyType === 'USD' ? product?.totaldebtusd || 0 : product?.totaldebtuzs || 0}
+                        {currencyType}
+                    </span>
+                </li>
             </ul>
         </div>
     )

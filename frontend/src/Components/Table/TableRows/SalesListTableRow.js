@@ -32,9 +32,9 @@ export const SalesListTableRow = ({
         return currency === 'USD' ? prev + usd : prev + uzs
     }
     const reduceEl = (arr, usd, uzs) => {
-        return arr.reduce((prev, item) => {
+        return arr.length > 0 && arr.reduce((prev, item) => {
             return result(prev, item[usd], item[uzs])
-        }, 0)
+        }, 0) || 0
     }
 
     const navigate = useNavigate()
