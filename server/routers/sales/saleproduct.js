@@ -950,12 +950,14 @@ module.exports.registeredit = async (req, res) => {
     saleconnector.dailyconnectors.push(dailysaleconnector._id);
 
     let products = [];
-
+    console.log(all);
     for (const saleproduct of all) {
-      saleproduct.saleconnector = saleconnector._id;
-      saleproduct.dailysaleconnector = dailysaleconnector._id;
-      await saleproduct.save();
-      products.push(saleproduct._id);
+      const saleprod = await SaleProduct.findById(saleproduct._id);
+      console.log(saleprod);
+      saleprod.saleconnector = saleconnector._id;
+      saleprod.dailysaleconnector = dailysaleconnector._id;
+      await saleprod.save();
+      products.push(saleprod._id);
 
       const updateproduct = await Product.findById(saleproduct.product);
       updateproduct.total -= saleproduct.pieces;

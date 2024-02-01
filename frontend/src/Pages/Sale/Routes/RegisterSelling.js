@@ -508,9 +508,7 @@ const RegisterSelling = () => {
             } else {
                 setPaymentDiscount(value)
                 setPaymentDiscountUzs(UsdToUzs(value, exchangerate))
-                setPaymentDiscountPercent(
-                    Math.round(((allPayment * value) / 100) * 1000) / 1000
-                )
+                setPaymentDiscountPercent(0)
                 setPaymentDebt(allPayment - value)
                 setPaymentDebtUzs(UsdToUzs(allPayment - value, exchangerate))
             }
@@ -520,9 +518,7 @@ const RegisterSelling = () => {
             } else {
                 setPaymentDiscountUzs(value)
                 setPaymentDiscount(UzsToUsd(value, exchangerate))
-                setPaymentDiscountPercent(
-                    Math.round(((allPaymentUzs * value) / 100) * 1000) / 1000
-                )
+                setPaymentDiscountPercent(0)
                 setPaymentDebt(UzsToUsd(allPaymentUzs - value, exchangerate))
                 setPaymentDebtUzs(allPaymentUzs - value)
             }
@@ -1300,7 +1296,7 @@ const RegisterSelling = () => {
         )
         setReturnProducts(newRelease)
     }
-
+   
     const handleClickReturnPayment = () => {
         if (returnProducts.length) {
             const all = returnProducts.reduce(
@@ -1311,24 +1307,24 @@ const RegisterSelling = () => {
                 (summ, product) => convertToUzs(summ + product.totalpriceuzs),
                 0
             )
-
+            console.log(discounts);
             const newRelease = discounts.map((discount) => {
                 let newDiscount = {...discount}
                 map(returnProducts, (product) => {
                     if (discount._id === product.product?.discount) {
                         newDiscount = {
                             ...discount,
-                            discount: convertToUsd(
+                            discount: discount.procient ? convertToUsd(
                                 newDiscount.discount -
                                 (product.totalprice * discount.procient) /
                                 100
-                            ),
-                            discountuzs: convertToUzs(
+                            ) : 0,
+                            discountuzs: discount.procient ? convertToUzs(
                                 newDiscount.discountuzs -
                                 (product.totalpriceuzs *
                                     discount.procient) /
                                 100
-                            ),
+                            ) : 0,
                             totalprice: convertToUsd(
                                 newDiscount.totalprice - product.totalprice
                             ),
@@ -1340,6 +1336,7 @@ const RegisterSelling = () => {
                     }
                     return ''
                 })
+                console.log(newDiscount);
                 return {...newDiscount}
             })
             const totalDiscountsUsd = newRelease.reduce(
@@ -1353,6 +1350,7 @@ const RegisterSelling = () => {
             const payment = convertToUsd(
                 totalPaymentsUsd - totalPaysUsd - totalDiscountsUsd - all
             )
+            
             const paymentUzs = convertToUzs(
                 totalPaymentsUzs - totalPaysUzs - totalDiscountsUzs - allUzs
             )
@@ -1570,7 +1568,7 @@ const RegisterSelling = () => {
 
     useEffect(() => {
         const data = location.state
-
+        console.log(data);
         const setClientData = () => {
             data.saleconnector.client &&
             setClientValue({

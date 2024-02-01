@@ -24,7 +24,6 @@ function PaymentSelect({value, onChange, option, onSelect}) {
                 onWheel={(e) => e.target.blur()}
                 min={0}
             />
-            />
             <Select
                 onChange={onSelect}
                 styles={CustomStyle}
