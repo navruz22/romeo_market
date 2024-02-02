@@ -124,7 +124,7 @@ const ClientsPage = () => {
         setPrintedSelling(sale)
         setModalVisible(true)
     }
-
+    
     const handleClickApproveToDelete = () => {
         const body = {
             name: deletedCLients.name,
@@ -266,8 +266,8 @@ const ClientsPage = () => {
         const body = {
             currentPage,
             countPage: showByTotal,
-            startDate,
-            endDate,
+            // startDate,
+            // endDate,
             search: {
                 client: searchByName.replace(/\s+/g, ' ').trim(),
                 packman: packmanId
@@ -373,8 +373,8 @@ const ClientsPage = () => {
                         <SearchForm
                             filterBy={[
                                 'total',
-                                'startDate',
-                                'endDate',
+                                // 'startDate',
+                                // 'endDate',
                                 'clientName',
                                 'select'
                             ]}
@@ -400,7 +400,7 @@ const ClientsPage = () => {
                             setModalOpen(false)
 
                         }}
-                                className='d-block  hover:bg-blue-200  bg-blue-400  lg:mt-[25px]  focus-visible:outline-none w-[150px] h-[40px] createElement '>
+                                className='d-block  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[150px] h-[40px] createElement '>
                             <FaFilter /> {t('izlash')}</button>
                     </div>
                 </div> : null

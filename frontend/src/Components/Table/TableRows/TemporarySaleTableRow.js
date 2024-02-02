@@ -66,7 +66,7 @@ export const TemporarySaleTableRow = ({data, Delete, currency, Print}) => {
                                 <TableBtn
                                     type={'edit'}
                                     bgcolor={'bg-warning-500'}
-                                    onClick={() => linkToSale({...temporary, _id})}
+                                    onClick={() => linkToSale({...temporary, _id, user})}
                                 />
                                 <TableBtn
                                     type={'delete'}

@@ -1,4 +1,5 @@
 const { Market } = require('../../models/MarketAndBranch/Market');
+const { DailySaleConnector } = require('../../models/Sales/DailySaleConnector');
 const { SaleConnector } = require('../../models/Sales/SaleConnector');
 require('../../models/Sales/SaleProduct');
 require('../../models/Sales/Discount');
@@ -32,46 +33,46 @@ module.exports.getSellersReport = async (req, res) => {
 
     const name = new RegExp('.*' + search ? search.client : '' + '.*', 'i');
 
-    const saleconnectors = await SaleConnector.find({
+    const saleconnectors = await DailySaleConnector.find({
       market,
-      id,
       user: seller,
       createdAt: {
         $gte: startDate,
         $lt: endDate,
       },
     })
-      .select('-isArchive +updatedAt -market -__v')
-      .sort({ _id: -1 })
+      .select("-isArchive -market -__v")
       .populate({
-        path: 'products',
+        path: "products",
         select:
-          'totalprice unitprice totalpriceuzs unitpriceuzs pieces createdAt discount saleproducts product',
-        options: { sort: { createdAt: -1 } },
+          "totalprice unitprice totalpriceuzs unitpriceuzs pieces fromFilial createdAt",
         populate: {
-          path: 'product',
-          select: 'productdata',
-          populate: { path: 'productdata', select: 'name code' },
+          path: "product",
+          select: "productdata total",
+          populate: {
+            path: "productdata",
+            select: "code name",
+            options: { sort: { code: 1 } },
+          },
         },
       })
-      .populate(
-        'payments',
-        'payment paymentuzs comment totalprice totalpriceuzs'
-      )
-      .populate(
-        'discounts',
-        'discount discountuzs procient products totalprice totalpriceuzs'
-      )
-      .populate({ path: 'client', match: { name: name }, select: 'name' })
-      .populate('packman', 'name')
-      .populate('user', 'firstname lastname')
-      .populate('dailyconnectors', 'comment');
+      .populate("payment", "payment paymentuzs totalprice totalpriceuzs")
+      .populate("discount", "discount discountuzs")
+      .populate("debt", "debt debtuzs")
+      .populate({
+        path: "client",
+        select: "name",
+      })
+      .populate("packman", "name")
+      .populate("user", "firstname lastname")
+      .populate({
+        path: "saleconnector",
+        select: "id",
+        match: {id: id}
+      })
 
     const filter = saleconnectors.filter((item) => {
-      return (
-        (search.client.length > 0 && item.client !== null && item.client) ||
-        search.client.length === 0
-      );
+      return item.saleconnector !== null
     });
     const count = filter.length;
     res.status(200).json({
@@ -79,6 +80,7 @@ module.exports.getSellersReport = async (req, res) => {
       count,
     });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: 'Serverda xatolik yuz berdi...' });
   }
 };

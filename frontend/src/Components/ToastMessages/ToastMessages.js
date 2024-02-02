@@ -115,6 +115,9 @@ export const warningSaleProductsEmpty = () =>
     toast.warn(i18n.t('Maxsulot mavjud emas !'))
 export const warningMorePayment = () =>
     toast.warn(i18n.t('To`lov summasidan ortiq summa kiritib bo`lmaydi'))
+
+export const warningDebtClient = () =>
+    toast.warn(i18n.t('Diqqat! Qarzga savdoni amalga oshirish uchun mijoz ismini kiriting!'))
 export const warningMoreDiscount = (val) =>
     toast.warn(`${val} ${i18n.t('dan ortiq chegirma kiritib bo\'lmaydi')}`)
 export const warningLessSellPayment = () =>

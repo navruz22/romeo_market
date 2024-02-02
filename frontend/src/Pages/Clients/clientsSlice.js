@@ -14,6 +14,18 @@ export const getClients = createAsyncThunk(
     }
 )
 
+export const getClientsSales = createAsyncThunk(
+    'clients/getClientsSales',
+    async (body, {rejectWithValue}) => {
+        try {
+            const {data} = await Api.post('/sales/client/getclientssales', body)
+            return data
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
+
 export const getAllPackmans = createAsyncThunk(
     'packmans/getAllPackmans',
     async (body, {rejectWithValue}) => {
@@ -81,6 +93,7 @@ const clientsSlice = createSlice({
     initialState: {
         packmans: [],
         clients: [],
+        clients_info: [],
         total: 0,
         searchedClients: [],
         totalSearched: 0,
@@ -98,6 +111,7 @@ const clientsSlice = createSlice({
             state.loading = true
         },
         [getClients.fulfilled]: (state, {payload: {clients, count}}) => {
+            console.log(clients);
             state.loading = false
             if (state.totalSearched > 0) {
                 state.searchedClients = clients
@@ -108,6 +122,18 @@ const clientsSlice = createSlice({
             }
         },
         [getClients.rejected]: (state, {payload}) => {
+            state.loading = false
+            state.errorClients = payload
+            universalToast(payload, 'error')
+        },
+        [getClientsSales.pending]: (state) => {
+            state.loading = true
+        },
+        [getClientsSales.fulfilled]: (state, {payload: {data}}) => {
+            state.loading = false
+            state.clients_info = data
+        },
+        [getClientsSales.rejected]: (state, {payload}) => {
             state.loading = false
             state.errorClients = payload
             universalToast(payload, 'error')

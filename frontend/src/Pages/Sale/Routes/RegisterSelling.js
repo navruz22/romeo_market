@@ -27,6 +27,7 @@ import {
     universalToast,
     warningCountSellPayment,
     warningCurrencyRate,
+    warningDebtClient,
     warningLessSellPayment,
     warningMoreDiscount,
     warningMorePayment,
@@ -70,6 +71,7 @@ const RegisterSelling = () => {
     const [searchCategory, setSearchCategory] = useState('')
     const [optionPackman, setOptionPackman] = useState([])
     const [packmanValue, setPackmanValue] = useState('')
+    const [userId, setUserId] = useState("")
     const [optionClient, setOptionClient] = useState([])
     const [clientValue, setClientValue] = useState('')
     const [userValue, setUserValue] = useState('')
@@ -682,7 +684,6 @@ const RegisterSelling = () => {
     const [clickdelay, setClickDelay] = useState(false)
 
     const handleApprovePay = () => {
-        setClickDelay(true)
         handleClosePay()
         const body = {
             saleproducts: map(tableProducts, (product) => {
@@ -744,12 +745,16 @@ const RegisterSelling = () => {
                 debtuzs: Number(paymentDebtUzs),
                 comment: ''
             },
-            user: user._id,
+            user: userId ? userId : user._id,
             saleconnectorid: saleConnectorId,
             comment: saleComment
         }
+        if (body.debt?.debtuzs > 0 && !body?.client?.name) {
+            return warningDebtClient()
+        }
         dispatch(saleConnectorId ? addPayment(body) : makePayment(body)).then(
             ({payload, error}) => {
+                setClickDelay(true)
                 if (!error) {
                     setModalData(payload)
                     setWholesale(false)
@@ -767,6 +772,7 @@ const RegisterSelling = () => {
                     setTimeout(() => {
                         setClickDelay(false)
                     }, 10000)
+                    setUserId("")
                 }
             }
         )
@@ -883,6 +889,9 @@ const RegisterSelling = () => {
     }
 
     const handleDelete = (index) => {
+        if (tableProducts.length === 1) {
+            setUserId("")
+        }
         tableProducts.splice(index, 1)
         setTableProducts([...tableProducts])
     }
@@ -1017,8 +1026,8 @@ const RegisterSelling = () => {
         )[0]
         if (client && client.hasOwnProperty('packman')) {
             setPackmanValue({
-                label: client.packman.name,
-                value: client.packman._id
+                label: client?.packman?.name,
+                value: client?.packman?._id
             })
         }
         option.value ? setUserValue(option.label) : setUserValue('')
@@ -1458,6 +1467,7 @@ const RegisterSelling = () => {
             .catch((data) => universalToast(data, 'error'))
     }
 
+
     const getFilialProducts = async (value) => {
         const {data} = await Api.post('/filials/products/get', value)
         return data
@@ -1583,11 +1593,13 @@ const RegisterSelling = () => {
             setSaleConnectorId(data.saleconnector._id)
         }
         if (data && data.temporary) {
+            console.log(data);
+            setUserId(data.temporary.user._id)
             setTemporary(data.temporary)
             setTableProducts(data.temporary.tableProducts)
             setClientValue(data.temporary.clientValue)
             setPackmanValue(data.temporary.packmanValue)
-            setUserValue(data.temporary.userValue)
+            setUserValue(data.temporary.user?.userValue)
         }
         if (data && data.saleconnector && !data.returnProducts) {
             setClientData()

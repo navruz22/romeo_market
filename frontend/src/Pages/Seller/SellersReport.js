@@ -30,32 +30,32 @@ const SellersReport = () => {
 
     const headers = [
         {
-            title: '№',
+            title: '№'
         },
         {
             title: t('Sana'),
-            filter: 'createdAt',
+            filter: 'createdAt'
         },
         {
             title: t('ID'),
-            filter: 'id',
+            filter: 'id'
         },
         {
-            title: t('Mijoz'),
+            title: t('Mijoz')
         },
         {
-            title: t('Jami'),
+            title: t('Jami')
         },
         {
-            title: t('Chegirma'),
+            title: t('Chegirma')
         },
         {
-            title: t('Qarz'),
+            title: t('Qarz')
         },
         {
-            title: t('Izoh'),
-        },
-        {title: ''},
+            title: '',
+            styles: 'w-[7rem]'
+        }
     ]
 
     const headersInfo = [
@@ -274,7 +274,7 @@ const SellersReport = () => {
                             currentPage={currentPage}
                             currency={currencyType}
                             countPage={countPage}
-                            page={'saleslist'}
+                            page={'clientssales'}
                             headers={headers}
                             sellers={true}
                             Print={handleClickPrint}

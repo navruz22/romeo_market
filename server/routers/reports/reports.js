@@ -604,8 +604,10 @@ module.exports.getPayment = async (req, res) => {
           select: "payment",
         },
       })
-      .lean();
-
+      .lean()
+      .then(connectors => connectors.filter(connector => search.client && search.id ? connector.saleconnector.client && (connector.saleconnector.id === search.id) : 
+      search.id && !search.client ? connector.saleconnector.id === search.id : search.client && !search.id ? connector.saleconnector.client : connector))
+      
     const respayments = [];
 
     const total = {
@@ -636,78 +638,7 @@ module.exports.getPayment = async (req, res) => {
     };
 
     for (const payment of allpayments) {
-      // if (payment.totalprice !== 0) {
-      //   const dailyconnectors = await DailySaleConnector.findOne({
-      //     payment: payment._id
-      //   })
-      //     .select('-isArchive -updatedAt -market -__v')
-      //     .populate(
-      //       'payment',
-      //       'cash cashuzs card carduzs transfer transferuzs payment paymentuzs totalprice totalpriceuzs'
-      //     )
-      //     .populate({
-      //       path: 'saleconnector',
-      //       select: 'id',
-      //     })
-      //     .populate({
-      //       path: 'client',
-      //       select: 'name',
-      //     })
-      //     .populate({
-      //       path: 'user',
-      //       select: "firstname lastname"
-      //     })
-      //     .populate({
-      //       path: 'products',
-      //       select: 'totalprice totalpriceuzs pieces price unitprice unitpriceuzs product createdAt user',
-      //       populate: {
-      //         path: 'price',
-      //         select: 'incomingprice incomingpriceuzs sellingprice sellingpriceuzs',
-      //       },
-      //     })
-      //     .populate({
-      //       path: 'products',
-      //       select: 'totalprice totalpriceuzs pieces price unitprice unitpriceuzs product createdAt user',
-      //       populate: {
-      //         path: 'user',
-      //         select: 'firstname lastname',
-      //       },
-      //     })
-      //     .populate({
-      //       path: 'products',
-      //       select: 'totalprice totalpriceuzs pieces price unitprice unitpriceuzs product createdAt user',
-      //       populate: {
-      //         path: 'product',
-      //         select: 'productdata',
-      //         populate: {
-      //           path: 'productdata',
-      //           select: "name code"
-      //         }
-      //       }
-      //     })
-      //     .populate(
-      //       'discount',
-      //       'discount discountuzs totalprice totalpriceuzs procient'
-      //     )
-      //     .lean()
-      //   respayments.push({
-      //     id: payment.saleconnector && payment.saleconnector.id,
-      //     saleconnector: dailyconnectors,
-      //     createdAt: payment.createdAt,
-      //     client:
-      //       payment.saleconnector &&
-      //       payment.saleconnector.client &&
-      //       payment.saleconnector.client,
-      //     cash: payment.cash,
-      //     cashuzs: payment.cashuzs,
-      //     card: payment.card,
-      //     carduzs: payment.carduzs,
-      //     transfer: payment.transfer,
-      //     transferuzs: payment.transferuzs,
-      //     totalprice: (payment.totalprice && payment.totalprice) || 0,
-      //     totalpriceuzs: (payment.totalpriceuzs && payment.totalpriceuzs) || 0,
-      //   })
-      // } else {
+      console.log(payment)
       respayments.push({
         id: payment.saleconnector && payment.saleconnector.id,
         saleconnector: payment.saleconnector,

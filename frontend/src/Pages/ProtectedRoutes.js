@@ -16,6 +16,7 @@ const SavedSellings = lazy(() => import('./Sale/Routes/SavedSellings.js'))
 const Sellings = lazy(() => import('./Sale/Routes/Sellings.js'))
 const Packman = lazy(() => import('./Packman/Packman'))
 const ClientsPage = lazy(() => import('./Clients/Clients'))
+const ClientsSales = lazy(() => import('./Clients/ClientsSales'))
 const Shops = lazy(() => import('./MarketFilials/MarketFilials.js'))
 const Reports = lazy(() => import('./Reports/Reports.js'))
 const Exchangerate = lazy(() => import('./Currency/Currency.js'))
@@ -190,6 +191,10 @@ const directorRoutes = [
     {
         path: '/hamkorlar/mijozlar',
         element: <ClientsPage />
+    },
+    {
+        path: '/hamkorlar/mijoz',
+        element: <ClientsSales />
     },
     {
         path: '/hamkorlar/sotuvchilar',

@@ -4,7 +4,7 @@ const { Packman } = require("../../models/Sales/Packman.js");
 const { SaleConnector } = require("../../models/Sales/SaleConnector");
 require("../../models/Sales/SaleProduct");
 require("../../models/Sales/Packman");
-require("../../models/Sales/Payment");
+const { Payment } = require("../../models/Sales/Payment");
 require("../../models/Sales/Discount");
 require("../../models/Sales/Debt");
 require("../../models/Sales/DailySaleConnector");
@@ -13,6 +13,7 @@ require("../../models/Products/Product");
 require("../../models/Users");
 const { filter } = require("lodash/collection.js");
 const { regExpression } = require("../globalFunctions.js");
+const { DailySaleConnector } = require("../../models/Sales/DailySaleConnector");
 
 module.exports.register = async (req, res) => {
   try {
@@ -279,7 +280,7 @@ module.exports.deleteClient = async (req, res) => {
 
 module.exports.getClients = async (req, res) => {
   try {
-    const { market, currentPage, countPage, search, startDate, endDate } =
+    const { market, currentPage, countPage, search } =
       req.body;
     const marke = await Market.findById(market);
     if (!marke) {
@@ -340,10 +341,10 @@ module.exports.getClients = async (req, res) => {
       const saleconnectors = await SaleConnector.find({
         market,
         client: client._id,
-        createdAt: {
-          $gte: startDate,
-          $lt: endDate,
-        },
+        // createdAt: {
+        //   $gte: startDate,
+        //   $lt: endDate,
+        // },
       })
         .select("-isArchive -market -__v")
         .sort({ createdAt: -1 })
@@ -444,6 +445,66 @@ module.exports.getClients = async (req, res) => {
 
     res.status(201).json({ clients: newClients, count: clientsCount });
   } catch (error) {
+    res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+  }
+};
+
+module.exports.getClientsSales = async (req, res) => {
+  try {
+    const { market, search } =
+      req.body;
+
+    const id = new RegExp(".*" + search ? search.id : "" + ".*", "i");
+    const client = new RegExp(".*" + search ? search.client : "" + ".*", "i");
+    const marke = await Market.findById(market);
+    if (!marke) {
+      return res
+        .status(401)
+        .json({ message: `Diqqat! Do'kon haqida malumotlar topilmadi!` });
+    }
+
+    //========================================
+
+    const allpayments = await DailySaleConnector.find({
+      market,
+    })
+    .select("-isArchive -updatedAt -market -__v")
+    .populate({
+      path: "products",
+      select:
+        "totalprice unitprice totalpriceuzs unitpriceuzs pieces fromFilial",
+      populate: {
+        path: "product",
+        select: "productdata total",
+        populate: {
+          path: "productdata",
+          select: "code name",
+          options: { sort: { code: 1 } },
+        },
+      },
+    })
+    .populate("payment", "payment paymentuzs totalprice totalpriceuzs")
+    .populate("discount", "discount discountuzs")
+    .populate("debt", "debt debtuzs")
+    .populate({
+      path: "client",
+      select: "name",
+      match: {name: client},
+    })
+    .populate("packman", "name")
+    .populate("user", "firstname lastname")
+    .populate("saleconnector", "id")
+    .lean()
+    .then(connectors => connectors.filter(connector => connector.client))
+      
+    const response = allpayments.filter(
+      (product) => product.client !== null
+    );
+    const count = response.length;
+    
+    res.status(201).json({ data: response, count });
+  } catch (error) {
+    console.log(error);
     res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
   }
 };
