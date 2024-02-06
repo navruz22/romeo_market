@@ -6,7 +6,7 @@ import {roundUsd, roundUzs} from '../../../App/globalFunctions'
 import {t} from 'i18next'
 
 export const DailySaleCheck = forwardRef((props, ref) => {
-    const {data} = props
+    const {data, isSalesList} = props
     const {market} = useSelector((state) => state.login)
     const {currencyType} = useSelector((state) => state.currency)
     const [loadContent, setLoadContent] = useState(false)
@@ -86,7 +86,7 @@ export const DailySaleCheck = forwardRef((props, ref) => {
             {data?.sotuvlarsoni}
           </span>
                 </div>
-                <div className='text-black-900 check-ul-li-foot flex-col items-center gap-2'>
+                {!isSalesList && <div className='text-black-900 check-ul-li-foot flex-col items-center gap-2'>
                     <p>Maxsulotlar</p>
                     <div className='w-full flex justify-between items-center flex-wrap'>
                         <p className='text-[12px]'>Sotilgan :</p>
@@ -113,7 +113,7 @@ export const DailySaleCheck = forwardRef((props, ref) => {
                             {currencyType}
                         </p>
                     </div>
-                </div>
+                </div>}
                 <div className='text-black-900 check-ul-li-foot flex-col items-center gap-2'>
                     <p>Tushumlar</p>
                     <div className='w-full flex justify-between items-center flex-wrap'>
@@ -258,7 +258,7 @@ export const DailySaleCheck = forwardRef((props, ref) => {
                         {currencyType}
           </span>
                 </div>
-                <div className='text-black-900 check-ul-li-foot flex-wrap'>
+                {!isSalesList && <div className='text-black-900 check-ul-li-foot flex-wrap'>
                     Sof foyda :{' '}
                     <span
                         style={{fontWeight: 'bolder'}}
@@ -269,7 +269,7 @@ export const DailySaleCheck = forwardRef((props, ref) => {
                 : roundUsd(data?.foyda.dollar).toLocaleString('ru-RU')}{' '}
                         {currencyType}
           </span>
-                </div>
+                </div>}
             </div>
             <div className='flex justify-center items-center mt-6'>
                 <button

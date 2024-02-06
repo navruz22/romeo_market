@@ -3,60 +3,65 @@ import SelectForm from '../Select/SelectForm.js'
 import FilterButtons from '../FilterButtons/FilterButtons.js'
 import FieldContainer from '../FieldContainer/FieldContainer.js'
 import PrintBtn from '../Buttons/PrintBtn.js'
-import {ConfirmBtn} from '../Buttons/SaveConfirmBtn.js'
+import { ConfirmBtn } from '../Buttons/SaveConfirmBtn.js'
 import Dates from '../Dates/Dates.js'
-import {useTranslation} from 'react-i18next'
-import {map} from 'lodash'
+import { useTranslation } from 'react-i18next'
+import { map } from 'lodash'
 import SelectInput from '../SelectInput/SelectInput.js'
+import Checkbox from '../Checkbox/Checkbox.js'
+import { IoCheckmark } from 'react-icons/io5'
 
 function SearchForm({
-                        filterByPackman,
-                        searchByPackmans,
-                        filterByTotal,
-                        searchByCode,
-                        searchById,
-                        searchByDelivererName,
-                        filterByDelivererName,
-                        filterByDelivererNameWhenPressEnter,
-                        searchByClientName,
-                        filterByClientName,
-                        filterByClientNameWhenPressEnter,
-                        filterById,
-                        filterByIdWhenPressEnter,
-                        filterByCode,
-                        filterByCodeAndNameAndCategoryWhenPressEnter,
-                        searchByName,
-                        filterByName,
-                        filterBy,
-                        searchByCategory,
-                        filterByCategory,
-                        numberOfChecks,
-                        setNumberOfChecks,
-                        clickPrintBtn,
-                        startDate,
-                        endDate,
-                        setStartDate,
-                        setEndDate,
-                        date,
-                        setDate,
-                        clickConfirmBtn,
-                        barcode,
-                        filterByBarcode,
-                        filterByBarcodeWhenPressEnter,
-                        searchByDirectorName,
-                        filterByDirectorName,
-                        filterByDirectorNameWhenPressEnter,
-                        searchByMarketName,
-                        filterByMarketName,
-                        searchBySellerName,
-                        filterBySellerName,
-                        filterBySellerNameWhenPressEnter,
-                        searchByMarketInn,
-                        filterByMarketInn,
-                        filterByMarketInnWhenPressEnter,
-                        filterByMarketNameWhenPressEnter
-                    }) {
-    const {t} = useTranslation(['common'])
+    filterByPackman,
+    searchByPackmans,
+    filterByTotal,
+    searchByCode,
+    searchById,
+    searchByDelivererName,
+    filterByDelivererName,
+    filterByDelivererNameWhenPressEnter,
+    searchByClientName,
+    filterByClientName,
+    filterByClientNameWhenPressEnter,
+    filterById,
+    filterByIdWhenPressEnter,
+    filterByCode,
+    filterByCodeAndNameAndCategoryWhenPressEnter,
+    searchByName,
+    filterByName,
+    filterBy,
+    searchByCategory,
+    filterByCategory,
+    numberOfChecks,
+    setNumberOfChecks,
+    clickPrintBtn,
+    startDate,
+    endDate,
+    setStartDate,
+    setEndDate,
+    date,
+    setDate,
+    clickConfirmBtn,
+    barcode,
+    filterByBarcode,
+    filterByBarcodeWhenPressEnter,
+    searchByDirectorName,
+    filterByDirectorName,
+    filterByDirectorNameWhenPressEnter,
+    searchByMarketName,
+    filterByMarketName,
+    searchBySellerName,
+    filterBySellerName,
+    filterBySellerNameWhenPressEnter,
+    searchByMarketInn,
+    filterByMarketInn,
+    filterByMarketInnWhenPressEnter,
+    filterByMarketNameWhenPressEnter,
+    check,
+    handleChangeCheck,
+    checkboxLabel
+}) {
+    const { t } = useTranslation(['common'])
     const chooseComponent = (key) => {
         switch (key) {
             case 'category':
@@ -125,6 +130,22 @@ function SearchForm({
                         onChange={filterByName}
                         onKeyUp={filterByCodeAndNameAndCategoryWhenPressEnter}
                     />
+                )
+            case 'checkbox':
+                return (
+                    // <Checkbox
+                    //     id={'checkbox-1'}
+                    //     onChange={handleChangeCheck}
+                    //     value={check}
+                    //     label={checkboxLabel}
+                    // />
+                    <div className={'checkbox mb-4'}>
+                        <input type='checkbox' className={'hidden'} id={'checkbox-1'} onChange={handleChangeCheck} checked={check} />
+                        <label htmlFor={'checkbox-1'}>
+                            <span className={'checkbox-icon'}><IoCheckmark size={'1rem'} /></span>
+                        </label>
+                        <span className={'checkbox-label'}>{checkboxLabel}</span>
+                    </div>
                 )
             case 'delivererName':
                 return (

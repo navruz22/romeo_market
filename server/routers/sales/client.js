@@ -280,7 +280,7 @@ module.exports.deleteClient = async (req, res) => {
 
 module.exports.getClients = async (req, res) => {
   try {
-    const { market, currentPage, countPage, search } =
+    const { market, search } =
       req.body;
     const marke = await Market.findById(market);
     if (!marke) {
@@ -324,8 +324,6 @@ module.exports.getClients = async (req, res) => {
         .sort({ _id: -1 })
         .select("name market packman")
         .populate("packman", "name")
-        .skip(currentPage * countPage)
-        .limit(countPage);
     }
 
     const reduceForSales = (arr, key) => {

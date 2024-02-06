@@ -73,15 +73,15 @@ export const RegisterSaleTableRow = (
                                 onClick={() => decrement(product.product._id)}><IoRemove
                                     size={'0.875rem'} /></button>
                             <TableInput
-                                value={product.pieces}
+                                value={product.pieces === 0 ? '' : product.pieces}
                                 onChange={(e) =>
                                     changeHandler(
                                         product.product._id,
-                                        e.target.value,
+                                        e.target.value === '' ? 0 : Number(e.target.value),
                                         'pieces'
                                     )
                                 }
-                                type={'number'}
+                                type={'text'}
                             />
                             <button
                                 className={'rounded-[4px] duration-100 bg-success-500 hover:bg-success-600 p-[0.2rem] text-base text-white-900 active:scale-95'}

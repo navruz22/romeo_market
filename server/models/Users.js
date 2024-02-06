@@ -8,6 +8,7 @@ const user = new Schema(
         lastname: {type: String, required: true},
         fathername: {type: String},
         image: {type: String},
+        qrcode: {type: String},
         phone: {type: String},
         password: {type: String, min: 6, required: true},
         market: {type: Schema.Types.ObjectId, ref: 'Market'}, // o'zini marketi
@@ -29,6 +30,7 @@ function validateUser(user) {
         lastname: Joi.string().required(),
         fathername: Joi.string().allow('').optional(),
         image: Joi.string().allow('').optional(),
+        qrcode: Joi.string().allow('').optional(),
         phone: Joi.string().required(),
         password: Joi.string().required(),
         market: Joi.string().required(),
@@ -52,6 +54,7 @@ function validateEditUser(user) {
         password: Joi.string().required(),
         market: Joi.string().required(),
         image: Joi.string().allow('').optional(),
+        qrcode: Joi.string().allow('').optional(),
         phone: Joi.string().allow("").optional(),
         fathername: Joi.string().allow("").optional(),
         administrator: Joi.string().allow("").optional(),

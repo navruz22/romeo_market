@@ -17,7 +17,8 @@ export const BarCode = (
         printedData,
         componentRef,
         currency,
-        marketName
+        marketName,
+        isShowPrice
     }) => {
     return (
         <div ref={componentRef}>
@@ -31,6 +32,7 @@ export const BarCode = (
                                 currency={currency}
                                 product={productForCheque}
                                 marketName={marketName}
+                                isShowPrice={isShowPrice}
                             />
                         )
                     })
@@ -43,6 +45,7 @@ export const BarCode = (
                             currency={currency}
                             product={product}
                             marketName={marketName}
+                            isShowPrice={isShowPrice}
                         />)
                     }
                 </div>)

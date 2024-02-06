@@ -1,10 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ExportBtn from '../../Components/Buttons/ExportBtn'
 import Pagination from '../../Components/Pagination/Pagination'
 import Table from '../../Components/Table/Table'
-import {motion} from 'framer-motion'
+import { motion } from 'framer-motion'
 import SearchForm from '../../Components/SearchForm/SearchForm.js'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '../../Components/Spinner/SmallLoader.js'
 import NotFind from '../../Components/NotFind/NotFind.js'
 import {
@@ -13,15 +13,16 @@ import {
     getProductsAll,
     getProductsByFilter
 } from '../Products/Create/productSlice.js'
-import {useReactToPrint} from 'react-to-print'
-import {BarCode} from '../../Components/BarCode/BarCode.js'
-import {exportExcel, universalSort} from '../../App/globalFunctions.js'
-import {useTranslation} from 'react-i18next'
-import {filter, map} from 'lodash'
-import {universalToast} from '../../Components/ToastMessages/ToastMessages'
+import { useReactToPrint } from 'react-to-print'
+import { BarCode } from '../../Components/BarCode/BarCode.js'
+import { exportExcel, universalSort } from '../../App/globalFunctions.js'
+import { useTranslation } from 'react-i18next'
+import { filter, map } from 'lodash'
+import { universalToast } from '../../Components/ToastMessages/ToastMessages'
+import Checkbox from '../../Components/Checkbox/Checkbox'
 
-const Labels = ({id}) => {
-    const {t} = useTranslation(['common'])
+const Labels = ({ id }) => {
+    const { t } = useTranslation(['common'])
 
     const headers = [
         {
@@ -76,10 +77,10 @@ const Labels = ({id}) => {
         loadingExcel,
     } = useSelector((state) => state.products)
 
-    const {currencyType} = useSelector((state) => state.currency)
+    const { currencyType } = useSelector((state) => state.currency)
 
     const {
-        market: {name},
+        market: { name },
     } = useSelector((state) => state.login)
 
     const [data, setData] = useState(products)
@@ -100,13 +101,15 @@ const Labels = ({id}) => {
     const [dataLoaded, setDataLoaded] = useState(false)
     const [printedData, setPrintedData] = useState([])
 
+    const [isShowPrice, setIsShowPrice] = useState(true)
+
     // handle change of search inputs
     const filterByCode = (e) => {
         let val = e.target.value
         let valForSearch = val.replace(/\s+/g, ' ').trim()
         setSearchByCode(val)
-        ;(searchedData.length > 0 || totalSearched > 0) &&
-            dispatch(clearSearchedProducts())
+            ; (searchedData.length > 0 || totalSearched > 0) &&
+                dispatch(clearSearchedProducts())
         if (valForSearch === '') {
             setData(products)
             setFilteredDataTotal(total)
@@ -123,8 +126,8 @@ const Labels = ({id}) => {
         let val = e.target.value
         let valForSearch = val.toLowerCase().replace(/\s+/g, ' ').trim()
         setSearchByName(val)
-        ;(searchedData.length > 0 || totalSearched > 0) &&
-            dispatch(clearSearchedProducts())
+            ; (searchedData.length > 0 || totalSearched > 0) &&
+                dispatch(clearSearchedProducts())
         if (valForSearch === '') {
             setData(products)
             setFilteredDataTotal(total)
@@ -140,7 +143,7 @@ const Labels = ({id}) => {
     }
 
     // filter by total
-    const filterByTotal = ({value}) => {
+    const filterByTotal = ({ value }) => {
         setShowByTotal(value)
         setCurrentPage(0)
     }
@@ -150,8 +153,8 @@ const Labels = ({id}) => {
         let val = e.target.value
         let valForSearch = val.replace(/\s+/g, ' ').trim()
         setSearchByCategory(val)
-        ;(searchedData.length > 0 || totalSearched > 0) &&
-            dispatch(clearSearchedProducts())
+            ; (searchedData.length > 0 || totalSearched > 0) &&
+                dispatch(clearSearchedProducts())
         if (valForSearch === '') {
             setData(products)
             setFilteredDataTotal(total)
@@ -260,7 +263,7 @@ const Labels = ({id}) => {
         } else {
             setPrintedData([
                 ...printedData,
-                {product, numberOfChecks: Number(e.target.value)},
+                { product, numberOfChecks: Number(e.target.value) },
             ])
         }
     }
@@ -297,7 +300,7 @@ const Labels = ({id}) => {
             dispatch(getProductsByFilter(body))
         }
     }
-
+    console.log(isShowPrice);
     const exportData = () => {
         let fileName = 'Etiketka'
         const exportProductHead = [
@@ -314,7 +317,7 @@ const Labels = ({id}) => {
             'Sotish narxi jami UZS',
             'Sotish narxi jami USD',
         ]
-        dispatch(getProductsAll()).then(({error, payload}) => {
+        dispatch(getProductsAll()).then(({ error, payload }) => {
             if (!error) {
                 if (payload?.length > 0) {
                     const ReportData = map(payload, (item, index) => ({
@@ -383,6 +386,7 @@ const Labels = ({id}) => {
         if (!dataLoaded) {
             setPrintedData([])
             setCountOfCheques('')
+            setIsShowPrice(true)
             setProductForCheques(null)
         }
     }, [dataLoaded])
@@ -394,10 +398,10 @@ const Labels = ({id}) => {
             animate='open'
             exit='collapsed'
             variants={{
-                open: {opacity: 1, height: 'auto'},
-                collapsed: {opacity: 0, height: 0},
+                open: { opacity: 1, height: 'auto' },
+                collapsed: { opacity: 0, height: 0 },
             }}
-            transition={{duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98]}}
+            transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
         >
             {loadingExcel ||
                 (dataLoaded && (
@@ -408,7 +412,7 @@ const Labels = ({id}) => {
             <div className='mt-10 lg:mt-0 pagination mainPadding'>
                 <ExportBtn onClick={exportData} />
                 {/* <p className='product_name'>{t('Etiketka')}</p> */}
-                
+
             </div>
             <SearchForm
                 filterBy={[
@@ -417,6 +421,7 @@ const Labels = ({id}) => {
                     'code',
                     'name',
                     'checks',
+                    'checkbox',
                     'printBtn',
                 ]}
                 filterByCode={filterByCode}
@@ -432,7 +437,16 @@ const Labels = ({id}) => {
                 }
                 clickPrintBtn={handlePrintToProduct}
                 setNumberOfChecks={handleChequeCounts}
+                check={!isShowPrice}
+                handleChangeCheck={() => setIsShowPrice(!isShowPrice)}
+                checkboxLabel={'Narxi'}
             />
+            {/* <Checkbox
+                id={'isShowPrice'}
+                onChange={() => setIsShowPrice(!isShowPrice)}
+                value={!isShowPrice}
+                label={t('Narxi')}
+            /> */}
             <div className='tableContainerPadding'>
                 {loading ? (
                     <Spinner />
@@ -463,10 +477,11 @@ const Labels = ({id}) => {
                     productForCheques={productForCheques}
                     printedData={printedData}
                     marketName={name}
+                    isShowPrice={isShowPrice}
                 />
             </div>
             <div className='m-3 flex justify-center'>
-            {(filteredDataTotal !== 0 || totalSearched !== 0) && (
+                {(filteredDataTotal !== 0 || totalSearched !== 0) && (
                     <Pagination
                         countPage={Number(showByTotal)}
                         totalDatas={totalSearched || filteredDataTotal}

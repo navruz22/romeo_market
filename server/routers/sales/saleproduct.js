@@ -771,10 +771,7 @@ module.exports.getsaleconnectors = async (req, res) => {
     const count = filteredProductsSale.length;
 
     res.status(200).json({
-      saleconnectors: filteredProductsSale.splice(
-        countPage * currentPage,
-        countPage
-      ),
+      saleconnectors: filteredProductsSale,
       count,
     });
   } catch (error) {

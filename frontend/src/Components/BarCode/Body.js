@@ -3,7 +3,7 @@ import {useBarcode} from 'next-barcode'
 import {useSelector} from 'react-redux'
 import { t } from 'i18next'
 
-export const Body = ({product, currency, marketName}) => {
+export const Body = ({product, currency, marketName, isShowPrice}) => {
     const {inputRef} = useBarcode({
         value: product?.productdata?.barcode,
         options: {
@@ -31,7 +31,7 @@ export const Body = ({product, currency, marketName}) => {
                             {product.productdata && product.productdata.name}
                         </span>
                     </div>
-                    <div className='text-2xl font-bold text-center p-1'>
+                    {isShowPrice && <div className='text-2xl font-bold text-center p-1'>
                         <span>{product.price ? 'Цена:' : ''}</span>{' '}
                         <span>
                             {(product.price &&
@@ -46,7 +46,7 @@ export const Body = ({product, currency, marketName}) => {
                                     currency) ||
                                 ''}
                         </span>
-                    </div>
+                    </div>}
                     <div>
                         <canvas ref={inputRef} />
                     </div>

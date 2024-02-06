@@ -264,8 +264,8 @@ const ClientsPage = () => {
 
     useEffect(() => {
         const body = {
-            currentPage,
-            countPage: showByTotal,
+            // currentPage,
+            // countPage: showByTotal,
             // startDate,
             // endDate,
             search: {
@@ -356,7 +356,7 @@ const ClientsPage = () => {
                 </div>
             </form>
             <div className='flex ps-[10px] pe-[20px] lg:justify-start gap-2 items-center justify-between mb-4'>
-                <SelectForm key={'total_1'} onSelect={filterByTotal} />
+                {/* <SelectForm key={'total_1'} onSelect={filterByTotal} /> */}
                 <button onClick={() => {
                     setModalOpen(true)
 
@@ -372,14 +372,14 @@ const ClientsPage = () => {
                     <div className='mt-[10px] flex flex-wrap justify-center items-center'>
                         <SearchForm
                             filterBy={[
-                                'total',
+                                // 'total',
                                 // 'startDate',
                                 // 'endDate',
                                 'clientName',
                                 'select'
                             ]}
                             filterByPackman={filterByPackman}
-                            filterByTotal={filterByTotal}
+                            // filterByTotal={filterByTotal}
                             filterByClientNameWhenPressEnter={filterByNameWhenPressEnter}
                             filterByDelivererNameWhenPressEnter={filterByNameWhenPressEnter}
                             searchByClientName={searchByName}
@@ -436,7 +436,7 @@ const ClientsPage = () => {
                         />
                 )}
             </div>
-            <div className='pagination-supplier flex justify-center mt-[30px] mb-[30px] '>
+            {/* <div className='pagination-supplier flex justify-center mt-[30px] mb-[30px] '>
                 {(filteredDataTotal !== 0 || totalSearched !== 0) && (
                     <Pagination
                         countPage={Number(showByTotal)}
@@ -445,7 +445,7 @@ const ClientsPage = () => {
                         setCurrentPage={setCurrentPage}
                     />
                 )}
-            </div>
+            </div> */}
         </motion.section>
     )
 }

@@ -44,9 +44,6 @@ export const ClientTableRow = ({
                     <td className='text-left td'>
                         {currentPage * countPage + index + 1}
                     </td>
-                    {/* <td className='text-left td'>
-                        {client.packman ? client.packman.name : ''}
-                    </td> */}
                     <td className='text-left td'>{client.name}</td>
                     <td className='text-left td'>
                         {currencyType === 'USD'
@@ -185,6 +182,25 @@ export const ClientTableRow = ({
                         </li>
                     </li>
             ))}
+            <tr className='tr'>
+                <td className='text-left td'>
+                </td>
+                <td className='text-left td'></td>
+                <td className='text-left td font-bold'>
+                    {currencyType === 'USD'
+                        ? roundUsd([...data].reduce((prev, el) => prev + (el.saleconnector?.totalsales || 0), 0)).toLocaleString('ru-RU')
+                        : roundUzs([...data].reduce((prev, el) => prev + (el.saleconnector?.totalsalesuzs || 0), 0)).toLocaleString('ru-RU')}{' '}
+                    {currencyType}
+                </td>
+                <td className=' td py-[0.375rem] font-bold'>
+                    {currencyType === 'USD'
+                        ? roundUsd([...data].reduce((prev, el) => prev + (el.saleconnector?.profit || 0), 0)).toLocaleString('ru-RU')
+                        : roundUzs([...data].reduce((prev, el) => prev + (el.saleconnector?.profituzs || 0), 0)).toLocaleString('ru-RU')}{' '}
+                    {currencyType}
+                </td>
+                <td className='border-r-0 td py-[0.375rem]'>
+                </td>
+            </tr>
         </>
     )
 }

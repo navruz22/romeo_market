@@ -146,6 +146,7 @@ module.exports.registerDirector = async (req, res) => {
       password,
       market,
       administrator,
+      qrcode
     } = req.body;
     const marke = await Market.findById(market);
 
@@ -178,6 +179,7 @@ module.exports.registerDirector = async (req, res) => {
       type: "Director",
       login,
       administrator,
+      qrcode
     });
     await newUser.save();
 
@@ -292,10 +294,14 @@ module.exports.login = async (req, res) => {
 
     const userr = await User.findById(user._id)
       .select("firstname type lastname image")
-      .populate(
-        "market",
-        "name phone1 phone2 phone3 image permission address mainmarket"
-      );
+      .populate({
+        path: "market",
+        select: "name phone1 phone2 phone3 image permission address mainmarket director",
+        populate: {
+          path: "director",
+          select: "-__v -isArchive -updatedAt -password -login"
+        }
+      });
 
     const hashType = await bcrypt.hash(userr.type, 8);
 

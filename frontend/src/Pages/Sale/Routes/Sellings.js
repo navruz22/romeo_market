@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import ExportBtn from '../../../Components/Buttons/ExportBtn.js'
 import Pagination from '../../../Components/Pagination/Pagination.js'
 import Table from '../../../Components/Table/Table.js'
 import SearchForm from '../../../Components/SearchForm/SearchForm.js'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '../../../Components/Spinner/SmallLoader.js'
 import NotFind from '../../../Components/NotFind/NotFind.js'
-import {motion} from 'framer-motion'
-import {VscChromeClose} from 'react-icons/vsc'
+import { motion } from 'framer-motion'
+import { VscChromeClose } from 'react-icons/vsc'
 
 import {
     addClient,
@@ -16,20 +16,23 @@ import {
     getSellings,
     getSellingsByFilter
 } from '../Slices/sellingsSlice.js'
-import {regexForTypeNumber} from '../../../Components/RegularExpressions/RegularExpressions.js'
+import { regexForTypeNumber } from '../../../Components/RegularExpressions/RegularExpressions.js'
 import UniversalModal from '../../../Components/Modal/UniversalModal.js'
-import {useTranslation} from 'react-i18next'
-import {filter, map} from 'lodash'
-import {exportExcel, universalSort} from './../../../App/globalFunctions'
-import {universalToast} from '../../../Components/ToastMessages/ToastMessages.js'
+import { useTranslation } from 'react-i18next'
+import { filter, map } from 'lodash'
+import { exportExcel, universalSort } from './../../../App/globalFunctions'
+import { universalToast } from '../../../Components/ToastMessages/ToastMessages.js'
 import socket from '../../../Config/socket.js'
-import {setAllProductsBySocket} from '../Slices/registerSellingSlice.js'
+import { setAllProductsBySocket } from '../Slices/registerSellingSlice.js'
 import SelectForm from '../../../Components/Select/SelectForm.js'
-import {FaFilter} from 'react-icons/fa'
+import { FaFilter } from 'react-icons/fa'
 import TableMobile from '../../../Components/Table/TableMobile.js'
+import { getReportsForTotal, getSaleProducts, getExpensesReport, getPaymentReport } from '../../Reports/reportsSlice.js'
+import { getProducts } from '../../Incomings/incomingSlice.js'
+import SessionBtn from '../../../Components/Buttons/SessionBtn.js'
 
-const Sellings = ({id}) => {
-    const {t} = useTranslation(['common'])
+const Sellings = ({ id }) => {
+    const { t } = useTranslation(['common'])
     const headers = [
         {
             title: '№'
@@ -63,8 +66,10 @@ const Sellings = ({id}) => {
         }
     ]
     const dispatch = useDispatch()
-    const {currencyType} = useSelector((state) => state.currency)
-    const {user, market} = useSelector((state) => state.login)
+    const { currencyType } = useSelector((state) => state.currency)
+    const { user, market } = useSelector((state) => state.login)
+    const { totalpayment } =
+        useSelector((state) => state.reports)
     const [FilterModal, setFilterModal] = useState(false)
     const {
         sellings,
@@ -73,6 +78,7 @@ const Sellings = ({id}) => {
         total,
         totalSearched
     } = useSelector((state) => state.sellings)
+    const { expenses } = useSelector((state) => state.expense)
     const [chooseBody, setChooseBody] = useState('')
     const [data, setData] = useState(sellings)
     const [storeData, setStoreData] = useState(sellings)
@@ -105,18 +111,194 @@ const Sellings = ({id}) => {
     const [selectedProduct, setSelectedProduct] = useState('')
 
     // filter by total
-    const filterByTotal = ({value}) => {
+    const filterByTotal = ({ value }) => {
         setShowByTotal(value)
         setCurrentPage(0)
+    }
+
+    // ================================
+
+    const memoizedExpenses = useMemo(() => {
+        return {
+            cash: {
+                uzs: expenses
+                    .filter((item) => item.type === 'cash')
+                    .reduce((prev, { sumuzs }) => {
+                        return prev + sumuzs
+                    }, 0),
+                usd: expenses
+                    .filter((item) => item.type === 'cash')
+                    .reduce((prev, { sum }) => {
+                        return prev + sum
+                    }, 0)
+            },
+            card: {
+                uzs: expenses
+                    .filter((item) => item.type === 'card')
+                    .reduce((prev, { sumuzs }) => {
+                        return prev + sumuzs
+                    }, 0),
+                usd: expenses
+                    .filter((item) => item.type === 'card')
+                    .reduce((prev, { sum }) => {
+                        return prev + sum
+                    }, 0)
+            },
+            transfer: {
+                uzs: expenses
+                    .filter((item) => item.type === 'transfer')
+                    .reduce((prev, { sumuzs }) => {
+                        return prev + sumuzs
+                    }, 0),
+                usd: expenses
+                    .filter((item) => item.type === 'transfer')
+                    .reduce((prev, { sum }) => {
+                        return prev + sum
+                    }, 0)
+            }
+        }
+    }, [expenses])
+
+    const handlePrintModal = async (el) => {
+        try {
+            let numberofsellingsbody = {
+                startDate: new Date(startDate),
+                endDate: new Date(endDate),
+                search: {
+                    client: '',
+                    id: '',
+                    product: ''
+                }
+            }
+            let reportstotalbody = {
+                startDate: new Date(startDate).toISOString(),
+                endDate: new Date(endDate)
+            }
+
+            const [
+                { saleconnectors },
+                { income, debts, discounts },
+                { totalpieces },
+                {
+                    totalpieces: numberOfRemaningProducts,
+                    totalprice,
+                    totalpriceuzs,
+                    producttypes
+                }
+            ] = await Promise.all([
+                await dispatch(excelAllSellings(numberofsellingsbody)).unwrap(),
+                await dispatch(getReportsForTotal(reportstotalbody)).unwrap(),
+                await dispatch(getSaleProducts(reportstotalbody)).unwrap(),
+                await dispatch(getProducts()).unwrap(),
+                await dispatch(getPaymentReport(numberofsellingsbody)).unwrap(),
+                await dispatch(getExpensesReport(numberofsellingsbody)).unwrap()
+            ])
+            setModalVisible(true)
+            setChooseBody('dailySaleCheck')
+            setPrintedSelling({
+                boshsana: startDate,
+                tugashsana: endDate,
+                sotuvlarsoni: saleconnectors.length,
+                tushumlar: {
+                    naqt: {
+                        sum: totalpayment.payment.cashuzs,
+                        dollar: totalpayment.payment.cash
+                    },
+                    plastik: {
+                        sum: totalpayment.payment.carduzs,
+                        dollar: totalpayment.payment.card
+                    },
+                    utkazma: {
+                        sum: totalpayment.payment.transferuzs,
+                        dollar: totalpayment.payment.transfer
+                    }
+                },
+                qaytarilganlar: {
+                    naqt: {
+                        sum: totalpayment.back.cashuzs,
+                        dollar: totalpayment.back.cash
+                    },
+                    plastik: {
+                        sum: totalpayment.back.carduzs,
+                        dollar: totalpayment.back.card
+                    },
+                    utkazma: {
+                        sum: totalpayment.back.transferuzs,
+                        dollar: totalpayment.back.transfer
+                    }
+                },
+                xarajatlar: {
+                    naqt: {
+                        sum: memoizedExpenses.cash.uzs,
+                        dollar: memoizedExpenses.cash.usd
+                    },
+                    plastik: {
+                        sum: memoizedExpenses.card.uzs,
+                        dollar: memoizedExpenses.card.usd
+                    },
+                    utkazma: {
+                        sum: memoizedExpenses.transfer.uzs,
+                        dollar: memoizedExpenses.transfer.usd
+                    }
+                },
+                foyda: {
+                    sum: income.incomeuzs,
+                    dollar: income.income
+                },
+                qarzlar: {
+                    sum: debts.debtsuzs,
+                    dollar: debts.debts
+                },
+                chegirmalar: {
+                    sum: discounts.discountsuzs,
+                    dollar: discounts.discounts
+                },
+                kassaqoldiq: {
+                    naqt: {
+                        sum:
+                            totalpayment.result.cashuzs -
+                            memoizedExpenses.cash.uzs,
+                        dollar:
+                            totalpayment.result.cash -
+                            memoizedExpenses.cash.usd
+                    },
+                    plastik: {
+                        sum:
+                            totalpayment.result.carduzs -
+                            memoizedExpenses.card.uzs,
+                        dollar:
+                            totalpayment.result.card -
+                            memoizedExpenses.card.usd
+                    },
+                    utkazma: {
+                        sum:
+                            totalpayment.result.transferuzs -
+                            memoizedExpenses.transfer.uzs,
+                        dollar:
+                            totalpayment.result.transfer -
+                            memoizedExpenses.transfer.usd
+                    }
+                },
+                sotilganmaxsulotlarsoni: totalpieces,
+                qolganmaxsulotlarsoni: producttypes,
+                qolganmaxsulotlarumumiysoni: numberOfRemaningProducts,
+                qolganmaxsulotlarqiymati: {
+                    sum: totalpriceuzs,
+                    dollar: totalprice
+                }
+            })
+        } catch (e) {
+            return console.error(e)
+        }
     }
 
     // handle change client and id
     const handleChangeId = (e) => {
         const val = e.target.value
         const valForSearch = val.replace(/\s+/g, ' ').trim()
-        regexForTypeNumber.test(val) && setSearch({...search, id: val})
-        ;(searchedData.length > 0 || totalSearched > 0) &&
-        dispatch(clearSearchedSellings())
+        regexForTypeNumber.test(val) && setSearch({ ...search, id: val })
+            ; (searchedData.length > 0 || totalSearched > 0) &&
+                dispatch(clearSearchedSellings())
         if (valForSearch === '') {
             setData(sellings)
             setFilteredDataTotal(total)
@@ -131,9 +313,9 @@ const Sellings = ({id}) => {
     const handleChangeClient = (e) => {
         const val = e.target.value
         const valForSearch = val.toLowerCase().replace(/\s+/g, ' ').trim()
-        setSearch({...search, client: val})
-        ;(searchedData.length > 0 || totalSearched > 0) &&
-        dispatch(clearSearchedSellings())
+        setSearch({ ...search, client: val })
+            ; (searchedData.length > 0 || totalSearched > 0) &&
+                dispatch(clearSearchedSellings())
         if (valForSearch === '') {
             setData(sellings)
             setFilteredDataTotal(total)
@@ -217,18 +399,18 @@ const Sellings = ({id}) => {
                         : 0,
                 debd:
                     item?.products[0]?.totalpriceuzs -
-                    item?.payments[0]?.paymentuzs -
-                    item?.discounts.length >
-                    0
+                        item?.payments[0]?.paymentuzs -
+                        item?.discounts.length >
+                        0
                         ? item.discounts.map((discount) => {
                             return discount.discount
                         })
                         : 0,
                 debdusd:
                     item.products[0].totalprice -
-                    item.payments[0].payment -
-                    item.discounts.length >
-                    0
+                        item.payments[0].payment -
+                        item.discounts.length >
+                        0
                         ? item.discounts.map((discount) => {
                             return discount.discount
                         })
@@ -378,28 +560,28 @@ const Sellings = ({id}) => {
             }
         ]
         market &&
-        socket.emit('getProductsOfCount', {
-            market: market._id
-        })
+            socket.emit('getProductsOfCount', {
+                market: market._id
+            })
         market &&
-        socket.on('getProductsOfCount', ({id, products}) => {
-            if (id === market._id) {
-                productsForSearch = [
-                    ...productsForSearch,
-                    ...map(products, (product) => ({
-                        value: product._id,
-                        label: product.productdata.name
-                    }))
-                ]
-                setFilteredProducts(productsForSearch)
-                allProductsReducer.push(...products)
-                dispatch(setAllProductsBySocket(allProductsReducer))
-            }
-        })
+            socket.on('getProductsOfCount', ({ id, products }) => {
+                if (id === market._id) {
+                    productsForSearch = [
+                        ...productsForSearch,
+                        ...map(products, (product) => ({
+                            value: product._id,
+                            label: product.productdata.name
+                        }))
+                    ]
+                    setFilteredProducts(productsForSearch)
+                    allProductsReducer.push(...products)
+                    dispatch(setAllProductsBySocket(allProductsReducer))
+                }
+            })
         market &&
-        socket.on('error', ({id, message}) => {
-            id === market._id && universalToast(message, 'error')
-        })
+            socket.on('error', ({ id, message }) => {
+                id === market._id && universalToast(message, 'error')
+            })
 
         //    eslint-disable-next-line react-hooks/exhaustive-deps
     }, [market, dispatch])
@@ -428,10 +610,10 @@ const Sellings = ({id}) => {
             animate='open'
             exit='collapsed'
             variants={{
-                open: {opacity: 1, height: 'auto'},
-                collapsed: {opacity: 0, height: 0}
+                open: { opacity: 1, height: 'auto' },
+                collapsed: { opacity: 0, height: 0 }
             }}
-            transition={{duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98]}}
+            transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
         >
             <UniversalModal
                 printedSelling={printedSelling}
@@ -442,22 +624,29 @@ const Sellings = ({id}) => {
                 approveFunction={handleAddClient}
                 commentText={commentText}
                 dailyid={dailyId}
+                isSalesList={true}
             />
             <div className='pagination lg:m-3 flex lg:justify-start items-center justify-evenly'>
                 <span className='ms-[-10px] lg:ms-3'>
-                <SelectForm key={'total_1'} onSelect={filterByTotal} />
+                    {/* <SelectForm key={'total_1'} onSelect={filterByTotal} /> */}
                 </span>
                 <ExportBtn onClick={exportData} />
                 <button onClick={() => setFilterModal(true)}
-                        className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[90px] h-[33px]  createElement'>
+                    className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[90px] h-[33px]  createElement'>
                     <FaFilter /> {t('izlash')}</button>
+                <div className='ml-3 px-4 py-2 flex justify-end'>
+                    <SessionBtn
+                        text={`${t('Savdo hisoboti')}`}
+                        onClick={handlePrintModal}
+                    />
+                </div>
             </div>
             {
                 FilterModal ?
                     <div
                         className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap   top-0	left-0 z-50 bg-[white]	'>
                         <VscChromeClose onClick={() => setFilterModal(false)}
-                                        className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
+                            className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
                         <div className='mt-[100px]'>
                             <SearchForm
                                 filterBy={['total', 'startDate', 'endDate', 'id', 'clientName', 'product_name']}
@@ -480,7 +669,7 @@ const Sellings = ({id}) => {
                             />
                             <div className='flex justify-center'>
                                 <button onClick={() => setFilterModal(false)}
-                                        className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] h-[40px]  createElement'>
+                                    className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[150px] h-[40px]  createElement'>
                                     <FaFilter /> {t('izlash')}</button>
                             </div>
                         </div>
@@ -521,7 +710,7 @@ const Sellings = ({id}) => {
                         editComment={editComment}
                     />
                 )}
-                <div className='m-4  flex justify-center'>
+                {/* <div className='m-4  flex justify-center'>
                     {(filteredDataTotal !== 0 || totalSearched !== 0) && (
                         <Pagination
                             countPage={Number(showByTotal)}
@@ -530,7 +719,7 @@ const Sellings = ({id}) => {
                             setCurrentPage={setCurrentPage}
                         />
                     )}
-                </div>
+                </div> */}
             </div>
         </motion.section>
     )

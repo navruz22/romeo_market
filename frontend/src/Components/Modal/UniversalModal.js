@@ -56,7 +56,8 @@ function UniversalModal({
                             handleRejectRequest,
                             order,
                             commentText,
-                            dailyid
+                            dailyid,
+                            isSalesList
                         }) {
     const {t} = useTranslation(['common'])
 
@@ -214,7 +215,7 @@ function UniversalModal({
             case 'debtcomment':
                 return <DebtComment toggleModal={toggleModal} />
             case 'dailySaleCheck':
-                return <DailySaleCheck data={printedSelling} />
+                return <DailySaleCheck data={printedSelling} isSalesList={isSalesList} />
             default:
                 return t('Bunday jadval topilmadi')
         }
