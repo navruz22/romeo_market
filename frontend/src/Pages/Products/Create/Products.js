@@ -23,7 +23,7 @@ import {
     updateProduct
 } from './productSlice'
 import {getUnits} from '../../Units/unitsSlice'
-import {universalToast, warningCurrencyRate, warningEmptyInput} from '../../../Components/ToastMessages/ToastMessages'
+import {universalToast, warningCurrencyRate, warningDeleteProduct, warningEmptyInput} from '../../../Components/ToastMessages/ToastMessages'
 import {regexForTypeNumber} from '../../../Components/RegularExpressions/RegularExpressions'
 import UniversalModal from '../../../Components/Modal/UniversalModal'
 import CreateProductForm from '../../../Components/CreateProductForm/CreateProductForm'
@@ -706,9 +706,10 @@ function Products() {
             name: nameOfProduct.replace(/\s+/g, ' ').trim(),
             productdata: product.productdata._id
         }
-        setDeletedProduct(body)
-        setModalBody('approve')
-        toggleModal()
+        warningDeleteProduct() 
+        // setDeletedProduct(body)
+        // setModalBody('approve')
+        // toggleModal()
     }
     const handleClickApproveToDelete = () => {
         dispatch(deleteProduct(deletedProduct)).then(({error}) => {

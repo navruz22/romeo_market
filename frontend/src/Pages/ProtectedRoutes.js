@@ -333,6 +333,10 @@ const sellerRoutes = [
     {
         path: '/hamkorlar/mijozlar',
         element: <ClientsPage />
+    },
+    {
+        path: '/hamkorlar/mijoz',
+        element: <ClientsSales />
     }
 ]
 const adminRoutes = [
