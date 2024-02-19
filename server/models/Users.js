@@ -15,8 +15,9 @@ const user = new Schema(
         type: {type: String, required: true},
         users: [{type: Schema.Types.ObjectId, ref: 'User'}], // Xodimlar
         user: {type: Schema.Types.ObjectId, ref: 'User'}, // Director
+        isIncomePage: {type: Boolean},
         isArchive: {type: Boolean, default: false},
-        administrator: {type: Schema.Types.ObjectId, ref: 'User'}
+        administrator: {type: Schema.Types.ObjectId, ref: 'User'},
     },
     {
         timestamps: true
@@ -74,6 +75,7 @@ function validateSeller(user) {
         password: Joi.string().required(),
         market: Joi.string().required(),
         type: Joi.string().required(),
+        isIncomePage: Joi.boolean().optional(),
         specialty: Joi.string(),
         users: Joi.array(),
         user: Joi.string(),

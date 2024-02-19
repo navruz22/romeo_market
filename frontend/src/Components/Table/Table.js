@@ -61,6 +61,7 @@ function Table({
     Excel,
     editedIncoming,
     saveEditIncoming,
+    changeNumberHandler,
     sortItem,
     ReturnPayment,
     Save,
@@ -234,6 +235,9 @@ function Table({
             case 'incomings':
                 return (
                     <IncomingsTableRow
+                        Print={Print}
+                        printedData={printedData}
+                        changeNumberHandler={changeNumberHandler}
                         Edit={Edit}
                         Delete={Delete}
                         changeHandler={changeHandler}

@@ -8,6 +8,7 @@ const expense = new Schema(
     type: { type: String, required: true },
     comment: { type: String, required: true },
     market: { type: Schema.Types.ObjectId, ref: 'Market' },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     isArchive: { type: Boolean, default: false },
   },
   {

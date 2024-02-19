@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {exportExcel, universalSort, UsdToUzs, UzsToUsd} from '../../../App/globalFunctions'
 import ExportBtn from '../../../Components/Buttons/ExportBtn'
@@ -19,17 +19,39 @@ import {
 import {useTranslation} from 'react-i18next'
 import SmallLoader from '../../../Components/Spinner/SmallLoader'
 import {universalToast} from '../../../Components/ToastMessages/ToastMessages'
+import { useReactToPrint } from 'react-to-print'
+import {BarCode} from '../../../Components/BarCode/BarCode.js'
 
 
 const IncomingsList = () => {
     const dispatch = useDispatch()
     const {t} = useTranslation(['common'])
     const {
-        market: {_id}
+        market: {_id, name}
     } = useSelector((state) => state.login)
     const {incomings, incomingscount, successUpdate, successDelete, loadingExcel} =
         useSelector((state) => state.incoming)
     const {currencyType, currency} = useSelector((state) => state.currency)
+
+
+    const componentRef = useRef()
+    const onBeforeGetContentResolve = useRef()
+
+    const handleOnBeforeGetContent = () => {
+        setDataLoaded(true)
+        return new Promise((resolve) => {
+            onBeforeGetContentResolve.current = resolve
+            setTimeout(() => {
+                setDataLoaded(false)
+                resolve()
+            }, 2000)
+        })
+    }
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        onBeforeGetContent: handleOnBeforeGetContent,
+    })
 
     const [beginDay, setBeginDay] = useState(
         new Date(
@@ -65,6 +87,8 @@ const IncomingsList = () => {
     const [deletedIncoming, setDeletedIncoming] = useState({})
     const [currentIncoming, setCurrentIncoming] = useState([])
     const [storageCurrentIncoming, setStorageCurrentIncoming] = useState([])
+    const [printedData, setPrintedData] = useState([])
+    const [dataLoaded, setDataLoaded] = useState(false)
 
     const getCurrentData = (data) => {
         let current = map(data, (incoming) => {
@@ -81,6 +105,32 @@ const IncomingsList = () => {
     // add product to edit
     const addToEditedIncoming = (product) => {
         setEditedIncoming(product)
+    }
+
+    ///////////////////
+    const handleChequeCount = (e, product) => {
+        const prevIndex = printedData.findIndex(
+            (item) => item.product._id === product._id
+        )
+        if (prevIndex !== -1) {
+            if (e.target.value.trim() !== '') {
+                printedData[prevIndex].numberOfChecks = Number(e.target.value)
+            } else {
+                printedData.splice(prevIndex, 1)
+            }
+            setPrintedData([...printedData])
+        } else {
+            console.log(product);
+            setPrintedData([
+                ...printedData,
+                {product: {
+                    ...product,
+                    productdata: product.product.productdata,
+                    price: product.price
+                },
+                 numberOfChecks: Number(e.target.value)},
+            ])
+        }
     }
 
     // change editing product
@@ -409,11 +459,23 @@ const IncomingsList = () => {
             styles: 'w-[10%]'
         },
         {
+            title: t('Cheklar soni'),
+            styles: 'w-[10%]'
+        },
+        {
             title: '',
             styles: 'w-[5%]'
         }
     ]
-
+    useEffect(() => {
+        if (
+            dataLoaded &&
+            typeof onBeforeGetContentResolve.current === 'function'
+        ) {
+            onBeforeGetContentResolve.current()
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [onBeforeGetContentResolve.current, dataLoaded])
     
 
     return (
@@ -467,7 +529,9 @@ const IncomingsList = () => {
                     page={'incomings'}
                     headers={headers}
                     data={currentIncoming}
+                    changeNumberHandler={handleChequeCount}
                     currentPage={currentPage}
+                    printedData={printedData}
                     countPage={countPage}
                     currency={currencyType}
                     editedIncoming={editedIncoming}
@@ -478,6 +542,7 @@ const IncomingsList = () => {
                     Sort={filterData}
                     onKeyUp={onKeyUpdate}
                     sortItem={sortItem}
+                    Print={handlePrint}
                 />
             </div>
             <UniversalModal
@@ -489,6 +554,14 @@ const IncomingsList = () => {
                 closeModal={closeModal}
                 toggleModal={closeModal}
             />
+            <div className='hidden'>
+                <BarCode
+                    currency={currencyType}
+                    componentRef={componentRef}
+                    printedData={printedData}
+                    marketName={name}
+                />
+            </div>
         </div>
     )
 }

@@ -8,14 +8,22 @@ export const IncomingsTableRow = ({
     currency,
     saveEditIncoming,
     changeHandler,
+    changeNumberHandler,
     Delete,
+    Print,
     Edit,
     currentPage,
     countPage,
+    printedData,
     data,
     onKeyUp,
 }) => {
     const current = (usd, uzs) => (currency === 'USD' ? usd : uzs || 0)
+
+    const inputVal = (id, printedData) => {
+        let hasData = printedData.filter((p) => p.product._id === id)
+        return hasData.length > 0 ? hasData[0].numberOfChecks : ''
+    }
 
     return (
         <>
@@ -109,6 +117,13 @@ export const IncomingsTableRow = ({
                             </span>
                         )}
                     </td>
+                    <td className='py-[0.25rem] td'>
+                        <TableInput
+                            onChange={(e) => changeNumberHandler(e, incoming)}
+                            type={'number'}
+                            value={inputVal(incoming._id, printedData)}
+                        />
+                    </td>
                     <td className='td border-r-0 py-[6px]'>
                         <div className='flex justify-center items-center gap-[0.625rem]'>
                             {editedIncoming._id === incoming._id ? (
@@ -134,6 +149,11 @@ export const IncomingsTableRow = ({
                                 type={'delete'}
                                 bgcolor={'bg-error-500'}
                                 onClick={() => Delete(incoming)}
+                            />
+                            <TableBtn
+                                type={'print'}
+                                bgcolor={'bg-primary-800'}
+                                onClick={() => Print(incoming, 'single')}
                             />
                         </div>
                     </td>

@@ -362,12 +362,48 @@ const adminRoutes = [
     }
 ]
 
-const chooseRoute = (type) => {
+const chooseRoute = (type, isIncomePage) => {
     switch (type) {
         case 'director':
             return directorRoutes
         case 'seller':
-            return sellerRoutes
+            return !isIncomePage ? sellerRoutes : [
+                ...sellerRoutes,
+                {
+                    path: 'sotilganlar',
+                    element: <ProductReport />
+                },
+                {
+                    path: 'kamqolganlar',
+                    element: <ProductMinimum />
+                },
+                {
+                    path: '/maxsulotlar/qabul/',
+                    element: <Incoming />,
+                    subRoutes: [
+                        {
+                            path: 'qabulqilish',
+                            element: <RegisterIncoming />
+                        },
+                        {
+                            path: 'qabullar',
+                            element: <Incomings />
+                        },
+                        {
+                            path: 'qabullar/:id',
+                            element: <IncomingSuppliers />
+                        },
+                        {
+                            path: 'saqlanganlar',
+                            element: <SavedIncoming />
+                        },
+                        {
+                            path: 'ruyxat',
+                            element: <IncomingsList />
+                        }
+                    ]
+                },
+            ]
         case 'admin':
             return adminRoutes
         default:
@@ -380,8 +416,8 @@ const chooseRoute = (type) => {
     }
 }
 
-const protectedRoutes = (type) => {
-    const catchRoutes = chooseRoute(type.toLowerCase())
+const protectedRoutes = (type, isIncomePage) => {
+    const catchRoutes = chooseRoute(type.toLowerCase(), isIncomePage)
     return map(catchRoutes, (route) =>
         route.subRoutes ? (
             <Route

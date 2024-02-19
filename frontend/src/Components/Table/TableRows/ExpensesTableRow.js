@@ -50,6 +50,9 @@ export const ExpensesTableRow = ({
                             <td className='text-left td'>
                                 {new Date(expense.createdAt).toLocaleDateString()}
                             </td>
+                            <td className='text-left td'>
+                                {expense?.user?.firstname} {expense?.user?.lastname}
+                            </td>
                             <td className='text-left td font-medium'>
                                 {currency === 'USD' ? expense.sum : expense.sumuzs.toLocaleString('ru-Ru')}{' '}
                                 <span>{currency}</span>
@@ -89,9 +92,14 @@ export const ExpensesTableRow = ({
                             </p>
 
                         </li>
-                        <li className=' p-[10px] text-sm flex justify-between '>
+                        <li className=' p-[10px] text-sm flex justify-between border border-s-0 border-t-0 border-e-0'>
                             <p className='text-[green]'><spa>{t('Turi')}: </spa>
                                 {typeofexpense(expense.type)}
+                            </p>
+                        </li>
+                        <li className=' p-[10px] text-sm flex justify-between '>
+                            <p className='text-[black]'><spa>{t('Sotuvchi')}: </spa>
+                                {expense?.user?.firstname} {expense?.user?.lastname}
                             </p>
                         </li>
 

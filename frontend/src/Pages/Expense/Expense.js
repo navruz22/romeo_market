@@ -16,7 +16,8 @@ const Expense = () => {
     const {t} = useTranslation(['common'])
     const dispatch = useDispatch()
     const {
-        market: {_id}
+        market: {_id},
+        user
     } = useSelector((state) => state.login)
     const {currencyType, currency} = useSelector((state) => state.currency)
     const {expenses, count, successRegister} = useSelector(
@@ -33,7 +34,7 @@ const Expense = () => {
     const [endDate, setEndDate] = useState(
         new Date(new Date().setHours(23, 59, 59, 59)).toISOString()
     )
-
+    console.log(user);
     const [sorItem, setSorItem] = useState({
         filter: '',
         sort: '',
@@ -124,7 +125,8 @@ const Expense = () => {
         let body = {
             currentPage,
             countPage,
-            expense
+            expense,
+            user: user._id
         }
         if (!checkExpense(expense)) {
             dispatch(registerExpense(body)).then(({ error }) => {
@@ -249,6 +251,9 @@ const Expense = () => {
             title: t('Sana'),
             styles: 'w-[10%]',
             filter: 'createdAt'
+        },
+        {
+            title: t('Sotuvchi'),
         },
         {
             title: t('Summa'),

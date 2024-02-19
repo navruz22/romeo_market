@@ -1,21 +1,21 @@
-import {useCallback, useEffect, useLayoutEffect, useState} from 'react'
-import Paths, {navListForAdmin, navListForSeller, profileList} from './Path'
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import Paths, { navListForAdmin, navListForSeller, profileList } from './Path'
 import NavbarFooterLogo from '../../Images/logotip.png'
 import Avatar from '../Avatar/Avatar'
-import {IoChevronBack, IoEllipsisVertical} from 'react-icons/io5'
+import { IoCart, IoChevronBack, IoEllipsisVertical } from 'react-icons/io5'
 import ProfileMenuLink from './ProfileMenuLink'
 import NavbarLink from './NavbarLink'
-import {logOut} from '../../Pages/Login/loginSlice'
-import {useDispatch, useSelector} from 'react-redux'
+import { logOut } from '../../Pages/Login/loginSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import Language from './../Languages/Language'
-import {useTranslation} from 'react-i18next'
-import {map} from 'lodash'
+import { useTranslation } from 'react-i18next'
+import { map } from 'lodash'
 
 function Navbar() {
-    const {t} = useTranslation(['common'])
+    const { t } = useTranslation(['common'])
 
     const dispatch = useDispatch()
-    const {user} = useSelector((state) => state.login)
+    const { user } = useSelector((state) => state.login)
     const [navbarExpended, setNavbarExpended] = useState(false)
     const [isAvatarMenuOpen, setIsAvatarMenuOpen] = useState(false)
     const [activeFirstSubMenuId, setActiveFirstSubMenuId] = useState(false)
@@ -54,7 +54,29 @@ function Navbar() {
     const chooseRouteArray = () => {
         switch (user.type.toLowerCase()) {
             case 'seller':
-                return navListForSeller
+                return !user.isIncomePage ? navListForSeller : [...navListForSeller,
+                {
+                    id: 5,
+                    label: 'Qabul qilish',
+                    icon: <IoCart size={'1.5rem'} />,
+                    path: 'maxsulotlar/qabul/qabulqilish',
+                    submenu: false,
+                },
+                {
+                    id: 6,
+                    label: 'Sotilgan mahsulotlar',
+                    icon: '',
+                    path: 'sotilganlar',
+                    submenu: false,
+                },
+                {
+                    id: 7,
+                    label: 'Kam qolganlar',
+                    icon: '',
+                    path: 'kamqolganlar',
+                    submenu: false
+                }
+                ]
             case 'director':
                 return Paths
             case 'admin':
@@ -94,21 +116,21 @@ function Navbar() {
                 className={`transition-all ease-in-out duration-200 min-h-screen bg-white-300 flex flex-col justify-between rounded-tr-[8px] rounded-br-[8px] shadow-[5px_0_25px_rgba(0,0,0,0.1),10px_0_50px_rgba(0,0,0,0.05)] ${navbarExpended
                     ? 'min-w-[4.375rem] max-w-[4.375rem]'
                     : 'min-w-[17.625rem] max-w-[17.625rem]'
-                }`}
+                    }`}
             >
                 <div className={'navbar-header overflow-hidden'}>
                     <div
                         className={`transition-all ease duration-300 navbar-avatar ${navbarExpended
                             ? 'w-[100vw] justify-start'
                             : 'justify-center'
-                        } bg-white-400 border-b-2 border-b-black-100 flex items-center py-[0.9375rem] px-[10px] gap-[30px]`}
+                            } bg-white-400 border-b-2 border-b-black-100 flex items-center py-[0.9375rem] px-[10px] gap-[30px]`}
                     >
                         <Avatar navbarExpended={navbarExpended} />
                         <button
                             className={`toggle-avatar-menu transition ease duration-200 ${isAvatarMenuOpen
                                 ? 'text-primary-800'
                                 : 'text-black-700 hover:text-primary-800'
-                            }`}
+                                }`}
                             onClick={() => setIsAvatarMenuOpen(true)}
                         >
                             <IoEllipsisVertical size={'20px'} className={'pointer-events-none'} />
@@ -143,13 +165,13 @@ function Navbar() {
                     className={`navbar-footer transition-all ease-in-out duration-300 text-center flex flex-col justify-center gap-[10px] bg-white-400 border-t-[2px] border-t-black-100 ${navbarExpended
                         ? `h-0 opacity-0 hidden`
                         : 'p-[10px] opacity-100'
-                    }`}
+                        }`}
                 >
                     <div className='w-full flex justify-center items-center'>
                         <Language />
                     </div>
                     <div className='footer-logo flex items-center justify-center'>
-                        <img src={NavbarFooterLogo} style={{maxWidth: "200px"}} alt='alo24 logo' />
+                        <img src={NavbarFooterLogo} style={{ maxWidth: "200px" }} alt='alo24 logo' />
                     </div>
                     <p className={'text-[0.625rem] text-black-500'}>
                         Copyright © 2022 Alo 24. All Rights Reserved
@@ -158,7 +180,7 @@ function Navbar() {
             </nav>
             <button
                 className={`w-[40px] h-[40px] flex items-center justify-center z-[30] rounded-full bg-white-900 text-black-700 shadow-[0_10px_20px_rgba(0,0,0,0.1)] absolute backdrop-blur-[10px] top-[5.3rem] right-[-20px] transition-all ease-linear duration-300 hover:bg-black-100 ${navbarExpended ? 'rotate-180' : ''
-                }`}
+                    }`}
                 onClick={handleClickNavbarExpand}
             >
                 <IoChevronBack size={'20px'} />
@@ -188,7 +210,7 @@ function Navbar() {
                         )
                     )}
                 </div>
-            )}  
+            )}
         </div>
     )
 }

@@ -710,7 +710,7 @@ module.exports.get = async (req, res) => {
         populate: {
           path: 'productdata',
           match: { code: productcode, name: productname },
-          select: 'name code',
+          select: 'name code barcode',
         },
       })
       .populate({

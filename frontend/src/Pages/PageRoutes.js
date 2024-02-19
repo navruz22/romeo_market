@@ -58,7 +58,7 @@ const PageRoutes = () => {
             <div className={'grow h-screen overflow-y-auto'}>
                 <Suspense fallback={<Loader />}>
                     <Routes>
-                        {protectedRoutes(user.type)}
+                        {protectedRoutes(user.type, user.isIncomePage)}
                         <Route path={'*'} element={<Navigate to={'/'} replace={true} />} />
                     </Routes>
                 </Suspense>

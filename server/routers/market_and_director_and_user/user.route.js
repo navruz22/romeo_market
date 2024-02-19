@@ -293,11 +293,11 @@ module.exports.login = async (req, res) => {
     );
 
     const userr = await User.findById(user._id)
-      .select("firstname type lastname image")
+      .select("firstname type lastname image isIncomePage")
       .populate({
         path: "market",
         select: "name phone1 phone2 phone3 image permission address mainmarket director",
-        populate: {
+        populate: { 
           path: "director",
           select: "-__v -isArchive -updatedAt -password -login"
         }
@@ -433,6 +433,7 @@ module.exports.createseller = async (req, res) => {
       password,
       market,
       specialty,
+      isIncomePage,
       user,
     } = req.body;
 
@@ -483,6 +484,7 @@ module.exports.createseller = async (req, res) => {
       login,
       specialty,
       user,
+      isIncomePage
     });
     await newUser.save();
 
@@ -492,6 +494,7 @@ module.exports.createseller = async (req, res) => {
 
     res.status(201).send(sellers);
   } catch (error) {
+    console.log(error);
     res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
   }
 };
@@ -508,7 +511,7 @@ module.exports.getsellers = async (req, res) => {
     }
 
     const sellers = await User.find({ type: "Seller", market })
-      .select("firstname lastname market type login phone")
+      .select("firstname lastname market type login phone isIncomePage")
       .sort({ _id: -1 })
       .lean();
 
@@ -521,7 +524,7 @@ module.exports.getsellers = async (req, res) => {
             $lt: endDate,
           },
         })
-          .select("user payment")
+          .select("user payment") 
           .populate(
             "payment",
             "cash cashuzs card carduzs transfer transferuzs payment paymentuzs totalprice totalpriceuzs"
