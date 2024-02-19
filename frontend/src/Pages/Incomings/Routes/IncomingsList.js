@@ -126,7 +126,7 @@ const IncomingsList = () => {
                 {product: {
                     ...product,
                     productdata: product.product.productdata,
-                    price: product.price
+                    price: product.product.price
                 },
                  numberOfChecks: Number(e.target.value)},
             ])
@@ -560,6 +560,7 @@ const IncomingsList = () => {
                     componentRef={componentRef}
                     printedData={printedData}
                     marketName={name}
+                    isShowPrice={true}
                 />
             </div>
         </div>

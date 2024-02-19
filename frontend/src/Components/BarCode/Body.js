@@ -12,6 +12,7 @@ export const Body = ({product, currency, marketName, isShowPrice}) => {
             height: '40cm',
         },
     })
+    console.log(product);
     const {currency: currencyEx} = useSelector((state) => state.currency)
     return (
         <div className='w-[40mm] break-after-page font-sans h-[65mm] times '>
