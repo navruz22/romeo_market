@@ -631,9 +631,9 @@ const Sellings = ({ id }) => {
                     {/* <SelectForm key={'total_1'} onSelect={filterByTotal} /> */}
                 </span>
                 <ExportBtn onClick={exportData} />
-                <button onClick={() => setFilterModal(true)}
+                {isMobile && <button onClick={() => setFilterModal(true)}
                     className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[90px] h-[33px]  createElement'>
-                    <FaFilter /> {t('izlash')}</button>
+                    <FaFilter /> {t('izlash')}</button>}
                 <div className='ml-3 px-4 py-2 flex justify-end'>
                     <SessionBtn
                         text={`${t('Savdo hisoboti')}`}
@@ -642,8 +642,28 @@ const Sellings = ({ id }) => {
                 </div>
             </div>
             {
-                FilterModal ?
-                    <div
+                !isMobile ? 
+                        <div className='mt-2'>
+                            <SearchForm
+                                filterBy={['total', 'startDate', 'endDate', 'id', 'clientName', 'product_name']}
+                                filterByTotal={filterByTotal}
+                                startDate={startDate}
+                                setStartDate={setStartDate}
+                                endDate={endDate}
+                                setEndDate={setEndDate}
+                                searchById={search.id}
+                                searchByClientName={search.client}
+                                filterByClientName={handleChangeClient}
+                                filterById={handleChangeId}
+                                filterByClientNameWhenPressEnter={
+                                    handleChangeIdAndClientWhenPressEnter
+                                }
+                                filterByIdWhenPressEnter={handleChangeIdAndClientWhenPressEnter}
+                                filteredProducts={filteredProducts}
+                                handleChangeSelectedProduct={handleChangeSelectedProduct}
+                                selectedProduct={selectedProduct}
+                            />
+                        </div> : FilterModal && <div
                         className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap   top-0	left-0 z-50 bg-[white]	'>
                         <VscChromeClose onClick={() => setFilterModal(false)}
                             className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
@@ -673,7 +693,7 @@ const Sellings = ({ id }) => {
                                     <FaFilter /> {t('izlash')}</button>
                             </div>
                         </div>
-                    </div> : null
+                    </div>
             }
 
             <div className='lg:tableContainerPadding'>

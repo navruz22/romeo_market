@@ -91,3 +91,36 @@ module.exports.getMarket = async (req, res) => {
         res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
     }
 }
+
+module.exports.createQrcode = async (req, res) => {
+    try {
+        const {qrcode, market} = req.body;
+
+        const marke = await Market.findById(market)
+        marke.qrcode = qrcode;
+        await marke.save()
+        console.log(marke);
+        res.status(200).json(marke.qrcode)
+
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+    }
+}
+
+
+module.exports.deleteQrcode = async (req, res) => {
+    try {
+        const {market} = req.body;
+
+        const marke = await Market.findById(market)
+        marke.qrcode = ""
+        await marke.save()
+
+        res.status(200).json(marke)
+
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+    }
+}

@@ -292,6 +292,12 @@ export const profileList = [
     },
     {
         id: 3,
+        path: 'shaxsiy/qrcode',
+        label: 'Qrcode yaratish',
+        icon: <IoKeyOutline size={'1rem'} />,
+    },
+    {
+        id: 4,
         label: 'Chiqish',
         icon: <IoExitOutline size={'1rem'} />,
     },

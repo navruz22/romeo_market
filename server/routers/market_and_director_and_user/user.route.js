@@ -296,7 +296,7 @@ module.exports.login = async (req, res) => {
       .select("firstname type lastname image isIncomePage")
       .populate({
         path: "market",
-        select: "name phone1 phone2 phone3 image permission address mainmarket director",
+        select: "name phone1 phone2 phone3 image permission address mainmarket director qrcode",
         populate: { 
           path: "director",
           select: "-__v -isArchive -updatedAt -password -login"

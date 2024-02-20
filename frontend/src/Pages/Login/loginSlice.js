@@ -57,6 +57,29 @@ export const editUser = createAsyncThunk(
     }
 )
 
+export const createQrcode = createAsyncThunk(
+    'login/createQrcode',
+    async (body, {rejectWithValue}) => {
+        try {
+            const {data} = await Api.post('/qrcode/create', body)
+            return data
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
+
+export const deleteQrcode = createAsyncThunk(
+    'login/deleteQrcode',
+    async (body, {rejectWithValue}) => {
+        try {
+            const {data} = await Api.post('/qrcode/delete', body)
+            return data
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
 
 const slice = createSlice({
     name: 'login',
@@ -65,6 +88,7 @@ const slice = createSlice({
         market: null,
         logged: false,
         loading: false,
+        qrcode: null,
         error: null
     },
     reducers: {
@@ -133,6 +157,35 @@ const slice = createSlice({
             successEditProfile()
         },
         [editUser.rejected]: (state, {payload}) => {
+            state.loading = false
+            universalToast(payload, 'error')
+        },
+        [createQrcode.pending]: (state) => {
+            state.loading = true
+        },
+        [createQrcode.fulfilled]: (state, {payload}) => {
+            console.log(payload);
+            state.loading = false
+            state.market = {
+                ...state.market,
+                qrcode: payload
+            }
+        },
+        [createQrcode.rejected]: (state, {payload}) => {
+            state.loading = false
+            universalToast(payload, 'error')
+        },
+        [deleteQrcode.pending]: (state) => {
+            state.loading = true
+        },
+        [deleteQrcode.fulfilled]: (state, {payload}) => {
+            state.loading = false
+            state.market = {
+                ...state.market,
+                qrcode: ""
+            }
+        },
+        [deleteQrcode.rejected]: (state, {payload}) => {
             state.loading = false
             universalToast(payload, 'error')
         }

@@ -38,13 +38,21 @@ const ClientsPage = () => {
 
     const {packmans, clients, loading, searchedClients, total, totalSearched} =
         useSelector((state) => state.clients)
+    
+    const { user } = useSelector((state) => state.login)
 
-    const headers = [
+    const headers =user.type === 'Director' ? [
         {title: '№', styles: 'w-[8%] text-left'},
         // {title: t('Agent'), styles: 'w-[41%] text-left'},
         {title: t('Mijoz'), styles: 'w-[41%] text-left'},
         {title: t('Savdo'), styles: 'w-[41%] text-left'},
         {title: t('Sof foyda'), styles: 'w-[41%] text-left'},
+        {title: '', styles: 'w-[8%] text-left'}
+    ] : [
+        {title: '№', styles: 'w-[8%] text-left'},
+        // {title: t('Agent'), styles: 'w-[41%] text-left'},
+        {title: t('Mijoz'), styles: 'w-[41%] text-left'},
+        {title: t('Savdo'), styles: 'w-[41%] text-left'},
         {title: '', styles: 'w-[8%] text-left'}
     ]
 
@@ -355,7 +363,7 @@ const ClientsPage = () => {
                     </div>
                 </div>
             </form>
-            <div className='flex ps-[10px] pe-[20px] lg:justify-start gap-2 items-center justify-between mb-4'>
+            {isMobile && <div className='flex ps-[10px] pe-[20px] lg:justify-start gap-2 items-center justify-between mb-4'>
                 {/* <SelectForm key={'total_1'} onSelect={filterByTotal} /> */}
                 <button onClick={() => {
                     setModalOpen(true)
@@ -363,9 +371,37 @@ const ClientsPage = () => {
                 }}
                         className='d-block  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[150px] h-[40px] createElement '>
                     <FaFilter /> {t('izlash')}</button>
-            </div>
+            </div>}
             {
-                modalOpen ? <div
+                !isMobile ? 
+                    <div className='mt-[10px] px-4 flex justify-center items-center'>
+                        <SearchForm
+                            filterBy={[
+                                // 'total',
+                                // 'startDate',
+                                // 'endDate',
+                                'clientName',
+                                'select'
+                            ]}
+                            filterByPackman={filterByPackman}
+                            // filterByTotal={filterByTotal}
+                            filterByClientNameWhenPressEnter={filterByNameWhenPressEnter}
+                            filterByDelivererNameWhenPressEnter={filterByNameWhenPressEnter}
+                            searchByClientName={searchByName}
+                            filterByClientName={filterByClientName}
+                            startDate={startDate}
+                            endDate={new Date(endDate)}
+                            setStartDate={setStartDate}
+                            setEndDate={setEndDate}
+                            searchByPackmans={[
+                                {
+                                    label: 'Barchasi',
+                                    value: null
+                                },
+                                ...packmanOptions
+                            ]}
+                        />
+                    </div> : modalOpen && <div
                     className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap    top-0	left-0 z-50 bg-[white]	'>
                     <VscChromeClose onClick={() => setModalOpen(false)}
                                     className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
@@ -403,7 +439,7 @@ const ClientsPage = () => {
                                 className='d-block  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[150px] h-[40px] createElement '>
                             <FaFilter /> {t('izlash')}</button>
                     </div>
-                </div> : null
+                </div>
             }
 
 
@@ -423,6 +459,7 @@ const ClientsPage = () => {
                             Edit={handleEditClients}
                             Delete={handleDeleteClient}
                             Print={handlePrint}
+                            type={user.type}
                         /> :
                         <TableMobile
                             data={searchedData.length > 0 ? searchedData : data}
@@ -433,6 +470,7 @@ const ClientsPage = () => {
                             Edit={handleEditClients}
                             Delete={handleDeleteClient}
                             Print={handlePrint}
+                            type={user.type}
                         />
                 )}
             </div>

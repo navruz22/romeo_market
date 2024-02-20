@@ -215,6 +215,9 @@ export const SmallCheck = forwardRef((props, ref) => {
                     {currencyType}
                 </span>
             </div>
+            {market.qrcode && <div className='w-[120px] h-[120px] mx-auto'>
+                <img src={market.qrcode} alt="qrcode" />
+            </div>}
         </div>
     )
 })

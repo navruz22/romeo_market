@@ -108,4 +108,12 @@ router.post('/user/getsellers', auth, (req, res) => {
   require('./user.route').getsellers(req, res);
 });
 
+router.post('/qrcode/create', auth, (req, res) => {
+  require('./market.route').createQrcode(req, res);
+});
+
+router.post('/qrcode/delete', auth, (req, res) => {
+  require('./market.route').deleteQrcode(req, res);
+});
+
 module.exports = router;

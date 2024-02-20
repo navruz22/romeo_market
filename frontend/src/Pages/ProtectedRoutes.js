@@ -38,6 +38,7 @@ const Barcode = lazy(() => import('./Barcode/Barcode.js'))
 const AdminProduct = lazy(() => import('./AdminProducts/AdminProduct.js'))
 const Expense = lazy(() => import('./Expense/Expense.js'))
 const EditProfile = lazy(() => import('./EditProfile/EditProfile.js'))
+const CreateQrcode = lazy(() => import('./EditProfile/CreateQrcode.js'))
 const PayDebts = lazy(() => import('./PayDebts/PayDebts.js'))
 const ProductExchanges = lazy(() =>
     import('./ProductExchanges/ProductExchanges.js')
@@ -297,6 +298,10 @@ const directorRoutes = [
     {
         path: '/shaxsiy/parol',
         element: <EditProfile />
+    },
+    {
+        path: '/shaxsiy/qrcode',
+        element: <CreateQrcode />
     }
 ]
 const sellerRoutes = [

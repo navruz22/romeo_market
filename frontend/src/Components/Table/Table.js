@@ -306,6 +306,7 @@ function Table({
                 return (
                     <ClientTableRow
                         data={data}
+                        type={type}
                         currentPage={currentPage}
                         countPage={countPage}
                         Edit={Edit}

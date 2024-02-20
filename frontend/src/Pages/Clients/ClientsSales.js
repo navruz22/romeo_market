@@ -189,10 +189,7 @@ const ClientsSales = () => {
         const data = location.state
         let body = {
             market: _id,
-            search: {
-                id: '',
-                client: data
-            }
+            clientId: data
         }
         dispatch(getClientsSales(body))
     }, [

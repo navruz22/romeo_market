@@ -386,7 +386,7 @@ const Labels = ({ id }) => {
         if (!dataLoaded) {
             setPrintedData([])
             setCountOfCheques('')
-            setIsShowPrice(true)
+            // setIsShowPrice(false)
             setProductForCheques(null)
         }
     }, [dataLoaded])

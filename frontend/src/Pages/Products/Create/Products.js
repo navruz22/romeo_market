@@ -1057,11 +1057,55 @@ function Products() {
                 createdData={createdData}
                 setCreatedData={setCreatedData}
             />
-            <button onClick={() => setModalOpen(true)}
-                    className='hover:bg-green-200 lg:ms-[20px] lg:mt-[10px] lg:mb-[60px] mt-[60px] bg-green-300 focus-visible:outline-none w-[90%]  m-auto lg:w-[200px] lg:h-[33px] h=[40px] createElement'>{t('Yangi maxsulot qo\'shish')}</button>
+            {isMobile && <button onClick={() => setModalOpen(true)}
+                    className='hover:bg-green-200 lg:ms-[20px] lg:mt-[10px] lg:mb-[60px] mt-[60px] bg-green-300 focus-visible:outline-none w-[90%]  m-auto lg:w-[200px] lg:h-[33px] h=[40px] createElement'>{t('Yangi maxsulot qo\'shish')}</button>}
             {/* Form */}
             {
-                modalOpen ? <section className='absolute lg:h-[100vh]  w-[100%] bg-[white] z-50 top-0 left-0'>
+                !isMobile ? 
+                    <CreateProductForm
+                        nameOfProduct={nameOfProduct}
+                        unitOfProduct={unitOfProduct}
+                        categoryOfProduct={categoryOfProduct}
+                        codeOfProduct={codeOfProduct}
+                        checkOfProduct={checkOfProduct}
+                        tradePriceProcient={tradePriceProcient}
+                        handleChangeTradePriceProcient={handleChangeTradePriceProcient}
+                        handleChangeCheckOfProduct={handleChangeCheckOfProduct}
+                        priceOfProduct={
+                            currencyType === 'UZS' ? priceOfProduct : priceOfProductUsd
+                        }
+                        sellingPriceOfProduct={
+                            currencyType === 'UZS'
+                                ? sellingPriceOfProduct
+                                : sellingPriceOfProductUsd
+                        }
+                        sellingPriceOfProcient={sellingPriceOfProcient}
+                        numberOfProduct={numberOfProduct}
+                        handleChangeSellingPriceOfProduct={
+                            handleChangeSellingPriceOfProduct
+                        }
+                        handleChangeSellingPriceOfProcient={
+                            handleChangeSellingPriceOfProcient
+                        }
+                        handleChangePriceOfProduct={handleChangePriceOfProduct}
+                        handleChangeNumberOfProduct={handleChangeNumberOfProduct}
+                        stickyForm={stickyForm}
+                        clearForm={clearForm}
+                        handleEdit={handleEdit}
+                        addNewProduct={addNewProduct}
+                        handleChangeCodeOfProduct={handleChangeCodeOfProduct}
+                        handleChangeNameOfProduct={handleChangeNameOfProduct}
+                        handleChangeUnitOfProduct={handleChangeUnitOfProduct}
+                        handleChangeCategoryOfProduct={handleChangeCategoryOfProduct}
+                        pageName={'products'}
+                        unitOptions={unitOptions}
+                        categoryOptions={categoryOptions}
+                        searchBarcode={searchBarcode}
+                        minimumCount={minimumCount}
+                        handleChangeMinimumCount={handleChangeMinimumCount}
+                        tradePrice={currencyType === 'USD' ? tradePrice : tradePriceUzs}
+                        handleChangeTradePrice={handleChangeTradePrice}
+                    /> : modalOpen && <section className='absolute lg:h-[100vh]  w-[100%] bg-[white] z-50 top-0 left-0'>
                     <div className='flex justify-end p-[25px]'><VscChromeClose onClick={() => setModalOpen(false)}
                                                                                className='cursor-pointer text-3xl' />
                     </div>
@@ -1109,10 +1153,10 @@ function Products() {
                         tradePrice={currencyType === 'USD' ? tradePrice : tradePriceUzs}
                         handleChangeTradePrice={handleChangeTradePrice}
                     />
-                </section> : null
+                </section> 
             }
 
-            <div
+            {isMobile ? <div
                 className={'flex lg:mt-[-113px] pl-[20px] mt-0 flex-wrap lg:justify-start justify-center lg:ms-[200px] items-center mainPadding'}>
 
                 <div className={'flex gap-[1rem] ms-[1rem]  mb-[15px] '}>
@@ -1128,7 +1172,18 @@ function Products() {
                 </div>
 
 
-            </div>
+            </div> : 
+                <div className={'flex px-4 py-2 gap-2'}>
+
+                    <ExportBtn onClick={exportData} />
+                    <ImportBtn readExcel={readExcel} />
+                    {
+                        isMobile ? <button onClick={() => setFilterModal(true)}
+                                           className='hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[90px] h-[33px]  createElement'>
+                            <FaFilter /> {t('izlash')}</button> : null
+                    }
+
+                </div>}
             {
                 filterModal ? <div
                     className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap items-center  top-0	left-0 z-50 bg-[white]	'>

@@ -14,7 +14,9 @@ export const ClientTableRow = ({
     Edit,
     Delete,
     Print,
+    type
 }) => {
+ 
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     useEffect(() => {
         const handleResize = () => {
@@ -59,7 +61,7 @@ export const ClientTableRow = ({
                             0}{' '}
                         {currencyType}
                     </td>
-                    <td className='text-left td'>
+                    {type === 'Director' && <td className='text-left td'>
                         {currencyType === 'USD'
                             ? (client?.saleconnector?.profit &&
                                 roundUsd(
@@ -72,7 +74,7 @@ export const ClientTableRow = ({
                                 ).toLocaleString('ru-RU')) ||
                             0}{' '}
                         {currencyType}
-                    </td>
+                    </td>}
                     <td className='border-r-0 td py-[0.375rem]'>
                         <div className='flex items-center justify-center gap-[0.625rem]'>
                             <TableBtn
@@ -92,7 +94,7 @@ export const ClientTableRow = ({
                             <TableBtn
                                 type={'info'}
                                 bgcolor={'bg-primary-800'}
-                                onClick={() => linkToSale(client.name)}
+                                onClick={() => linkToSale(client._id)}
                             />
                             <TableBtn
                                 type={'edit'}
@@ -137,7 +139,7 @@ export const ClientTableRow = ({
                                 {currencyType}
                             </p>
                         </li>
-                        <li className='flex justify-between p-[10px] border border-b-1 border-s-0 border-t-0 border-e-0'>
+                        {type === 'Director' && <li className='flex justify-between p-[10px] border border-b-1 border-s-0 border-t-0 border-e-0'>
                             <p >
                                 {t('Sof foyda')}{': '}
                                 {currencyType === 'USD'
@@ -153,7 +155,7 @@ export const ClientTableRow = ({
                                     0}{' '}
                                 {currencyType}
                             </p>
-                        </li>
+                        </li>}
                         <li className='flex justify-center p-[10px] '>
                             <p >
                                 <div className='flex items-center justify-center gap-[0.625rem]'>
@@ -192,12 +194,12 @@ export const ClientTableRow = ({
                         : roundUzs([...data].reduce((prev, el) => prev + (el.saleconnector?.totalsalesuzs || 0), 0)).toLocaleString('ru-RU')}{' '}
                     {currencyType}
                 </td>
-                <td className=' td py-[0.375rem] font-bold'>
+                {type === 'Director' && <td className=' td py-[0.375rem] font-bold'>
                     {currencyType === 'USD'
                         ? roundUsd([...data].reduce((prev, el) => prev + (el.saleconnector?.profit || 0), 0)).toLocaleString('ru-RU')
                         : roundUzs([...data].reduce((prev, el) => prev + (el.saleconnector?.profituzs || 0), 0)).toLocaleString('ru-RU')}{' '}
                     {currencyType}
-                </td>
+                </td>}
                 <td className='border-r-0 td py-[0.375rem]'>
                 </td>
             </tr>

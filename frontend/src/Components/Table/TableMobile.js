@@ -314,6 +314,7 @@ function TableMobile({
                         Edit={Edit}
                         Delete={Delete}
                         Print={Print}
+                        type={type}
                     />
                 )
             case 'packman':

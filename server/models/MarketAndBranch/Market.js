@@ -6,6 +6,7 @@ const market = new Schema(
         name: {type: String, required: true},
         organitionName: {type: String},
         image: {type: String},
+        qrcode: {type: String},
         phone1: {type: String},
         phone2: {type: String},
         phone3: {type: String},

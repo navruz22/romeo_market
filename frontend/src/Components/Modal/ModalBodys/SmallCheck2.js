@@ -134,6 +134,9 @@ export const SmallCheck2 = forwardRef((props, ref) => {
                     </span>
                 </h3>
             </div>
+            {market.qrcode && <div className='w-[120px] h-[120px] mx-auto'>
+                <img src={market.qrcode} alt="qrcode" />
+            </div>}
         </div>
     )
 })
