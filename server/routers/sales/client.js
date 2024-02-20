@@ -449,11 +449,9 @@ module.exports.getClients = async (req, res) => {
 
 module.exports.getClientsSales = async (req, res) => {
   try {
-    const { market, search } =
+    const { market, clientId } =
       req.body;
 
-    const id = new RegExp(".*" + search ? search.id : "" + ".*", "i");
-    const client = new RegExp(".*" + search ? search.client : "" + ".*", "i");
     const marke = await Market.findById(market);
     if (!marke) {
       return res
@@ -487,7 +485,7 @@ module.exports.getClientsSales = async (req, res) => {
     .populate({
       path: "client",
       select: "name",
-      match: {name: client},
+      match: {_id: clientId},
     })
     .populate("packman", "name")
     .populate("user", "firstname lastname")
