@@ -37,6 +37,7 @@ module.exports.getProductsInventory = async (req, res) => {
 
     const products = await Product.find({
       market,
+      isArchive: false,
     })
       .sort({ code: 1 })
       .select("total market unit price")
@@ -158,6 +159,7 @@ module.exports.updateInventory = async (req, res) => {
 
     const products = await Product.find({
       market,
+      isArchive: false,
     })
       .sort({ code: 1 })
       .select("total market unit price")

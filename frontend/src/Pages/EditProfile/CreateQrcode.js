@@ -56,7 +56,7 @@ function CreateQrcode() {
                 }
             })
         
-    }
+    } 
 
     const [s, setS] = useState(0)
     useEffect(() => {

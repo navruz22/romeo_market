@@ -706,10 +706,10 @@ function Products() {
             name: nameOfProduct.replace(/\s+/g, ' ').trim(),
             productdata: product.productdata._id
         }
-        warningDeleteProduct() 
-        // setDeletedProduct(body)
-        // setModalBody('approve')
-        // toggleModal()
+        // warningDeleteProduct() 
+        setDeletedProduct(body)
+        setModalBody('approve')
+        toggleModal()
     }
     const handleClickApproveToDelete = () => {
         dispatch(deleteProduct(deletedProduct)).then(({error}) => {

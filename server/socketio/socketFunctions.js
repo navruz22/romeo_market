@@ -30,7 +30,7 @@ const getProductsByCount = async ({ socket, market }) => {
 
     for (const category of categories) {
       const products = await Product.find(
-        { market, category },
+        { market, category, isArchive: false },
         { timestamp: 1 }
       )
         .sort({ timestamp: -1 })
@@ -81,7 +81,7 @@ const getAllFilials = async ({ socket, market }) => {
 
     const all = [];
     for (const i in filials) {
-      const products = await Product.find({ market: filials[i]._id })
+      const products = await Product.find({ market: filials[i]._id, isArchive: false })
         .select("total price")
         .populate("price", "incomingpriceuzs incomingprice")
         .then((products) => {
@@ -149,7 +149,7 @@ const getPartnerProducts = async ({ socket, market, partner }) => {
     socket.emit("partnerCategories", { id: market, categories });
     for (const category of categories) {
       const products = await Product.find(
-        { market: partner, category, connections: market },
+        { market: partner, category, connections: market, isArchive: false },
         { timestamp: 1 }
       )
         .sort({ timestamp: -1 })

@@ -823,68 +823,72 @@ module.exports.delete = async (req, res) => {
       });
     }
 
-    const categor = await Category.findById(category);
+    const produc = await Product.findById(_id);
+    produc.isArchive = true;
+    await produc.save()
 
-    if (!categor) {
-      return res.status(400).json({
-        message: "Diqqat! Bo'lim ma'lumotlari topilmadi.",
-      });
-    }
+    // const categor = await Category.findById(category);
 
-    const tovar = await Product.findById(_id);
+    // if (!categor) {
+    //   return res.status(400).json({
+    //     message: "Diqqat! Bo'lim ma'lumotlari topilmadi.",
+    //   });
+    // }
 
-    if (tovar.total > 0) {
-      return res.status(400).json({
-        message:
-          "Diqqat! Mahsulot omborda mavjudligi sababli ushbu mahsulotni o'chirishni imkoni mavjud emas.",
-      });
-    }
+    // const tovar = await Product.findById(_id);
 
-    const code = await ProductData.findById(productdata)
+    // if (tovar.total > 0) {
+    //   return res.status(400).json({
+    //     message:
+    //       "Diqqat! Mahsulot omborda mavjudligi sababli ushbu mahsulotni o'chirishni imkoni mavjud emas.",
+    //   });
+    // }
 
-    if (!marke.mainmarket) {
-      for (const filialId of marke.filials) {
-        const filialproductdata = await ProductData.findOne({
-          market: filialId,
-          code: code.code,
-        })
+    // const code = await ProductData.findById(productdata)
 
-        const filialproduct = await Product.findOne({
-          market: filialId,
-          productdata: filialproductdata._id,
-        })
+    // if (!marke.mainmarket) {
+    //   for (const filialId of marke.filials) {
+    //     const filialproductdata = await ProductData.findOne({
+    //       market: filialId,
+    //       code: code.code,
+    //     })
 
-        if (filialproduct.total > 0) {
-          return res.status(400).json({
-            message: "Diqqat! Boshqa omborlarda maxsulot mavjud!",
-          });
-        } else {
-          await Product.findByIdAndDelete(filialproduct._id);
-          await ProductData.findByIdAndDelete(filialproductdata._id);
-        }
+    //     const filialproduct = await Product.findOne({
+    //       market: filialId,
+    //       productdata: filialproductdata._id,
+    //     })
 
-      }
-      const product = await Product.findByIdAndDelete(_id);
+    //     if (filialproduct.total > 0) {
+    //       return res.status(400).json({
+    //         message: "Diqqat! Boshqa omborlarda maxsulot mavjud!",
+    //       });
+    //     } else {
+    //       await Product.findByIdAndDelete(filialproduct._id);
+    //       await ProductData.findByIdAndDelete(filialproductdata._id);
+    //     }
 
-      if (!product) {
-        return res.status(400).json({
-          message: `Diqqat! ${name} mahsuloti avval yaratilmagan.`,
-        });
-      }
+    //   }
+    //   const product = await Product.findByIdAndDelete(_id);
+
+    //   if (!product) {
+    //     return res.status(400).json({
+    //       message: `Diqqat! ${name} mahsuloti avval yaratilmagan.`,
+    //     });
+    //   }
       
-      await ProductData.findByIdAndDelete(productdata);
-    } else {
-      const product = await Product.findById(_id);
+    //   await ProductData.findByIdAndDelete(productdata);
+    // } else {
+    //   const product = await Product.findById(_id);
 
-      if (!product) {
-        return res.status(400).json({
-          message: `Diqqat! ${name} mahsuloti avval yaratilmagan.`,
-        });
-      }
+    //   if (!product) {
+    //     return res.status(400).json({
+    //       message: `Diqqat! ${name} mahsuloti avval yaratilmagan.`,
+    //     });
+    //   }
   
-      await ProductData.findByIdAndDelete(productdata);
-      await Product.findByIdAndDelete(_id);
-    }
+    //   await ProductData.findByIdAndDelete(productdata);
+    //   await Product.findByIdAndDelete(_id);
+    // }
 
     const productcode = new RegExp(
       ".*" + search ? search.code : "" + ".*",
@@ -901,6 +905,7 @@ module.exports.delete = async (req, res) => {
 
     const products = await Product.find({
       market,
+      isArchive: false,
     })
       .sort({ code: 1 })
       .select("total market category")
@@ -948,6 +953,7 @@ module.exports.getAll = async (req, res) => {
 
     const products = await Product.find({
       market,
+      isArchive: false
     })
       .sort({ code: 1 })
       .select(
@@ -991,6 +997,7 @@ module.exports.getProducts = async (req, res) => {
 
     const products = await Product.find({
       market: id,
+      isArchive: false
     })
       .sort({ code: 1 })
       .select("total market category minimumcount connections")
@@ -1150,6 +1157,7 @@ module.exports.getProductExcel = async (req, res) => {
 
     const allproducts = await Product.find({
       market,
+      isArchive: false
     })
       .sort({ _id: -1 })
       .select("total unit price productdata category minimumcount")
@@ -1194,6 +1202,7 @@ module.exports.getAllIncoming = async (req, res) => {
 
     const allproducts = await Product.find({
       market,
+      isArchive: false
     })
       .sort({ code: 1 })
       .select("total market category")
@@ -1233,7 +1242,7 @@ module.exports.getAllType = async (req, res) => {
 
     const products = await Product.find({
       market,
-
+      isArchive: false,
       producttype: typeid,
     })
       .sort({ _id: -1 })
@@ -1293,6 +1302,7 @@ module.exports.getAllCategory = async (req, res) => {
     const products = await Product.find({
       market,
       category: categoryId,
+      isArchive: false
     })
       .sort({ code: -1 })
       .select("unit category price total")

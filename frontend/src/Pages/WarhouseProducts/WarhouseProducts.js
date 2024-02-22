@@ -95,7 +95,7 @@ const WarhouseProducts = () => {
             transition={{duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98]}}
         >
             
-            <div className='mainPadding mt-5 flex ps-[20px] justify-araund items-center'>
+            <div className='mainPadding mt-5 flex ps-[20px] gap-2 justify-araund items-center'>
                 <div className='flex m-3  items-center gap-[20px]'>
                     <SelectForm
                         key={'total_1'}
@@ -120,10 +120,25 @@ const WarhouseProducts = () => {
                     onChange={setType}
                     maxWidth={'w-[200px]'}
                 />
-                <button onClick={()=>setOpenModal(true)} class="ms-3 hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[120px]   createElement "><FaFilter /> {t('izlash')}</button>
+                {isMobile ? <button onClick={()=>setOpenModal(true)} class="ms-3 hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[120px]   createElement "><FaFilter /> {t('izlash')}</button> : 
+                <div className='flex justify-center gap-2'>
+                <Dates
+                        value={startDate}
+                        onChange={setStartDate}
+                        placeholder={'01.01.2021'}
+                        maxWidth={'w-[6.625rem]'}
+                    />
+                    <Dates
+                        value={endDate}
+                        onChange={setEndDate}
+                        placeholder={'01.01.2021'}
+                        maxWidth={'w-[6.625rem]'}
+                    />
+
+            </div>}
             </div>
             {
-                modalOpen?<div className='fixed top-0 start-0 bg-[white] w-[100%] h-[100vh] z-50 lg:pt-[100px] pt-[55px]'>
+                isMobile ? modalOpen && <div className='fixed top-0 start-0 bg-[white] w-[100%] h-[100vh] z-50 lg:pt-[100px] pt-[55px]'>
                 <VscClose onClick={()=>setOpenModal(false)} className='absolute text-3xl end-[25px] top-[25px] cursor-pointer'/>
                 <div className='flex justify-center gap-2 mt-[100px]'>
                     <Dates
@@ -143,7 +158,7 @@ const WarhouseProducts = () => {
                 <div className='flex justify-center mt-[100px]'>
                 <button onClick={()=>setOpenModal(false)} class="ms-3 hover:bg-blue-200  bg-blue-400 focus-visible:outline-none w-[120px]   createElement "><FaFilter /> {t('izlash')}</button>
                 </div>
-                </div>:null
+                </div> : null
             }
             <div className=' ps-[20px]'>
                 {
@@ -215,7 +230,7 @@ const WarhouseProducts = () => {
                                               ).toLocaleString('ru-RU')
                                             : roundUzs(
                                                   product?.product
-                                                      ?.totalpriceuzs *
+                                                      ?.unitpriceuzs *
                                                       product?.product
                                                           ?.fromFilial
                                               ).toLocaleString('ru-RU')}{' '}
@@ -223,6 +238,28 @@ const WarhouseProducts = () => {
                                     </td>
                                 </tr>
                             ))}
+                            <tr className='tr'>
+                                    <td className='td py-2'></td>
+                                    <td className='td'></td>
+                                    <td className='td'></td>
+                                    <td className='td'></td>
+                                    <td className='td'></td>
+                                    <td className='td'></td>
+                                    <td className='td'>
+                                        {currencyType === 'USD'
+                                            ? roundUsd(
+                                                  warhousePorducts.reduce((prev, product) => prev + (product?.product?.unitprice *
+                                                  product?.product
+                                                      ?.fromFilial), 0)
+                                              ).toLocaleString('ru-RU')
+                                            : roundUzs(
+                                                warhousePorducts.reduce((prev, product) => prev + (product?.product?.unitpriceuzs *
+                                                    product?.product
+                                                        ?.fromFilial), 0)
+                                              ).toLocaleString('ru-RU')}{' '}
+                                        {currencyType}
+                                    </td>
+                                </tr>
                     </tbody>
                 </table>:
                     warhousePorducts &&
@@ -252,7 +289,7 @@ const WarhouseProducts = () => {
                             </p>
                         </li>   
                         <li className=' p-[10px] text-sm flex justify-between '>
-                            <p className='text-[green]'><span>{t('Jami')}: 
+                            <p className='text-[green]'><span>{t('Jami')}: {' '}
                             {currencyType === 'USD'
                                             ? roundUsd(
                                                   product?.product?.unitprice *
@@ -261,7 +298,7 @@ const WarhouseProducts = () => {
                                               ).toLocaleString('ru-RU')
                                             : roundUzs(
                                                   product?.product
-                                                      ?.totalpriceuzs *
+                                                      ?.unitpriceuzs *
                                                       product?.product
                                                           ?.fromFilial
                                               ).toLocaleString('ru-RU')}{' '}
@@ -273,6 +310,25 @@ const WarhouseProducts = () => {
                 ))
                     
                 }
+                {isMobile && <li className='w-[90vw]  bg-white list-none mb-[10px] ps-0 rounded-md'>
+                    <li className=' p-[10px] text-sm flex justify-between '>
+                            <p className='text-[green]'><span>{t('Jami')}: {' '}
+                            {currencyType === 'USD'
+                                            ? roundUsd(
+                                                  warhousePorducts.reduce((prev, product) => prev + (product?.product?.unitprice *
+                                                  product?.product
+                                                      ?.fromFilial), 0)
+                                              ).toLocaleString('ru-RU')
+                                            : roundUzs(
+                                                warhousePorducts.reduce((prev, product) => prev + (product?.product?.unitpriceuzs *
+                                                    product?.product
+                                                        ?.fromFilial), 0)
+                                              ).toLocaleString('ru-RU')}{' '}
+                                        {currencyType}
+                            </span></p>
+                            
+                        </li>
+                </li>}
             </div>
                 <div className='flex justify-center'>
                 <div className='pagination mainPadding'>
