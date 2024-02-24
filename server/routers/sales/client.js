@@ -309,8 +309,6 @@ module.exports.getClients = async (req, res) => {
         .sort({ _id: -1 })
         .select("name market packman")
         .populate("packman", "name")
-        .skip(currentPage * countPage)
-        .limit(countPage);
     } else {
       clientsCount = await Client.find({
         market,
@@ -443,6 +441,7 @@ module.exports.getClients = async (req, res) => {
 
     res.status(201).json({ clients: newClients, count: clientsCount });
   } catch (error) {
+    console.log(error);
     res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
   }
 };
@@ -464,40 +463,40 @@ module.exports.getClientsSales = async (req, res) => {
     const allpayments = await DailySaleConnector.find({
       market,
     })
-    .select("-isArchive -updatedAt -market -__v")
-    .populate({
-      path: "products",
-      select:
-        "totalprice unitprice totalpriceuzs unitpriceuzs pieces fromFilial",
-      populate: {
-        path: "product",
-        select: "productdata total",
+      .select("-isArchive -updatedAt -market -__v")
+      .populate({
+        path: "products",
+        select:
+          "totalprice unitprice totalpriceuzs unitpriceuzs pieces fromFilial",
         populate: {
-          path: "productdata",
-          select: "code name",
-          options: { sort: { code: 1 } },
+          path: "product",
+          select: "productdata total",
+          populate: {
+            path: "productdata",
+            select: "code name",
+            options: { sort: { code: 1 } },
+          },
         },
-      },
-    })
-    .populate("payment", "payment paymentuzs totalprice totalpriceuzs")
-    .populate("discount", "discount discountuzs")
-    .populate("debt", "debt debtuzs")
-    .populate({
-      path: "client",
-      select: "name",
-      match: {_id: clientId},
-    })
-    .populate("packman", "name")
-    .populate("user", "firstname lastname")
-    .populate("saleconnector", "id")
-    .lean()
-    .then(connectors => connectors.filter(connector => connector.client))
-      
+      })
+      .populate("payment", "payment paymentuzs totalprice totalpriceuzs")
+      .populate("discount", "discount discountuzs")
+      .populate("debt", "debt debtuzs")
+      .populate({
+        path: "client",
+        select: "name",
+        match: { _id: clientId },
+      })
+      .populate("packman", "name")
+      .populate("user", "firstname lastname")
+      .populate("saleconnector", "id")
+      .lean()
+      .then(connectors => connectors.filter(connector => connector.client))
+
     const response = allpayments.filter(
       (product) => product.client !== null
     );
     const count = response.length;
-    
+
     res.status(201).json({ data: response, count });
   } catch (error) {
     console.log(error);

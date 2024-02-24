@@ -193,90 +193,88 @@ const Sellings = ({ id }) => {
                 await dispatch(getPaymentReport(numberofsellingsbody)).unwrap(),
                 await dispatch(getExpensesReport(numberofsellingsbody)).unwrap()
             ])
-            setModalVisible(true)
-            setChooseBody('dailySaleCheck')
             setPrintedSelling({
                 boshsana: startDate,
                 tugashsana: endDate,
                 sotuvlarsoni: saleconnectors.length,
                 tushumlar: {
                     naqt: {
-                        sum: totalpayment.payment.cashuzs,
-                        dollar: totalpayment.payment.cash
+                        sum: totalpayment?.payment?.cashuzs,
+                        dollar: totalpayment?.payment?.cash
                     },
                     plastik: {
-                        sum: totalpayment.payment.carduzs,
-                        dollar: totalpayment.payment.card
+                        sum: totalpayment?.payment?.carduzs,
+                        dollar: totalpayment?.payment?.card
                     },
                     utkazma: {
-                        sum: totalpayment.payment.transferuzs,
-                        dollar: totalpayment.payment.transfer
+                        sum: totalpayment?.payment?.transferuzs,
+                        dollar: totalpayment?.payment?.transfer
                     }
                 },
                 qaytarilganlar: {
                     naqt: {
-                        sum: totalpayment.back.cashuzs,
-                        dollar: totalpayment.back.cash
+                        sum: totalpayment?.back?.cashuzs,
+                        dollar: totalpayment?.back?.cash
                     },
                     plastik: {
-                        sum: totalpayment.back.carduzs,
-                        dollar: totalpayment.back.card
+                        sum: totalpayment?.back?.carduzs,
+                        dollar: totalpayment?.back?.card
                     },
                     utkazma: {
-                        sum: totalpayment.back.transferuzs,
-                        dollar: totalpayment.back.transfer
+                        sum: totalpayment?.back?.transferuzs,
+                        dollar: totalpayment?.back?.transfer
                     }
                 },
                 xarajatlar: {
                     naqt: {
-                        sum: memoizedExpenses.cash.uzs,
-                        dollar: memoizedExpenses.cash.usd
+                        sum: memoizedExpenses?.cash?.uzs,
+                        dollar: memoizedExpenses?.cash?.usd
                     },
                     plastik: {
-                        sum: memoizedExpenses.card.uzs,
-                        dollar: memoizedExpenses.card.usd
+                        sum: memoizedExpenses?.card?.uzs,
+                        dollar: memoizedExpenses?.card?.usd
                     },
                     utkazma: {
-                        sum: memoizedExpenses.transfer.uzs,
-                        dollar: memoizedExpenses.transfer.usd
+                        sum: memoizedExpenses?.transfer?.uzs,
+                        dollar: memoizedExpenses?.transfer?.usd
                     }
                 },
                 foyda: {
-                    sum: income.incomeuzs,
-                    dollar: income.income
+                    sum: income?.incomeuzs,
+                    dollar: income?.income
                 },
                 qarzlar: {
-                    sum: debts.debtsuzs,
-                    dollar: debts.debts
+                    sum: debts?.debtsuzs,
+                    dollar: debts?.debts
                 },
                 chegirmalar: {
-                    sum: discounts.discountsuzs,
-                    dollar: discounts.discounts
+                    sum: discounts?.discountsuzs,
+                    dollar: discounts?.discounts
                 },
                 kassaqoldiq: {
                     naqt: {
                         sum:
-                            totalpayment.result.cashuzs -
-                            memoizedExpenses.cash.uzs,
+                            totalpayment?.result?.cashuzs -
+                            memoizedExpenses?.cash?.uzs,
                         dollar:
-                            totalpayment.result.cash -
-                            memoizedExpenses.cash.usd
+                            totalpayment?.result?.cash -
+                            memoizedExpenses?.cash?.usd
                     },
                     plastik: {
                         sum:
-                            totalpayment.result.carduzs -
-                            memoizedExpenses.card.uzs,
+                            totalpayment?.result?.carduzs -
+                            memoizedExpenses?.card?.uzs,
                         dollar:
-                            totalpayment.result.card -
-                            memoizedExpenses.card.usd
+                            totalpayment?.result?.card -
+                            memoizedExpenses?.card?.usd
                     },
                     utkazma: {
                         sum:
-                            totalpayment.result.transferuzs -
-                            memoizedExpenses.transfer.uzs,
+                            totalpayment?.result?.transferuzs -
+                            memoizedExpenses?.transfer?.uzs,
                         dollar:
-                            totalpayment.result.transfer -
-                            memoizedExpenses.transfer.usd
+                            totalpayment?.result?.transfer -
+                            memoizedExpenses?.transfer?.usd
                     }
                 },
                 sotilganmaxsulotlarsoni: totalpieces,
@@ -287,6 +285,8 @@ const Sellings = ({ id }) => {
                     dollar: totalprice
                 }
             })
+            setChooseBody('dailySaleCheck')
+            setModalVisible(true)
         } catch (e) {
             return console.error(e)
         }
@@ -642,28 +642,28 @@ const Sellings = ({ id }) => {
                 </div>
             </div>
             {
-                !isMobile ? 
-                        <div className='mt-2'>
-                            <SearchForm
-                                filterBy={['total', 'startDate', 'endDate', 'id', 'clientName', 'product_name']}
-                                filterByTotal={filterByTotal}
-                                startDate={startDate}
-                                setStartDate={setStartDate}
-                                endDate={endDate}
-                                setEndDate={setEndDate}
-                                searchById={search.id}
-                                searchByClientName={search.client}
-                                filterByClientName={handleChangeClient}
-                                filterById={handleChangeId}
-                                filterByClientNameWhenPressEnter={
-                                    handleChangeIdAndClientWhenPressEnter
-                                }
-                                filterByIdWhenPressEnter={handleChangeIdAndClientWhenPressEnter}
-                                filteredProducts={filteredProducts}
-                                handleChangeSelectedProduct={handleChangeSelectedProduct}
-                                selectedProduct={selectedProduct}
-                            />
-                        </div> : FilterModal && <div
+                !isMobile ?
+                    <div className='mt-2'>
+                        <SearchForm
+                            filterBy={['total', 'startDate', 'endDate', 'id', 'clientName', 'product_name']}
+                            filterByTotal={filterByTotal}
+                            startDate={startDate}
+                            setStartDate={setStartDate}
+                            endDate={endDate}
+                            setEndDate={setEndDate}
+                            searchById={search.id}
+                            searchByClientName={search.client}
+                            filterByClientName={handleChangeClient}
+                            filterById={handleChangeId}
+                            filterByClientNameWhenPressEnter={
+                                handleChangeIdAndClientWhenPressEnter
+                            }
+                            filterByIdWhenPressEnter={handleChangeIdAndClientWhenPressEnter}
+                            filteredProducts={filteredProducts}
+                            handleChangeSelectedProduct={handleChangeSelectedProduct}
+                            selectedProduct={selectedProduct}
+                        />
+                    </div> : FilterModal && <div
                         className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap   top-0	left-0 z-50 bg-[white]	'>
                         <VscChromeClose onClick={() => setFilterModal(false)}
                             className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
