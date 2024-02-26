@@ -1,7 +1,8 @@
 import React from 'react'
 import TableBtn from '../../Buttons/TableBtn'
 import TableInput from '../../Inputs/TableInput'
-import {map} from 'lodash'
+import { map } from 'lodash'
+import { useLocation } from 'react-router-dom'
 
 export const IncomingsTableRow = ({
     editedIncoming,
@@ -19,7 +20,7 @@ export const IncomingsTableRow = ({
     onKeyUp,
 }) => {
     const current = (usd, uzs) => (currency === 'USD' ? usd : uzs || 0)
-
+    const location = useLocation()
     const inputVal = (id, printedData) => {
         let hasData = printedData.filter((p) => p.product._id === id)
         return hasData.length > 0 ? hasData[0].numberOfChecks : ''
@@ -47,13 +48,13 @@ export const IncomingsTableRow = ({
                                 onKeyUp={onKeyUp}
                             />
                         )) || (
-                            <span>
-                                {incoming?.pieces?.toLocaleString('ru-RU')}{' '}
-                                <span className='text-warning-500 font-medium'>
-                                    {incoming?.unit?.name}
+                                <span>
+                                    {incoming?.pieces?.toLocaleString('ru-RU')}{' '}
+                                    <span className='text-warning-500 font-medium'>
+                                        {incoming?.unit?.name}
+                                    </span>
                                 </span>
-                            </span>
-                        )}
+                            )}
                     </td>
                     <td className='td text-right font-bold'>
                         {(editedIncoming._id === incoming._id && (
@@ -67,27 +68,27 @@ export const IncomingsTableRow = ({
                                 onKeyUp={onKeyUp}
                             />
                         )) || (
-                            <span>
-                                {current(
-                                    incoming.unitprice,
-                                    incoming.unitpriceuzs
-                                ).toLocaleString('ru-RU')}{' '}
-                                <span className='text-primary-800 font-medium'>
-                                    {currency}
+                                <span>
+                                    {current(
+                                        incoming.unitprice,
+                                        incoming.unitpriceuzs
+                                    ).toLocaleString('ru-RU')}{' '}
+                                    <span className='text-primary-800 font-medium'>
+                                        {currency}
+                                    </span>
                                 </span>
-                            </span>
-                        )}
+                            )}
                     </td>
                     <td className='td text-right font-bold'>
                         {editedIncoming._id === incoming._id
                             ? current(
-                                  editedIncoming.totalprice,
-                                  editedIncoming.totalpriceuzs
-                              ).toLocaleString('ru-RU')
+                                editedIncoming.totalprice,
+                                editedIncoming.totalpriceuzs
+                            ).toLocaleString('ru-RU')
                             : current(
-                                  incoming.totalprice,
-                                  incoming.totalpriceuzs
-                              ).toLocaleString('ru-RU')}{' '}
+                                incoming.totalprice,
+                                incoming.totalpriceuzs
+                            ).toLocaleString('ru-RU')}{' '}
                         <span className='text-success-500 font-medium'>
                             {currency}
                         </span>
@@ -106,24 +107,24 @@ export const IncomingsTableRow = ({
                                 onKeyUp={onKeyUp}
                             />
                         )) || (
-                            <span>
-                                {current(
-                                    incoming.sellingprice,
-                                    incoming.sellingpriceuzs
-                                ).toLocaleString('ru-RU')}{' '}
-                                <span className='text-primary-800 font-medium'>
-                                    {currency}
+                                <span>
+                                    {current(
+                                        incoming.sellingprice,
+                                        incoming.sellingpriceuzs
+                                    ).toLocaleString('ru-RU')}{' '}
+                                    <span className='text-primary-800 font-medium'>
+                                        {currency}
+                                    </span>
                                 </span>
-                            </span>
-                        )}
+                            )}
                     </td>
-                    <td className='py-[0.25rem] td'>
+                    {!location.pathname.includes('/qabul/qabullar/') && <td className='py-[0.25rem] td'>
                         <TableInput
                             onChange={(e) => changeNumberHandler(e, incoming)}
                             type={'number'}
                             value={inputVal(incoming._id, printedData)}
                         />
-                    </td>
+                    </td>}
                     <td className='td border-r-0 py-[6px]'>
                         <div className='flex justify-center items-center gap-[0.625rem]'>
                             {editedIncoming._id === incoming._id ? (
@@ -150,11 +151,11 @@ export const IncomingsTableRow = ({
                                 bgcolor={'bg-error-500'}
                                 onClick={() => Delete(incoming)}
                             />
-                            <TableBtn
+                            {!location.pathname.includes('/qabul/qabullar/') && <TableBtn
                                 type={'print'}
                                 bgcolor={'bg-primary-800'}
                                 onClick={() => Print(incoming, 'single')}
-                            />
+                            />}
                         </div>
                     </td>
                 </tr>
