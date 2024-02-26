@@ -210,7 +210,7 @@ const WarhouseProducts = () => {
                                         </div>
                                     </td>
                                     <td className='td'>
-                                        {product?.filial?.name}
+                                        {type.value === 'outcome' ? product?.market?.name : product?.filial?.name}
                                     </td>
                                     <td className='td'>
                                         {product?.product?.product.code}
