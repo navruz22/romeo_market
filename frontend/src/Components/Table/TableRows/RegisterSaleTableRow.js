@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import TableBtn from '../../Buttons/TableBtn'
 import TableInput from '../../Inputs/TableInput'
-import {filter, map} from 'lodash'
-import {IoAdd, IoEye, IoEyeOff, IoRemove} from 'react-icons/io5'
-import {useSelector} from 'react-redux'
-import {t} from 'i18next'
+import { filter, map } from 'lodash'
+import { IoAdd, IoEye, IoEyeOff, IoRemove } from 'react-icons/io5'
+import { useSelector } from 'react-redux'
+import { t } from 'i18next'
 
 export const RegisterSaleTableRow = (
     {
@@ -19,7 +19,7 @@ export const RegisterSaleTableRow = (
         productId,
         productModal
     }) => {
-        const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -39,14 +39,13 @@ export const RegisterSaleTableRow = (
         price[i] = !price[i]
         setShowIncomingPrice([...price])
     }
-    useEffect(() => {   
+    useEffect(() => {
         setShowIncomingPrice(map(data, () => false))
     }, [data])
-
     return (
         <>
             {map(data, (product, index) => (
-                !isMobile?<tr className={`tr ${filter(lowUnitpriceProducts, id => id === product.product._id).length > 0 ? 'bg-warning-200' : ''}`}
+                !isMobile ? <tr className={`tr ${filter(lowUnitpriceProducts, id => id === product.product._id).length > 0 ? 'bg-warning-200' : ''}`}
                     key={'salerow-' + index + 1}>
                     <td className='text-left td'>{index + 1}</td>
                     {filials.length > 1 && <td className='td w-[100px]'>
@@ -89,6 +88,7 @@ export const RegisterSaleTableRow = (
                                     size={'0.875rem'} /></button>
                         </span>
                     </td>
+                    <td className='text-left td'>{product.unitname}</td>
                     {filials.length > 1 && <td className='text-left td'>
                         <TableInput
                             value={product.fromFilial}
@@ -159,44 +159,44 @@ export const RegisterSaleTableRow = (
                             </span>
                         </div>
                     </td>
-                </tr>:
-                <li onClick={() => { productModal(true); productId(product.product._id); }} className='w-[90vw]  bg-white list-none mb-[10px] ps-0 rounded-md'>
-                    <li  className='border p-[10px] text-sm flex justify-between border-s-0 border-t-0 border-e-0'>
-                    <p className='text-[green]'>
-                        {product.product.name}
-                    </p>
-                    
-                    
-                   
-                </li>
-                
-                <li className='border p-[10px] text-[blue] text-sm flex justify-between  items-center border-s-0 border-t-0 border-e-0 p-[10px] text-sm flex justify-between  items-center '>
-                <p className='text-[red]'>
-                        <span> {t('Soni')}: </span>
-                        {product.pieces}
-                </p>
-                <p>
-                <span className='me-2 w-8'>{t('Narxi')}: </span>
-                { currency !== 'UZS'
+                </tr> :
+                    <li onClick={() => { productModal(true); productId(product.product._id); }} className='w-[90vw]  bg-white list-none mb-[10px] ps-0 rounded-md'>
+                        <li className='border p-[10px] text-sm flex justify-between border-s-0 border-t-0 border-e-0'>
+                            <p className='text-[green]'>
+                                {product.product.name}
+                            </p>
+
+
+
+                        </li>
+
+                        <li className='border p-[10px] text-[blue] text-sm flex justify-between  items-center border-s-0 border-t-0 border-e-0 p-[10px] text-sm flex justify-between  items-center '>
+                            <p className='text-[red]'>
+                                <span> {t('Soni')}: </span>
+                                {product.pieces}
+                            </p>
+                            <p>
+                                <span className='me-2 w-8'>{t('Narxi')}: </span>
+                                {currency !== 'UZS'
                                     ? wholeSale ? product.tradeprice || product.unitprice : product.unitprice
                                     : wholeSale ? product.tradepriceuzs || product.unitpriceuzs : product.unitpriceuzs}{' '}
-                                    {currency}
-                </p>
-                    
-                </li>
-                <li className=' p-[10px] text-sm flex justify-between  items-center text-[green]'>
-                <span className='me-2 w-8'>{t('Jami')}: </span>
-                {currency !== 'UZS'
-                            ? product.totalprice.toLocaleString('ru-Ru')
-                            : product.totalpriceuzs.toLocaleString(
-                                'ru-Ru'
-                            )}{' '}
-                        {currency}
-                    
-                </li>
-                
-                
-                </li>
+                                {currency}
+                            </p>
+
+                        </li>
+                        <li className=' p-[10px] text-sm flex justify-between  items-center text-[green]'>
+                            <span className='me-2 w-8'>{t('Jami')}: </span>
+                            {currency !== 'UZS'
+                                ? product.totalprice.toLocaleString('ru-Ru')
+                                : product.totalpriceuzs.toLocaleString(
+                                    'ru-Ru'
+                                )}{' '}
+                            {currency}
+
+                        </li>
+
+
+                    </li>
             ))}
         </>
     )

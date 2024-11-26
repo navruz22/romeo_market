@@ -446,6 +446,7 @@ const Sellings = ({ id }) => {
 
     // effects
     useEffect(() => {
+        console.log(sellings);
         setData(sellings)
         setStoreData(sellings)
     }, [sellings])

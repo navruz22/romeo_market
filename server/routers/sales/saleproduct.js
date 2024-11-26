@@ -308,11 +308,15 @@ module.exports.register = async (req, res) => {
         populate: {
           path: "product",
           select: "productdata total",
-          populate: {
+          populate: [{
             path: "productdata",
             select: "code name",
             options: { sort: { code: 1 } },
           },
+          {
+            path: "unit",
+            select: "name",
+          }],
         },
       })
       .populate("payment", "payment paymentuzs totalprice totalpriceuzs")
@@ -669,12 +673,15 @@ module.exports.getsaleconnectors = async (req, res) => {
         options: { sort: { createdAt: -1 } },
         populate: {
           path: "product",
-          select: "productdata",
-          populate: {
+          select: "productdata unit",
+          populate: [{
             path: "productdata",
             select: "name code",
             // match: {name: product}
-          },
+          }, {
+            path: "unit",
+            select: "name"
+          }],
         },
       })
       .populate({

@@ -160,6 +160,7 @@ const RegisterSelling = () => {
         { title: t('Qoldiq') },
         { title: t('Nomi') },
         { title: t('Soni') },
+        { title: t("O'lchov birligi") },
         { title: t('Ombordan') },
         { title: t('Narxi') },
         { title: t('Jami'), styles: 'w-[8rem]' },
@@ -172,6 +173,7 @@ const RegisterSelling = () => {
         { title: t('Qoldiq') },
         { title: t('Nomi') },
         { title: t('Soni') },
+        { title: t("O'lchov birligi") },
         // {title: 'Ombordan'},
         { title: t('Narxi') },
         { title: t('Jami'), styles: 'w-[8rem]' },
@@ -776,6 +778,7 @@ const RegisterSelling = () => {
             ({ payload, error }) => {
                 setClickDelay(true)
                 if (!error) {
+                    console.log(payload);
                     setModalData(payload)
                     setWholesale(false)
                     setTimeout(() => {
@@ -983,6 +986,7 @@ const RegisterSelling = () => {
                 incomingpriceuzs: product.price.incomingpriceuzs,
                 unitprice: product.price.sellingprice,
                 unitpriceuzs: product.price.sellingpriceuzs,
+                unitname: product.unit.name,
                 categorycode: product.category.code,
                 filialProductsTotal: product.total,
                 fromFilial: 0,
@@ -1337,7 +1341,6 @@ const RegisterSelling = () => {
                 (summ, product) => convertToUzs(summ + product.totalpriceuzs),
                 0
             )
-            console.log(discounts);
             const newRelease = discounts.map((discount) => {
                 let newDiscount = { ...discount }
                 map(returnProducts, (product) => {
@@ -1366,7 +1369,6 @@ const RegisterSelling = () => {
                     }
                     return ''
                 })
-                console.log(newDiscount);
                 return { ...newDiscount }
             })
             const totalDiscountsUsd = newRelease.reduce(
@@ -1543,6 +1545,7 @@ const RegisterSelling = () => {
                 allProducts,
                 (product) => product.category._id === activeCategory
             )
+
             setFilteredProducts(
                 map(filteredData, (product) => ({
                     value: product._id,
@@ -1599,7 +1602,6 @@ const RegisterSelling = () => {
 
     useEffect(() => {
         const data = location.state
-        console.log(data);
         const setClientData = () => {
             data.saleconnector.client &&
                 setClientValue({
@@ -1614,7 +1616,6 @@ const RegisterSelling = () => {
             setSaleConnectorId(data.saleconnector._id)
         }
         if (data && data.temporary) {
-            console.log(data);
             setUserId(data.temporary.user._id)
             setTemporary(data.temporary)
             setTableProducts(data.temporary.tableProducts)

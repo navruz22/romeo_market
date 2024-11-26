@@ -1,21 +1,21 @@
-import React, {forwardRef, useEffect, useRef, useState} from 'react'
-import {useSelector} from 'react-redux'
-import {useReactToPrint} from 'react-to-print'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useReactToPrint } from 'react-to-print'
 import PrintBtn from '../Buttons/PrintBtn'
-import {uniqueId, map} from 'lodash'
-import {FaPhoneAlt, FaTelegramPlane} from 'react-icons/fa'
-import {t} from 'i18next'
+import { uniqueId, map } from 'lodash'
+import { FaPhoneAlt, FaTelegramPlane } from 'react-icons/fa'
+import { t } from 'i18next'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 
 export const SavedSalesCheck = forwardRef((props, ref) => {
-    const {product} = props
+    const { product } = props
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     const reactToPrintContent = () => {
         return saleCheckRef.current?.cloneNode(true)
     }
-    const {user, market} = useSelector((state) => state.login)
-    const {currencyType} = useSelector((state) => state.currency)
+    const { user, market } = useSelector((state) => state.login)
+    const { currencyType } = useSelector((state) => state.currency)
     const [loadContent, setLoadContent] = useState(false)
     const saleCheckRef = useRef(null)
     const onBeforeGetContentResolve = useRef(null)
@@ -73,7 +73,7 @@ export const SavedSalesCheck = forwardRef((props, ref) => {
                 const width = pdf.internal.pageSize.getWidth()
                 const height = pdf.internal.pageSize.getHeight()
                 pdf.addImage(imgData, 'JPEG', 0, 0, width, height)
-                await pdf.save(`Сакланганлар-${new Date().toISOString()}.pdf`, {returnPromise: true})
+                await pdf.save(`Сакланганлар-${new Date().toISOString()}.pdf`, { returnPromise: true })
             } catch (e) {
                 console.log(e)
             } finally {
@@ -153,7 +153,7 @@ export const SavedSalesCheck = forwardRef((props, ref) => {
                                     {market.phone1 && (
                                         <span className='flex items-center gap-[5px]'>
                                             <FaTelegramPlane
-                                                style={{fontSize: '12px'}}
+                                                style={{ fontSize: '12px' }}
                                             />{' '}
                                             {market.phone1}
                                         </span>
@@ -161,7 +161,7 @@ export const SavedSalesCheck = forwardRef((props, ref) => {
                                     {market.phone2 && (
                                         <span className='flex items-center gap-[5px]'>
                                             <FaPhoneAlt
-                                                style={{fontSize: '12px'}}
+                                                style={{ fontSize: '12px' }}
                                             />{' '}
                                             {market.phone2}
                                         </span>
@@ -169,7 +169,7 @@ export const SavedSalesCheck = forwardRef((props, ref) => {
                                     {market.phone3 && (
                                         <span className='flex items-center gap-[5px]'>
                                             <FaPhoneAlt
-                                                style={{fontSize: '12px'}}
+                                                style={{ fontSize: '12px' }}
                                             />{' '}
                                             {market?.phone3}
                                         </span>
@@ -189,61 +189,65 @@ export const SavedSalesCheck = forwardRef((props, ref) => {
                     <div className='mt-4'>
                         <table className='border-collapse border border-slate-400 w-full break-inside-auto'>
                             <thead>
-                            <tr
-                                className={
-                                    'break-inside-avoid break-after-auto'
-                                }
-                            >
-                                <td className='check-table-rtr'>№</td>
-                                <td className='check-table-rtr'>{t('Kodi')}</td>
-                                <td className='check-table-rtr'>{t('Maxsulot')}</td>
-                                <td className='check-table-rtr'>{t('Soni')}</td>
-                                <td className='check-table-rtr'>
-                                    {t('Narxi')} ({t('dona')})
-                                </td>
-                                <td className='check-table-rtr'>{t('Jami')}</td>
-                            </tr>
+                                <tr
+                                    className={
+                                        'break-inside-avoid break-after-auto'
+                                    }
+                                >
+                                    <td className='check-table-rtr'>№</td>
+                                    <td className='check-table-rtr'>{t('Kodi')}</td>
+                                    <td className='check-table-rtr'>{t('Maxsulot')}</td>
+                                    <td className='check-table-rtr'>{t('Soni')}</td>
+                                    <td className='check-table-rtr'>{t("O'lchov")}</td>
+                                    <td className='check-table-rtr'>
+                                        {t('Narxi')}
+                                    </td>
+                                    <td className='check-table-rtr'>{t('Jami')}</td>
+                                </tr>
                             </thead>
                             <tbody>
-                            {map(
-                                [...product.products].sort(
-                                    (a, b) =>
-                                        a?.categorycode.localeCompare(
-                                            b.categorycode
-                                        ) || a.product?.code - b.product?.code
-                                ),
-                                (item, index) => {
-                                    return (
-                                        <tr key={uniqueId('saved-table-row')}>
-                                            <td className='p-1 border text-center text-[0.875rem] font-bold'>
-                                                {index + 1}
-                                            </td>
-                                            <td className='check-table-body text-center'>
-                                                {item?.categorycode +
-                                                    item?.product?.code}
-                                            </td>
-                                            <td className='check-table-body text-start'>
-                                                {item?.product?.name}
-                                            </td>
-                                            <td className='check-table-body'>
-                                                {item?.pieces}
-                                            </td>
-                                            <td className='check-table-body'>
-                                                {currencyType === 'USD'
-                                                    ? item?.unitprice
-                                                    : item?.unitpriceuzs}{' '}
-                                                {currencyType}
-                                            </td>
-                                            <td className='check-table-body'>
-                                                {currencyType === 'USD'
-                                                    ? item?.totalprice
-                                                    : item?.totalpriceuzs}{' '}
-                                                {currencyType}
-                                            </td>
-                                        </tr>
-                                    )
-                                }
-                            )}
+                                {map(
+                                    [...product.products].sort(
+                                        (a, b) =>
+                                            a?.categorycode.localeCompare(
+                                                b.categorycode
+                                            ) || a.product?.code - b.product?.code
+                                    ),
+                                    (item, index) => {
+                                        return (
+                                            <tr key={uniqueId('saved-table-row')}>
+                                                <td className='p-1 border text-center text-[0.875rem] font-bold'>
+                                                    {index + 1}
+                                                </td>
+                                                <td className='check-table-body text-center'>
+                                                    {item?.categorycode +
+                                                        item?.product?.code}
+                                                </td>
+                                                <td className='check-table-body text-start'>
+                                                    {item?.product?.name}
+                                                </td>
+                                                <td className='check-table-body'>
+                                                    {item?.pieces}
+                                                </td>
+                                                <td className='check-table-body'>
+                                                    {item?.unitname}
+                                                </td>
+                                                <td className='check-table-body'>
+                                                    {currencyType === 'USD'
+                                                        ? item?.unitprice
+                                                        : item?.unitpriceuzs}{' '}
+                                                    {currencyType}
+                                                </td>
+                                                <td className='check-table-body'>
+                                                    {currencyType === 'USD'
+                                                        ? item?.totalprice
+                                                        : item?.totalpriceuzs}{' '}
+                                                    {currencyType}
+                                                </td>
+                                            </tr>
+                                        )
+                                    }
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -253,11 +257,11 @@ export const SavedSalesCheck = forwardRef((props, ref) => {
                             <span>
                                 {currencyType === 'USD'
                                     ? product?.products.reduce(
-                                        (prev, {totalprice}) => prev + totalprice,
+                                        (prev, { totalprice }) => prev + totalprice,
                                         0
                                     )
                                     : product?.products.reduce(
-                                        (prev, {totalpriceuzs}) =>
+                                        (prev, { totalpriceuzs }) =>
                                             prev + totalpriceuzs,
                                         0
                                     )}{' '}

@@ -214,13 +214,13 @@ module.exports.getReport = async (req, res) => {
 
     reports.income.income = roundUsd(
       Number(reports.sale.sale) -
-        Number(incomingprice) -
-        Number(reports.discounts.discounts)
+      Number(incomingprice) -
+      Number(reports.discounts.discounts)
     );
     reports.income.incomeuzs = roundUzs(
       Number(reports.sale.saleuzs) -
-        Number(incomingpriceuzs) -
-        Number(reports.discounts.discountsuzs)
+      Number(incomingpriceuzs) -
+      Number(reports.discounts.discountsuzs)
     );
 
     // Get debts report functions  START
@@ -330,11 +330,16 @@ module.exports.getSales = async (req, res) => {
         select: "totalprice totalpriceuzs pieces price unitprice unitpriceuzs",
         populate: {
           path: "product",
-          select: "productdata",
-          populate: {
+          select: "productdata unit",
+          populate: [{
             path: "productdata",
             select: "name code",
           },
+          {
+            path: "unit",
+            select: "name"
+          }
+          ],
         },
       });
 
@@ -416,11 +421,17 @@ module.exports.getProfitData = async (req, res) => {
           "totalprice totalpriceuzs pieces price unitprice unitpriceuzs product createdAt user",
         populate: {
           path: "product",
-          select: "productdata",
-          populate: {
-            path: "productdata",
-            select: "name code",
-          },
+          select: "productdata unit",
+          populate: [
+            {
+              path: "productdata",
+              select: "name code",
+            },
+            {
+              path: "unit",
+              select: "name",
+            }
+          ],
         },
       })
       .populate({
@@ -456,18 +467,18 @@ module.exports.getProfitData = async (req, res) => {
           (prev, item) =>
             prev +
             item.pieces *
-              ((item.price && item.price.incomingprice) ||
-                (item.product && item.product.price.incomingprice) ||
-                0),
+            ((item.price && item.price.incomingprice) ||
+              (item.product && item.product.price.incomingprice) ||
+              0),
           0
         );
         const totalincomingpriceuzs = sale.products.reduce(
           (prev, item) =>
             prev +
             item.pieces *
-              ((item.price && item.price.incomingpriceuzs) ||
-                (item.product && item.product.price.incomingpriceuzs) ||
-                0),
+            ((item.price && item.price.incomingpriceuzs) ||
+              (item.product && item.product.price.incomingpriceuzs) ||
+              0),
           0
         );
         const totalprice = sale.products.reduce(
@@ -575,11 +586,17 @@ module.exports.getPayment = async (req, res) => {
             "totalprice totalpriceuzs pieces price unitprice unitpriceuzs product createdAt user",
           populate: {
             path: "product",
-            select: "productdata",
-            populate: {
-              path: "productdata",
-              select: "name code",
-            },
+            select: "productdata unit",
+            populate: [
+              {
+                path: "productdata",
+                select: "name code",
+              },
+              {
+                path: "unit",
+                select: "name",
+              }
+            ],
           },
         },
       })
@@ -605,9 +622,9 @@ module.exports.getPayment = async (req, res) => {
         },
       })
       .lean()
-      .then(connectors => connectors.filter(connector => search.client && search.id ? connector.saleconnector.client && (connector.saleconnector.id === search.id) : 
-      search.id && !search.client ? connector.saleconnector.id === search.id : search.client && !search.id ? connector.saleconnector.client : connector))
-      
+      .then(connectors => connectors.filter(connector => search.client && search.id ? connector.saleconnector.client && (connector.saleconnector.id === search.id) :
+        search.id && !search.client ? connector.saleconnector.id === search.id : search.client && !search.id ? connector.saleconnector.client : connector))
+
     const respayments = [];
 
     const total = {
@@ -722,8 +739,8 @@ module.exports.getDebtsReport = async (req, res) => {
         options: { sort: { createdAt: -1 } },
         populate: {
           path: "product",
-          select: "productdata",
-          populate: { path: "productdata", select: "name code" },
+          select: "productdata unit",
+          populate: [{ path: "productdata", select: "name code" }, { path: "unit", select: "name" }],
         },
       })
       .populate({
@@ -888,11 +905,17 @@ module.exports.getBackProducts = async (req, res) => {
         populate: [
           {
             path: "product",
-            select: "productdata",
-            populate: {
-              path: "productdata",
-              select: "code name",
-            },
+            select: "productdata unit",
+            populate: [
+              {
+                path: "productdata",
+                select: "code name",
+              },
+              {
+                path: "unit",
+                select: "name",
+              }
+            ],
           },
           {
             path: "user",

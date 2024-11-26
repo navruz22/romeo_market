@@ -1,7 +1,7 @@
-import React, {useEffect, useMemo, useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {useParams} from 'react-router-dom'
-import {roundUsd, roundUzs, UsdToUzs, UzsToUsd} from '../../App/globalFunctions'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { roundUsd, roundUzs, UsdToUzs, UzsToUsd } from '../../App/globalFunctions'
 import LinkToBack from '../../Components/LinkToBack/LinkToBack'
 import UniversalModal from '../../Components/Modal/UniversalModal'
 import Pagination from '../../Components/Pagination/Pagination'
@@ -10,7 +10,7 @@ import CustomerPayment from '../../Components/Payment/CustomerPayment'
 import SearchForm from '../../Components/SearchForm/SearchForm'
 import Table from '../../Components/Table/Table'
 import TableMobile from '../../Components/Table/TableMobile'
-import {warningMoreDiscount, warningMorePayment} from '../../Components/ToastMessages/ToastMessages'
+import { warningMoreDiscount, warningMorePayment } from '../../Components/ToastMessages/ToastMessages'
 import {
     clearDatas,
     clearSuccessDebtComment,
@@ -26,14 +26,14 @@ import {
     payDebt,
     setDebtComment
 } from './reportsSlice'
-import {getExpense} from '../Expense/expenseSlice'
-import {ReportsTableHeaders} from './ReportsTableHeaders'
-import {filter} from 'lodash'
-import {universalSort} from './../../App/globalFunctions'
-import {excelAllSellings, getSellings} from '../Sale/Slices/sellingsSlice'
-import {VscClose} from 'react-icons/vsc'
-import {GrSettingsOption} from 'react-icons/gr'
-import {t} from 'i18next'
+import { getExpense } from '../Expense/expenseSlice'
+import { ReportsTableHeaders } from './ReportsTableHeaders'
+import { filter } from 'lodash'
+import { universalSort } from './../../App/globalFunctions'
+import { excelAllSellings, getSellings } from '../Sale/Slices/sellingsSlice'
+import { VscClose } from 'react-icons/vsc'
+import { GrSettingsOption } from 'react-icons/gr'
+import { t } from 'i18next'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import Excel from '../../Images/Excel.svg'
 import SelectForm from '../../Components/Select/SelectForm.js'
@@ -52,16 +52,16 @@ const ReportPage = () => {
             window.removeEventListener('resize', handleResize)
         }
     }, [])
-    const {id} = useParams()
+    const { id } = useParams()
 
     const dispatch = useDispatch()
 
-    const {market: _id, user} = useSelector((state) => state.login)
-    const {expenses} = useSelector((state) => state.expense)
-    const {datas, count, startDate, endDate, successDebtComment, totalpayment} =
+    const { market: _id, user } = useSelector((state) => state.login)
+    const { expenses } = useSelector((state) => state.expense)
+    const { datas, count, startDate, endDate, successDebtComment, totalpayment } =
         useSelector((state) => state.reports)
-    const {sellings} = useSelector((state) => state.sellings)
-    const {currencyType, currency} = useSelector((state) => state.currency)
+    const { sellings } = useSelector((state) => state.sellings)
+    const { currencyType, currency } = useSelector((state) => state.currency)
     const [currentPage, setCurrentPage] = useState(0)
     const [countPage, setCountPage] = useState(10)
     const [totalPage, setTotalPage] = useState(1)
@@ -121,16 +121,16 @@ const ReportPage = () => {
     const [printBody, setPrintBody] = useState({})
 
     const headers = [
-        {title: '№'},
-        {title: 'Kodi'},
-        {title: 'Nomi'},
-        {title: 'Soni'},
-        {title: 'Narxi'},
-        {title: 'Jami', styles: 'w-[10rem]'},
-        {title: ''}
+        { title: '№' },
+        { title: 'Kodi' },
+        { title: 'Nomi' },
+        { title: 'Soni' },
+        { title: 'Narxi' },
+        { title: 'Jami', styles: 'w-[10rem]' },
+        { title: '' }
     ]
 
-    const filterByTotal = ({value}) => {
+    const filterByTotal = ({ value }) => {
         setCountPage(Number(value))
         setCurrentPage(0)
     }
@@ -140,36 +140,36 @@ const ReportPage = () => {
             cash: {
                 uzs: expenses
                     .filter((item) => item.type === 'cash')
-                    .reduce((prev, {sumuzs}) => {
+                    .reduce((prev, { sumuzs }) => {
                         return prev + sumuzs
                     }, 0),
                 usd: expenses
                     .filter((item) => item.type === 'cash')
-                    .reduce((prev, {sum}) => {
+                    .reduce((prev, { sum }) => {
                         return prev + sum
                     }, 0)
             },
             card: {
                 uzs: expenses
                     .filter((item) => item.type === 'card')
-                    .reduce((prev, {sumuzs}) => {
+                    .reduce((prev, { sumuzs }) => {
                         return prev + sumuzs
                     }, 0),
                 usd: expenses
                     .filter((item) => item.type === 'card')
-                    .reduce((prev, {sum}) => {
+                    .reduce((prev, { sum }) => {
                         return prev + sum
                     }, 0)
             },
             transfer: {
                 uzs: expenses
                     .filter((item) => item.type === 'transfer')
-                    .reduce((prev, {sumuzs}) => {
+                    .reduce((prev, { sumuzs }) => {
                         return prev + sumuzs
                     }, 0),
                 usd: expenses
                     .filter((item) => item.type === 'transfer')
-                    .reduce((prev, {sum}) => {
+                    .reduce((prev, { sum }) => {
                         return prev + sum
                     }, 0)
             }
@@ -194,9 +194,9 @@ const ReportPage = () => {
             }
 
             const [
-                {saleconnectors},
-                {income, debts, discounts},
-                {totalpieces},
+                { saleconnectors },
+                { income, debts, discounts },
+                { totalpieces },
                 {
                     totalpieces: numberOfRemaningProducts,
                     totalprice,
@@ -322,7 +322,7 @@ const ReportPage = () => {
         setPaymentDiscountPercent('')
         setPaymentDebt(0)
         setPaymentDebtUzs(0)
-        setDiscountSelectOption({label: '%', value: '%'})
+        setDiscountSelectOption({ label: '%', value: '%' })
     }
     const toggleCheckModal = () => {
         setModalVisible(!modalVisible)
@@ -678,7 +678,7 @@ const ReportPage = () => {
             user: user._id,
             saleconnectorid: saleConnectorId
         }
-        dispatch(payDebt(body)).then(({payload}) => {
+        dispatch(payDebt(body)).then(({ payload }) => {
             setModalData(payload)
             dispatch(getDebts())
             setTimeout(() => {
@@ -724,6 +724,7 @@ const ReportPage = () => {
                 setModalData(saleconnector)
                 setModalVisible(!modalVisible)
             } else {
+                console.log(saleconnector);
                 setModalBody('allChecks')
                 setModalData(saleconnector)
                 setModalVisible(!modalVisible)
@@ -833,13 +834,13 @@ const ReportPage = () => {
     }
 
     const handleModalDebtComment = (comment, debtid) => {
-        dispatch(setDebtComment({comment, debtid}))
+        dispatch(setDebtComment({ comment, debtid }))
         setModalBody('debtcomment')
         setModalVisible(!modalVisible)
     }
 
     const toggleDebtCommentModal = () => {
-        dispatch(setDebtComment({comment: null, debtid: null}))
+        dispatch(setDebtComment({ comment: null, debtid: null }))
         setModalBody('')
         setModalVisible(!modalVisible)
     }
@@ -902,9 +903,9 @@ const ReportPage = () => {
     useEffect(() => {
         if (id === 'debts') {
             setTotalDebt({
-                usd: roundUsd(datas.reduce((prev, {debt}) => prev + debt, 0)),
+                usd: roundUsd(datas.reduce((prev, { debt }) => prev + debt, 0)),
                 uzs: roundUzs(
-                    datas.reduce((prev, {debtuzs}) => prev + debtuzs, 0)
+                    datas.reduce((prev, { debtuzs }) => prev + debtuzs, 0)
                 )
             })
         }

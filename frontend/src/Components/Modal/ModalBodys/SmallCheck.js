@@ -1,7 +1,7 @@
-import React, {forwardRef} from 'react'
-import {map} from 'lodash'
-import {useSelector} from 'react-redux'
-import {t} from 'i18next'
+import React, { forwardRef } from 'react'
+import { map } from 'lodash'
+import { useSelector } from 'react-redux'
+import { t } from 'i18next'
 
 export const SmallCheck = forwardRef((props, ref) => {
     const {
@@ -135,7 +135,7 @@ export const SmallCheck = forwardRef((props, ref) => {
                                     {index + 1}. {item?.product?.productdata?.name}
                                 </div>
                                 <div className='text-right text-[12px] text-black-900 font-bold'>
-                                    {item?.pieces} * {currencyType === 'USD' ? item?.unitprice.toLocaleString('ru-Ru') : item?.unitpriceuzs.toLocaleString('ru-Ru')} = {currencyType === 'USD' ? item?.totalprice.toLocaleString('ru-Ru') : item?.totalpriceuzs.toLocaleString('ru-Ru')}{' '}{currencyType}
+                                    {item?.pieces} ({item?.product?.unit?.name}) * {currencyType === 'USD' ? item?.unitprice.toLocaleString('ru-Ru') : item?.unitpriceuzs.toLocaleString('ru-Ru')} = {currencyType === 'USD' ? item?.totalprice.toLocaleString('ru-Ru') : item?.totalpriceuzs.toLocaleString('ru-Ru')}{' '}{currencyType}
                                 </div>
                             </div>
                         ))}
@@ -155,7 +155,7 @@ export const SmallCheck = forwardRef((props, ref) => {
                                     {index + 1}. {item?.product?.productdata?.name}
                                 </div>
                                 <div className='text-right text-[12px] text-black-900 font-bold'>
-                                    {item?.pieces} * {currencyType === 'USD' ? item?.unitprice.toLocaleString('ru-Ru') : item?.unitpriceuzs.toLocaleString('ru-Ru')} = {currencyType === 'USD' ? item?.totalprice.toLocaleString('ru-Ru') : item?.totalpriceuzs.toLocaleString('ru-Ru')}{' '}{currencyType}
+                                    {item?.pieces} ({item?.product?.unit?.name}) * {currencyType === 'USD' ? item?.unitprice.toLocaleString('ru-Ru') : item?.unitpriceuzs.toLocaleString('ru-Ru')} = {currencyType === 'USD' ? item?.totalprice.toLocaleString('ru-Ru') : item?.totalpriceuzs.toLocaleString('ru-Ru')}{' '}{currencyType}
                                 </div>
                             </div>
                         ))}
