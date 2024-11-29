@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import FieldContainer from '../../Components/FieldContainer/FieldContainer'
 import Button from '../../Components/Buttons/BtnAddRemove'
 import Pagination from '../../Components/Pagination/Pagination'
 import Table from '../../Components/Table/Table'
 import TableMobile from '../../Components/Table/TableMobile'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '../../Components/Spinner/SmallLoader.js'
 import NotFind from '../../Components/NotFind/NotFind.js'
 import SearchForm from '../../Components/SearchForm/SearchForm'
 import UniversalModal from '../../Components/Modal/UniversalModal.js'
-import {motion} from 'framer-motion'
-import {filter, map} from 'lodash'
+import { motion } from 'framer-motion'
+import { filter, map } from 'lodash'
 import {
     successAddClientMessage,
     successDeleteClientMessage,
@@ -26,34 +26,34 @@ import {
     getClientsByFilter,
     updateClients
 } from './clientsSlice'
-import {checkEmptyString} from '../../App/globalFunctions.js'
-import {useTranslation} from 'react-i18next'
-import {VscChromeClose} from 'react-icons/vsc'
-import {FaFilter} from 'react-icons/fa'
+import { checkEmptyString } from '../../App/globalFunctions.js'
+import { useTranslation } from 'react-i18next'
+import { VscChromeClose } from 'react-icons/vsc'
+import { FaFilter } from 'react-icons/fa'
 import SelectForm from '../../Components/Select/SelectForm.js'
 
 const ClientsPage = () => {
-    const {t} = useTranslation(['common'])
+    const { t } = useTranslation(['common'])
     const dispatch = useDispatch()
 
-    const {packmans, clients, loading, searchedClients, total, totalSearched} =
+    const { packmans, clients, loading, searchedClients, total, totalSearched } =
         useSelector((state) => state.clients)
-    
+
     const { user } = useSelector((state) => state.login)
 
-    const headers =user.type === 'Director' ? [
-        {title: '№', styles: 'w-[8%] text-left'},
+    const headers = user.type === 'Director' ? [
+        { title: '№', styles: 'w-[8%] text-left' },
         // {title: t('Agent'), styles: 'w-[41%] text-left'},
-        {title: t('Mijoz'), styles: 'w-[41%] text-left'},
-        {title: t('Savdo'), styles: 'w-[41%] text-left'},
-        {title: t('Sof foyda'), styles: 'w-[41%] text-left'},
-        {title: '', styles: 'w-[8%] text-left'}
+        { title: t('Mijoz'), styles: 'w-[41%] text-left' },
+        { title: t('Savdo'), styles: 'w-[41%] text-left' },
+        { title: t('Sof foyda'), styles: 'w-[41%] text-left' },
+        { title: '', styles: 'w-[8%] text-left' }
     ] : [
-        {title: '№', styles: 'w-[8%] text-left'},
+        { title: '№', styles: 'w-[8%] text-left' },
         // {title: t('Agent'), styles: 'w-[41%] text-left'},
-        {title: t('Mijoz'), styles: 'w-[41%] text-left'},
-        {title: t('Savdo'), styles: 'w-[41%] text-left'},
-        {title: '', styles: 'w-[8%] text-left'}
+        { title: t('Mijoz'), styles: 'w-[41%] text-left' },
+        { title: t('Savdo'), styles: 'w-[41%] text-left' },
+        { title: '', styles: 'w-[8%] text-left' }
     ]
 
     const [startDate, setStartDate] = useState(
@@ -113,7 +113,7 @@ const ClientsPage = () => {
     const handleEditClients = (client) => {
         setPackman(
             client.packman
-                ? {label: client.packman.name, value: client.packman._id}
+                ? { label: client.packman.name, value: client.packman._id }
                 : ''
         )
         setClientName(client.name || '')
@@ -128,11 +128,12 @@ const ClientsPage = () => {
     }
 
     const handlePrint = (sale) => {
+        console.log(sale);
         setModalBody('allChecks')
         setPrintedSelling(sale)
         setModalVisible(true)
     }
-    
+
     const handleClickApproveToDelete = () => {
         const body = {
             name: deletedCLients.name,
@@ -144,7 +145,7 @@ const ClientsPage = () => {
                 client: searchByName.replace(/\s+/g, ' ').trim()
             }
         }
-        dispatch(deleteClients(body)).then(({error}) => {
+        dispatch(deleteClients(body)).then(({ error }) => {
             if (!error) {
                 clearForm()
                 successDeleteClientMessage()
@@ -155,7 +156,7 @@ const ClientsPage = () => {
     // handle submit of inputs
     const addNewClients = (e) => {
         e.preventDefault()
-        const {failed, message} = checkEmptyString([
+        const { failed, message } = checkEmptyString([
             {
                 value: clientName,
                 message: t('Mijoz ismi')
@@ -173,7 +174,7 @@ const ClientsPage = () => {
                     client: searchByName.replace(/\s+/g, ' ').trim()
                 }
             }
-            dispatch(addClients(body)).then(({error}) => {
+            dispatch(addClients(body)).then(({ error }) => {
                 if (!error) {
                     clearForm()
                     successAddClientMessage()
@@ -184,7 +185,7 @@ const ClientsPage = () => {
 
     const handleEdit = (e) => {
         e.preventDefault()
-        const {failed, message} = checkEmptyString([
+        const { failed, message } = checkEmptyString([
             {
                 value: clientName,
                 message: t('Mijoz ismi')
@@ -203,7 +204,7 @@ const ClientsPage = () => {
                     client: searchByName.replace(/\s+/g, ' ').trim()
                 }
             }
-            dispatch(updateClients(body)).then(({error}) => {
+            dispatch(updateClients(body)).then(({ error }) => {
                 if (!error) {
                     clearForm()
                     successUpdateClientMessage()
@@ -220,12 +221,12 @@ const ClientsPage = () => {
     }
 
     // filter by packman
-    const filterByPackman = ({value}) => {
+    const filterByPackman = ({ value }) => {
         setPackmanId(value)
     }
 
     // filter by total
-    const filterByTotal = ({value}) => {
+    const filterByTotal = ({ value }) => {
         setShowByTotal(value)
         setCurrentPage(0)
     }
@@ -295,7 +296,7 @@ const ClientsPage = () => {
     }, [searchedClients])
     useEffect(() => {
         const options = map(packmans, (packman) => {
-            return {label: packman.name, value: packman._id}
+            return { label: packman.name, value: packman._id }
         })
         setPackmanOptions(options)
     }, [packmans])
@@ -307,10 +308,10 @@ const ClientsPage = () => {
             animate='open'
             exit='collapsed'
             variants={{
-                open: {opacity: 1, height: 'auto'},
-                collapsed: {opacity: 0, height: 0}
+                open: { opacity: 1, height: 'auto' },
+                collapsed: { opacity: 0, height: 0 }
             }}
-            transition={{duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98]}}
+            transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
         >
             <UniversalModal
                 headerText={`${deletedCLients && deletedCLients.name} ${t(
@@ -324,9 +325,8 @@ const ClientsPage = () => {
                 printedSelling={printedSelling}
             />
             <form
-                className={`flex ps-[20px] mt-[40px] gap-[1.25rem] bg-background flex-col mainPadding transition ease-linear duration-200 ${
-                    stickyForm && 'stickyForm'
-                }`}
+                className={`flex ps-[20px] mt-[40px] gap-[1.25rem] bg-background flex-col mainPadding transition ease-linear duration-200 ${stickyForm && 'stickyForm'
+                    }`}
             >
                 <div className='supplier-style'>
                     <FieldContainer
@@ -369,11 +369,11 @@ const ClientsPage = () => {
                     setModalOpen(true)
 
                 }}
-                        className='d-block  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[150px] h-[40px] createElement '>
+                    className='d-block  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[150px] h-[40px] createElement '>
                     <FaFilter /> {t('izlash')}</button>
             </div>}
             {
-                !isMobile ? 
+                !isMobile ?
                     <div className='mt-[10px] px-4 flex justify-center items-center'>
                         <SearchForm
                             filterBy={[
@@ -402,44 +402,44 @@ const ClientsPage = () => {
                             ]}
                         />
                     </div> : modalOpen && <div
-                    className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap    top-0	left-0 z-50 bg-[white]	'>
-                    <VscChromeClose onClick={() => setModalOpen(false)}
-                                    className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
-                    <div className='mt-[10px] flex flex-wrap justify-center items-center'>
-                        <SearchForm
-                            filterBy={[
-                                // 'total',
-                                // 'startDate',
-                                // 'endDate',
-                                'clientName',
-                                'select'
-                            ]}
-                            filterByPackman={filterByPackman}
-                            // filterByTotal={filterByTotal}
-                            filterByClientNameWhenPressEnter={filterByNameWhenPressEnter}
-                            filterByDelivererNameWhenPressEnter={filterByNameWhenPressEnter}
-                            searchByClientName={searchByName}
-                            filterByClientName={filterByClientName}
-                            startDate={startDate}
-                            endDate={new Date(endDate)}
-                            setStartDate={setStartDate}
-                            setEndDate={setEndDate}
-                            searchByPackmans={[
-                                {
-                                    label: 'Barchasi',
-                                    value: null
-                                },
-                                ...packmanOptions
-                            ]}
-                        />
-                        <button onClick={() => {
-                            setModalOpen(false)
+                        className='absolute lg:p-[50px] w-[100vw]  h-[100vh]  flex justify-evenly flex-wrap    top-0	left-0 z-50 bg-[white]	'>
+                        <VscChromeClose onClick={() => setModalOpen(false)}
+                            className=' absolute right-[20px]  top-[20px]  text-4xl cursor-pointer' />
+                        <div className='mt-[10px] flex flex-wrap justify-center items-center'>
+                            <SearchForm
+                                filterBy={[
+                                    // 'total',
+                                    // 'startDate',
+                                    // 'endDate',
+                                    'clientName',
+                                    'select'
+                                ]}
+                                filterByPackman={filterByPackman}
+                                // filterByTotal={filterByTotal}
+                                filterByClientNameWhenPressEnter={filterByNameWhenPressEnter}
+                                filterByDelivererNameWhenPressEnter={filterByNameWhenPressEnter}
+                                searchByClientName={searchByName}
+                                filterByClientName={filterByClientName}
+                                startDate={startDate}
+                                endDate={new Date(endDate)}
+                                setStartDate={setStartDate}
+                                setEndDate={setEndDate}
+                                searchByPackmans={[
+                                    {
+                                        label: 'Barchasi',
+                                        value: null
+                                    },
+                                    ...packmanOptions
+                                ]}
+                            />
+                            <button onClick={() => {
+                                setModalOpen(false)
 
-                        }}
+                            }}
                                 className='d-block  hover:bg-blue-200  bg-blue-400   focus-visible:outline-none w-[150px] h-[40px] createElement '>
-                            <FaFilter /> {t('izlash')}</button>
+                                <FaFilter /> {t('izlash')}</button>
+                        </div>
                     </div>
-                </div>
             }
 
 

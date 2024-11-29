@@ -4,7 +4,7 @@ import { uniqueId, map } from 'lodash'
 import { t } from 'i18next'
 export const SaleCheck = forwardRef((props, ref) => {
     const { product } = props
-    const {products} = product
+    const { products } = product
     const { market } = useSelector((state) => state.login)
     const { currencyType } = useSelector((state) => state.currency)
     const calculateDebt = (total, payment, discount = 0) => {
@@ -32,7 +32,7 @@ export const SaleCheck = forwardRef((props, ref) => {
                         </span>
                     </li>
                     <li className='check-ul-li'>
-                    {t('Sana')}:
+                        {t('Sana')}:
                         <span className='check-ul-li-span font-bold'>
                             {new Date(product?.createdAt).toLocaleDateString()}
                         </span>
@@ -80,6 +80,7 @@ export const SaleCheck = forwardRef((props, ref) => {
                             <td className='check-table-rtr'>{t("Kodi")}</td>
                             <td className='check-table-rtr'>{t("Maxsulot")}</td>
                             <td className='check-table-rtr'>{t("Soni")}</td>
+                            <td className='check-table-rtr'>{t("O'lchov")}</td>
                             {product?.products.some(el => el.fromFilial > 0) && <td style={{ backgroundColor: "grey" }} className='check-table-rtr'>{t("Ombordan")}</td>}
                             <td className='check-table-rtr'>{t('Narxi')} ({t('dona')})</td>
                             <td className='check-table-rtr'>{t("Jami")}</td>
@@ -87,26 +88,29 @@ export const SaleCheck = forwardRef((props, ref) => {
                     </thead>
                     <tbody>
                         {map([...products].sort(
-                                (a, b) =>
-                                    a.product?.category?.code.localeCompare(
-                                        b.product?.category?.code
-                                    ) ||
-                                    a.product?.productdata?.code -
-                                        b.product?.productdata?.code
-                            ), (item, index) => {
+                            (a, b) =>
+                                a.product?.category?.code.localeCompare(
+                                    b.product?.category?.code
+                                ) ||
+                                a.product?.productdata?.code -
+                                b.product?.productdata?.code
+                        ), (item, index) => {
                             return (
                                 <tr key={uniqueId('saleCheck')}>
                                     <td className='p-1 border text-center text-[0.875rem] font-bold'>
                                         {index + 1}
                                     </td>
                                     <td className='check-table-body text-center'>
-                                    {item?.product?.category?.code} {item?.product?.productdata?.code}
-                                    </td> 
+                                        {item?.product?.category?.code} {item?.product?.productdata?.code}
+                                    </td>
                                     <td className='check-table-body text-start'>
                                         {item?.product?.productdata?.name}
                                     </td>
                                     <td className='check-table-body'>
                                         {item?.pieces}
+                                    </td>
+                                    <td className='check-table-body'>
+                                        {item?.product?.unit?.name}
                                     </td>
                                     {product?.products.some(el => el.fromFilial > 0) && <td style={{ background: item?.fromFilial ? 'grey' : "white" }} className='check-table-body'>
                                         {item?.fromFilial}
