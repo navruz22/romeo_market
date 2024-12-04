@@ -280,7 +280,7 @@ module.exports.deleteClient = async (req, res) => {
 
 module.exports.getClients = async (req, res) => {
   try {
-    const { market, search } =
+    const { market, search, currentPage, countPage } =
       req.body;
     const marke = await Market.findById(market);
     if (!marke) {
@@ -289,39 +289,121 @@ module.exports.getClients = async (req, res) => {
         .json({ message: "Diqqat! Do'kon malumotlari topilmadi." });
     }
 
-    const name = regExpression(search ? search.client : "");
+    const name = search?.client ? regExpression(search.client) : "";
+    const phone = search?.phone ? regExpression(search.phone) : "";
     const packman = search.packman;
 
     let clientsCount = [];
     let clients = [];
-    if (packman) {
+    if (packman && !name && !phone) {
       clientsCount = await Client.find({
         market,
-        name: name,
         packman,
       }).count();
 
       clients = await Client.find({
         market,
-        name: name,
         packman,
       })
         .sort({ _id: -1 })
-        .select("name market packman")
+        .select("name market packman phoneNumber")
         .populate("packman", "name")
+        .skip(currentPage * countPage)
+        .limit(countPage);
+    } else if (!packman && !name && phone) {
+      clientsCount = await Client.find({
+        market,
+        phoneNumber: phone,
+      }).count();
+
+      clients = await Client.find({
+        market,
+        phoneNumber: phone,
+      })
+        .sort({ _id: -1 })
+        .select("name market phoneNumber packman")
+        .populate("packman", "name")
+        .skip(currentPage * countPage)
+        .limit(countPage);
+    } else if (!packman && name && !phone) {
+      clientsCount = await Client.find({
+        market,
+        name
+      }).count();
+
+      clients = await Client.find({
+        market,
+        name
+      })
+        .sort({ _id: -1 })
+        .select("name market phoneNumber packman")
+        .populate("packman", "name")
+        .skip(currentPage * countPage)
+        .limit(countPage);
+    } else if (packman && name && !phone) {
+      clientsCount = await Client.find({
+        market,
+        name,
+        packman
+      }).count();
+
+      clients = await Client.find({
+        market,
+        name,
+        packman
+      })
+        .sort({ _id: -1 })
+        .select("name market phoneNumber packman")
+        .populate("packman", "name")
+        .skip(currentPage * countPage)
+        .limit(countPage);
+    } else if (packman && !name && phone) {
+      clientsCount = await Client.find({
+        market,
+        phoneNumber: phone,
+        packman
+      }).count();
+
+      clients = await Client.find({
+        market,
+        phoneNumber: phone,
+        packman
+      })
+        .sort({ _id: -1 })
+        .select("name market phoneNumber packman")
+        .populate("packman", "name")
+        .skip(currentPage * countPage)
+        .limit(countPage);
+    } else if (!packman && name && phone) {
+      clientsCount = await Client.find({
+        market,
+        name: name,
+        phoneNumber: phone,
+      }).count();
+
+      clients = await Client.find({
+        market,
+        name: name,
+        phoneNumber: phone,
+      })
+        .sort({ _id: -1 })
+        .select("name market phoneNumber packman")
+        .populate("packman", "name")
+        .skip(currentPage * countPage)
+        .limit(countPage);
     } else {
       clientsCount = await Client.find({
-        market,
-        name: name,
+        market
       }).count();
 
       clients = await Client.find({
-        market,
-        name: name,
+        market
       })
         .sort({ _id: -1 })
-        .select("name market packman")
+        .select("name market phoneNumber packman")
         .populate("packman", "name")
+        .skip(currentPage * countPage)
+        .limit(countPage);
     }
 
     const reduceForSales = (arr, key) => {

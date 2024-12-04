@@ -78,13 +78,14 @@ const ClientsPage = () => {
     const [deletedCLients, setDeletedClients] = useState(null)
     const [modalVisible, setModalVisible] = useState(false)
     const [stickyForm, setStickyForm] = useState(false)
-    const [showByTotal, setShowByTotal] = useState('10')
+    const [showByTotal, setShowByTotal] = useState(10)
     const [currentPage, setCurrentPage] = useState(0)
     const [filteredDataTotal, setFilteredDataTotal] = useState(total)
     const [searchByName, setSearchByName] = useState('')
     const [printedSelling, setPrintedSelling] = useState(null)
     const [modalBody, setModalBody] = useState(null)
     const [modalOpen, setModalOpen] = useState(false)
+    const [searchPhoneNumber, setSearchPhoneNumber] = useState('')
     // modal toggle
     const toggleModal = () => {
         setModalVisible(!modalVisible)
@@ -250,6 +251,24 @@ const ClientsPage = () => {
         }
     }
 
+    const filterByClientPhoneNumber = (e) => {
+        let val = e.target.value
+        let valForSearch = val.toLowerCase().replace(/\s+/g, ' ').trim()
+        setSearchPhoneNumber(val)
+        if (searchedData.length > 0 || totalSearched > 0)
+            dispatch(clearSearchedClients())
+        if (valForSearch === '') {
+            setData(clients)
+            setFilteredDataTotal(total)
+        } else {
+            const filteredClients = filter(clients, (client) => {
+                return client.phoneNumber.toLowerCase().includes(valForSearch)
+            })
+            setData(filteredClients)
+            setFilteredDataTotal(filteredClients.length)
+        }
+    }
+
     const filterByNameWhenPressEnter = (e) => {
         if (e.key === 'Enter') {
             const body = {
@@ -273,8 +292,8 @@ const ClientsPage = () => {
 
     useEffect(() => {
         const body = {
-            // currentPage,
-            // countPage: showByTotal,
+            currentPage,
+            countPage: showByTotal,
             // startDate,
             // endDate,
             search: {
@@ -364,7 +383,7 @@ const ClientsPage = () => {
                 </div>
             </form>
             {isMobile && <div className='flex ps-[10px] pe-[20px] lg:justify-start gap-2 items-center justify-between mb-4'>
-                {/* <SelectForm key={'total_1'} onSelect={filterByTotal} /> */}
+                <SelectForm key={'total_1'} onSelect={filterByTotal} />
                 <button onClick={() => {
                     setModalOpen(true)
 
@@ -377,14 +396,16 @@ const ClientsPage = () => {
                     <div className='mt-[10px] px-4 flex justify-center items-center'>
                         <SearchForm
                             filterBy={[
-                                // 'total',
+                                'total',
                                 // 'startDate',
                                 // 'endDate',
+                                // 'clientPhoneNumber',
                                 'clientName',
                                 'select'
                             ]}
                             filterByPackman={filterByPackman}
-                            // filterByTotal={filterByTotal}
+                            filterByClientPhoneNumber={filterByClientPhoneNumber}
+                            filterByTotal={filterByTotal}
                             filterByClientNameWhenPressEnter={filterByNameWhenPressEnter}
                             filterByDelivererNameWhenPressEnter={filterByNameWhenPressEnter}
                             searchByClientName={searchByName}
@@ -411,11 +432,13 @@ const ClientsPage = () => {
                                     // 'total',
                                     // 'startDate',
                                     // 'endDate',
+                                    'clientPhoneNumber',
                                     'clientName',
                                     'select'
                                 ]}
                                 filterByPackman={filterByPackman}
                                 // filterByTotal={filterByTotal}
+                                filterByClientPhoneNumber={filterByClientPhoneNumber}
                                 filterByClientNameWhenPressEnter={filterByNameWhenPressEnter}
                                 filterByDelivererNameWhenPressEnter={filterByNameWhenPressEnter}
                                 searchByClientName={searchByName}
@@ -474,7 +497,7 @@ const ClientsPage = () => {
                         />
                 )}
             </div>
-            {/* <div className='pagination-supplier flex justify-center mt-[30px] mb-[30px] '>
+            <div className='pagination-supplier flex justify-center mt-[30px] mb-[30px] '>
                 {(filteredDataTotal !== 0 || totalSearched !== 0) && (
                     <Pagination
                         countPage={Number(showByTotal)}
@@ -483,7 +506,7 @@ const ClientsPage = () => {
                         setCurrentPage={setCurrentPage}
                     />
                 )}
-            </div> */}
+            </div>
         </motion.section>
     )
 }
